@@ -1,0 +1,19 @@
+/*@import '~@sweetalert2/theme-material-ui/material-ui.css';*/
+/* You can add global styles to this file, and also import other style files */
+.fast
+{
+   -webkit-animation-duration: 1s;
+   animation-duration: 1s;
+   -webkit-animation-fill-mode: both;
+   animation-fill-mode: both;
+
+}
+
+
+.mt-2{
+  margin-top: 2% !important;
+}
+
+.pointer{
+  cursor: pointer;
+}
