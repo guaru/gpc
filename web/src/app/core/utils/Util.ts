@@ -1,3 +1,6 @@
+import { HttpParams } from "@angular/common/http";
+import { PageRequest } from "../models/page-request.model";
+
 export class Util
 {
   public static  toBase64(content: string): string{
@@ -8,4 +11,24 @@ export class Util
   {
     return atob(content);
   }
+
+  public static createRequestOption(req?: PageRequest): HttpParams {
+    let params = new HttpParams();
+    if (req) {
+      params = params.append('page', String(req.offset));
+      params = params.append('size', String(req.limit));
+
+      if (req.sortField !== '' && req.sortField !== undefined) {
+        params = params.append('sort', req.sortField + ',' + (req.sortOrder === 1 ? 'asc' : 'desc'));
+      }
+
+      for (let filtro of req.filters||[]) {
+        if (filtro[1] !== '' && filtro[1] !== null) {
+          params = params.append(filtro[0], filtro[1]);
+        }
+      }
+    }
+    return params;
+  }
+
 }

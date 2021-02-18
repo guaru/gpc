@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { CanActivate, CanActivateChild, CanLoad, Route, UrlSegment, ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { AuthService } from 'src/app/core/auth/auth.service';
+import { Url } from 'src/app/core/enums/Url';
 
 @Injectable({
   providedIn: 'root'
@@ -34,7 +35,7 @@ export class RoleGuard implements CanActivate, CanActivateChild {
        if (this.authService.hasRole(roles[i]))
          return true;
      }
-     this.router.navigate(['/403']);
+     this.router.navigate([Url._403]);
      return false;
    }
 

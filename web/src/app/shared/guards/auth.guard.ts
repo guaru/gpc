@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree, Router, CanLoad, Route, UrlSegment, CanActivateChild } from '@angular/router';
 import { Observable } from 'rxjs';
 import { AuthService } from 'src/app/core/auth/auth.service';
+import { Url } from 'src/app/core/enums/Url';
 import { AlertService } from 'src/app/core/services/alert.service';
 
 @Injectable({
@@ -32,12 +33,12 @@ export class AuthGuard implements CanActivate,CanLoad, CanActivateChild {
       if(this.authService.isTokenExpired()){
         this.alertService.info('La sesión ha expirado, inicie sesión de nuevo');
         this.authService.logout();
-        this.router.navigate(['/login']);
+        this.router.navigate([Url.LOGIN]);
         return false;
       }
       return true;
     }
-    this.router.navigate(['/login']);
+    this.router.navigate([Url.LOGIN]);
     return false;
   }
 

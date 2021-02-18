@@ -6,8 +6,8 @@ import com.gisnet.gpc.constants.ConstantWebApi;
 import com.gisnet.gpc.domain.security.User;
 import com.gisnet.gpc.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties.Pageable;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
@@ -26,7 +26,7 @@ public class UserRestController {
 
     @GetMapping
     public ResponseEntity<Page<User>>  index(Pageable  pageable,String userName,Long officeId){
-        return new ResponseEntity<?>(usuarioService., HttpStatus.OK);
+        return new ResponseEntity<>(usuarioService.findAllUsers(pageable, userName, officeId), HttpStatus.OK);
     }
 
 

@@ -40,6 +40,7 @@ public class IUserCustomRepositoryImpl extends QuerydslRepositorySupport impleme
         }
         query.where(where);
         Long totalRows =  query.fetchCount();
+        query.offset(pageable.getOffset()).limit(pageable.getPageSize());
         return new PageImpl<User>(query.fetch(), pageable, totalRows);
     }
     

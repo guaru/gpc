@@ -1,5 +1,9 @@
 export enum Url
 {
+    LOGIN = '/login',
+    _403 = '/403',
     HOME = 'home',
-    USUARIOS =   'administrador/usuarios'
+    ADMINISTRADOR = 'administrador',
+    USUARIOS = 'usuarios',
+    SUCURSALES = 'sucursales'
 }

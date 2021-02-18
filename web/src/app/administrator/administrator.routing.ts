@@ -1,13 +1,14 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { Role } from '../core/enums/Role';
+import { Url } from '../core/enums/Url';
 import { AuthGuard } from '../shared/guards/auth.guard';
 import { RoleGuard } from '../shared/guards/role.guard';
 import { AdministratorComponent } from './administrator.component';
 
 const routes: Routes = [
   {
-    path: 'administrador',
+    path: Url.ADMINISTRADOR,
     component: AdministratorComponent,
     canActivate: [AuthGuard, RoleGuard],
     canLoad: [AuthGuard],

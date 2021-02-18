@@ -7,6 +7,7 @@ import { UsersComponent } from './users/users.component';
 import { AdministratorComponent } from './administrator.component';
 import { OfficesComponent } from './offices/offices.component';
 import { UiFormModule } from '../shared/ui-form/ui-form.module';
+import { SharedMaterialModule } from '../shared/shared-material.module';
 
 @NgModule({
   declarations: [UsersComponent, AdministratorComponent, OfficesComponent],
@@ -19,7 +20,8 @@ import { UiFormModule } from '../shared/ui-form/ui-form.module';
     CommonModule,
     SharedModule,
     RouterModule,
-    UiFormModule
+    UiFormModule,
+    SharedMaterialModule
   ]
 })
 export class AdministratorModule { }

@@ -1,17 +1,31 @@
-import { Component, OnInit } from '@angular/core';
-import { FormGroup } from '@angular/forms';
-import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
+import { HttpClient } from '@angular/common/http';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { merge, Observable, of as observableOf } from 'rxjs';
+import { catchError, map, startWith, switchMap } from 'rxjs/operators';
+import { UserService } from './user.service';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
 
 @Component({
   selector: 'gpc-users',
-  templateUrl: './users.component.html'
+  templateUrl: './users.component.html',
+  providers:[UserService]
 })
-export class UsersComponent implements OnInit {
+export class UsersComponent implements AfterViewInit  {
 
 
-  constructor() { }
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild(MatSort) sort!: MatSort;
 
-  ngOnInit(): void {
+  constructor(public userService:UserService) { }
+
+
+
+  ngAfterViewInit() {
+    this.sort.sortChange.subscribe(() => this.paginator.pageIndex = 0);
+    this.userService.initTable(this.sort,this.paginator);
   }
+
+
 
 }

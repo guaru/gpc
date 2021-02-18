@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/core/auth/auth.service';
+import { Url } from 'src/app/core/enums/Url';
 import { User } from 'src/app/core/models/user.model';
 import { GlobalConstantsService } from 'src/app/core/services/global-constants.service';
 @Component({
@@ -13,6 +14,7 @@ export class HeaderComponent implements OnInit{
 
   user: User;
   isAuthenticated: boolean;
+  urlProfile = Url.USUARIOS;
 
     constructor(public globalConstants:GlobalConstantsService,
               private authService:AuthService,

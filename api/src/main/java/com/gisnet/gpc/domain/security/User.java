@@ -23,7 +23,6 @@ import com.gisnet.gpc.constants.ConstantDomain;
 import com.gisnet.gpc.domain.catalogs.Office;
 import com.gisnet.gpc.domain.common.Person;
 
-import org.hibernate.annotations.Where;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -56,7 +55,7 @@ public class User extends Person implements Serializable {
     private Set<Authoritie> authorities;
 
     @JsonIgnore
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(name = ConstantDomain.TBL_USER_FUNCTIONS, schema = ConstantDomain.SCHEME_SECURITY, joinColumns = @JoinColumn(name = ConstantDomain.COL_USER_ID), inverseJoinColumns = @JoinColumn(name = ConstantDomain.COL_FUNCTION_ID), uniqueConstraints = {
             @UniqueConstraint(columnNames = { ConstantDomain.COL_USER_ID, ConstantDomain.COL_FUNCTION_ID }) })
     private Set<Function> functions;

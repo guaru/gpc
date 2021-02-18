@@ -9,6 +9,7 @@ import { HeaderComponent } from './header/header.component';
 import { ButtonSubmitComponent } from './components/button-submit/button-submit.component';
 import { ButtonDeleteComponent } from './components/button-delete/button-delete.component';
 import { RouterModule } from '@angular/router';
+import { SharedMaterialModule } from './shared-material.module';
 
 
 
@@ -28,8 +29,8 @@ import { RouterModule } from '@angular/router';
   ],
   imports: [
     CommonModule,
-    MatButtonModule,
-    RouterModule
+    SharedMaterialModule,
+    RouterModule,
   ]
 })
 export class SharedModule { }

@@ -61,6 +61,7 @@ public class UserDetailService implements IUserService, UserDetailsService {
     }
 
     @Override
+    @Transactional(readOnly =  true)
     public List<FunctionDTO> getFunctions(String username) {
         User user  =  iUserRepository.findByUserNameAndEnabledTrue(username);
         List<FunctionDTO> nav =  new ArrayList<FunctionDTO>();
