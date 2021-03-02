@@ -1,10 +1,8 @@
 package com.gisnet.gpc.api;
 
 import java.util.List;
-import java.util.Set;
 
 import com.gisnet.gpc.constants.ConstantWebApi;
-import com.gisnet.gpc.domain.security.Function;
 import com.gisnet.gpc.dto.FunctionDTO;
 import com.gisnet.gpc.service.IUserService;
 import com.gisnet.gpc.util.SecurityUtils;

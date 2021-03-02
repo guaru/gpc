@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import {  ActivationEnd, Router } from '@angular/router';
+import { filter, map } from 'rxjs/operators';
 
 @Component({
   selector: 'gpc-breadcrumbs',
@@ -6,11 +8,23 @@ import { Component, OnInit } from '@angular/core';
   styles: [
   ]
 })
-export class BreadcrumbsComponent implements OnInit {
+export class BreadcrumbsComponent {
 
-  constructor() { }
+  name: string ;
+  constructor(private router:Router) {
+    this.name = '';
+    this.getDataRouter();
+  }
 
-  ngOnInit(): void {
+  getDataRouter(){
+    this.router.events
+      .pipe(filter((event: any) => event instanceof ActivationEnd),
+        filter((event: ActivationEnd) => event.snapshot.firstChild === null),
+        map((event: ActivationEnd) => event.snapshot.data)
+      )
+      .subscribe(data => {
+        this.name = data.name;
+      });
   }
 
 }

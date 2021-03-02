@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FormlyModule } from '@ngx-formly/core';
 import { FormlyMaterialModule } from '@ngx-formly/material';
-
+import { FormlyMatToggleModule } from '@ngx-formly/material/toggle';
 
 import {config, providerFormly} from './config';
 
@@ -16,7 +16,8 @@ import {config, providerFormly} from './config';
     FormsModule,
     ReactiveFormsModule,
     FormlyModule,
-    FormlyMaterialModule
+    FormlyMaterialModule,
+    FormlyMatToggleModule
   ],
   imports: [
     CommonModule,
@@ -24,6 +25,7 @@ import {config, providerFormly} from './config';
     ReactiveFormsModule,
     FormlyModule.forRoot(config),
     FormlyMaterialModule,
+    FormlyMatToggleModule
   ],
   providers:[
     providerFormly

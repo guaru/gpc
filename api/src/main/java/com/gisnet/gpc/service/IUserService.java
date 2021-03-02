@@ -45,10 +45,10 @@ public interface IUserService {
 
      /**
       *  GET USER BY ID
-      * @param id
+      * @param idUser
       * @return Optional User
       */
-     Optional<User> findById(Long id);
+     Optional<User> findById(String idUser);
 
 
      /**
@@ -57,5 +57,10 @@ public interface IUserService {
       * @return List<Function>
       */
      List<FunctionDTO> getFunctions(String username);
+
+
+     User save(User user);
+
+     User update(User source);
 
 }

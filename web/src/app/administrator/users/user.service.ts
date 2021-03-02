@@ -13,7 +13,7 @@ import { BehaviorSubject } from 'rxjs';
 @Injectable()
 export class UserService {
 
-  private _columns: string[] = ["Nombre", "Usuario"];// "Sucursal", "Roles"];
+  private _columns: string[] = ["Nombre", "Usuario","Activo"];// "Sucursal", "Roles"];
   private _users: User[];
   private  _pageRequest :PageRequest;
   private _resultsLength: number;

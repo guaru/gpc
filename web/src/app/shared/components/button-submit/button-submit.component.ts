@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { GlobalFormConstantsService } from 'src/app/core/services/global-form-constants.service';
 
 
@@ -8,5 +8,11 @@ import { GlobalFormConstantsService } from 'src/app/core/services/global-form-co
 })
 export class ButtonSubmitComponent {
   @Input() disabled:boolean =  true;
+  @Output() eventClick = new EventEmitter<boolean>();
+
   constructor(public globalFormConstants:GlobalFormConstantsService){}
+
+  onClick() {
+    this.eventClick.emit(true);
+  }
 }

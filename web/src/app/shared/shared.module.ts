@@ -10,6 +10,10 @@ import { ButtonSubmitComponent } from './components/button-submit/button-submit.
 import { ButtonDeleteComponent } from './components/button-delete/button-delete.component';
 import { RouterModule } from '@angular/router';
 import { SharedMaterialModule } from './shared-material.module';
+import { SlideEnabledComponent } from './components/slide-enabled/slide-enabled.component';
+import { ButtonCreateComponent } from './components/button-create/button-create.component';
+import { ButtonCancelComponent } from './components/button-cancel/button-cancel.component';
+import { SpinnerComponent } from './components/spinner/spinner.component';
 
 
 
@@ -19,13 +23,22 @@ import { SharedMaterialModule } from './shared-material.module';
     SidebarComponent,
     HeaderComponent,
     ButtonSubmitComponent,
-    ButtonDeleteComponent
+    ButtonDeleteComponent,
+    SlideEnabledComponent,
+    ButtonCreateComponent,
+    ButtonCancelComponent,
+    SpinnerComponent
   ],
   exports:[
     BreadcrumbsComponent,
     SidebarComponent,
     HeaderComponent,
-    ButtonSubmitComponent
+    ButtonSubmitComponent,
+    SlideEnabledComponent,
+    ButtonCreateComponent,
+    ButtonDeleteComponent,
+    ButtonCancelComponent,
+    SpinnerComponent
   ],
   imports: [
     CommonModule,

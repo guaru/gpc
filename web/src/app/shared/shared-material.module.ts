@@ -27,6 +27,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTreeModule } from '@angular/material/tree';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 const materialModules = [
   //CdkTreeModule,
@@ -49,6 +50,7 @@ const materialModules = [
   //MatSnackBarModule,
   MatSortModule,
   MatTableModule,
+  MatSlideToggleModule,
   //MatTabsModule,
   //MatToolbarModule,
   //MatFormFieldModule,

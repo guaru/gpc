@@ -34,7 +34,7 @@ const  customFunctionInit  = ()=> {
       height = height - topOffset;
       if (height < 1) height = 1;
       if (height > topOffset) {
-        height = height - 19;
+        height = height - 25;
         $(".page-wrapper").css("min-height", (height) + "px");
       }
 

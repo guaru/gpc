@@ -2,40 +2,54 @@ package com.gisnet.gpc.domain.security;
 
 import java.io.Serializable;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 
 import com.gisnet.gpc.constants.ConstantDomain;
+import com.gisnet.gpc.domain.common.GenericEntity;
+
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Entity
-@Table(name = ConstantDomain.TBL_AUTHORITIES, schema = ConstantDomain.SCHEME_SECURITY)
+@Document (collection =  ConstantDomain.COLL_AUTHORITIES)
 @Data
 @NoArgsConstructor
-public class Authoritie implements Serializable {
+public class Authoritie implements Serializable, GenericEntity<Authoritie> {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = ConstantDomain.COL_ID)
-    public Long id;
+    public String id;
 
     @NotEmpty
-    @Column(name = ConstantDomain.COL_NAME, length = ConstantDomain.LEN_100, unique = true, nullable = false)
+    @Field(name  = ConstantDomain.FIELD_NAME)
     private String name;
 
-    @Column(name = ConstantDomain.COL_ENABLED)
+    @Field(name  = ConstantDomain.FIELD_ENABLED)
     private Boolean enabled;
 
     /**
     *
     */
     private static final long serialVersionUID = 1838967106789288412L;
+
+    @Override
+    public void update(Authoritie source) {
+        this.name =  source.name;
+        this.enabled =  source.enabled;
+    }
+
+    @Override
+    public Authoritie createNewInstance() {
+        Authoritie auth =  new Authoritie();
+        auth.update(this);
+        return auth;
+    }
+
+    @Override
+    public void enabled(boolean enabled) {
+        this.setEnabled(enabled);
+    }
 
 }

@@ -8,13 +8,19 @@ import { AdministratorComponent } from './administrator.component';
 import { OfficesComponent } from './offices/offices.component';
 import { UiFormModule } from '../shared/ui-form/ui-form.module';
 import { SharedMaterialModule } from '../shared/shared-material.module';
+import { FunctionsComponent } from './functions/functions.component';
+import { AreasComponent } from './areas/areas.component';
+import { AreaFormComponent } from './areas/area-form/area-form.component';
 
 @NgModule({
-  declarations: [UsersComponent, AdministratorComponent, OfficesComponent],
+  declarations: [UsersComponent, AdministratorComponent, OfficesComponent, FunctionsComponent, AreasComponent, AreaFormComponent],
   exports: [
     UsersComponent,
     AdministratorComponent,
-    OfficesComponent
+    OfficesComponent,
+    FunctionsComponent,
+    AreasComponent,
+    AreaFormComponent
   ],
   imports: [
     CommonModule,

@@ -3,11 +3,11 @@
     <div class="card">
       <div class="card-body">
         <div class="example-container mat-elevation-z8">
-          <div class="example-loading-shade" *ngIf="userService.loading$ | async">
+          <div class="loading-shade" *ngIf="userService.loading$ | async">
             <mat-spinner ></mat-spinner>
           </div>
 
-          <div class="example-table-container">
+          <div class="table-container">
 
             <table mat-table [dataSource]="userService.users" class="example-table" matSort matSortActive="name"
               matSortDisableClear matSortDirection="desc">
@@ -23,13 +23,21 @@
                 <td mat-cell *matCellDef="let row">{{row.userName}}</td>
               </ng-container>
 
+                <!-- Enabled Column -->
+              <ng-container matColumnDef="Activo">
+                <th mat-header-cell *matHeaderCellDef>Activo</th>
+                 <td mat-cell *matCellDef="let row">
+                    <gpc-slide-enabled [enabled]="row.enabled" (checkEvent)="onChangeEnabled($event)"></gpc-slide-enabled>
+                  </td>
+              </ng-container>
+
 
               <tr mat-header-row *matHeaderRowDef="userService.columns"></tr>
               <tr mat-row *matRowDef="let row; columns: userService.columns;"></tr>
             </table>
           </div>
 
-          <mat-paginator [length]="userService.resultsLength" [pageSize]="5"></mat-paginator>
+          <mat-paginator [length]="userService.resultsLength" [pageSize]="constantService.PAGE_SIZE"></mat-paginator>
         </div>
 
 

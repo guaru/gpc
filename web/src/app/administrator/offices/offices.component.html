@@ -1,1 +1,59 @@
-<p>offices works!</p>
+<div class="row">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-body">
+        <div class="example-container mat-elevation-z8">
+          <div class="loading-shade" *ngIf="officeService.loading$ | async">
+            <mat-spinner></mat-spinner>
+          </div>
+
+          <div class="example-table-container">
+
+            <table mat-table [dataSource]="officeService.offices" class="example-table" matSort matSortActive="name"
+              matSortDisableClear matSortDirection="desc">
+              <!-- Name Column -->
+              <ng-container matColumnDef="Nombre">
+                <th mat-header-cell *matHeaderCellDef>Nombre</th>
+                <td mat-cell *matCellDef="let row">{{row.name}}</td>
+              </ng-container>
+
+              <!-- Key Column -->
+              <ng-container matColumnDef="Clave">
+                <th mat-header-cell *matHeaderCellDef>Clave</th>
+                <td mat-cell *matCellDef="let row">{{row.key}}</td>
+              </ng-container>
+
+              <!-- Address Column -->
+              <ng-container matColumnDef="Direccion">
+                <th mat-header-cell *matHeaderCellDef>Dirección</th>
+                <td mat-cell *matCellDef="let row">{{row.address}}</td>
+              </ng-container>
+
+                <!-- State Column -->
+                <ng-container matColumnDef="Estado">
+                  <th mat-header-cell *matHeaderCellDef>Estado</th>
+                  <td mat-cell *matCellDef="let row">{{row.state?.name}}</td>
+                </ng-container>
+
+                <!-- Enabled Column -->
+                <ng-container matColumnDef="Activa">
+                  <th mat-header-cell *matHeaderCellDef>Activa</th>
+                  <td mat-cell *matCellDef="let row">
+                     <gpc-slide-enabled [enabled]="row.enabled" (checkEvent)="onChangeEnabled($event)"></gpc-slide-enabled>
+                  </td>
+                </ng-container>
+
+
+              <tr mat-header-row *matHeaderRowDef="officeService.columns"></tr>
+              <tr mat-row *matRowDef="let row; columns: officeService.columns;"></tr>
+            </table>
+          </div>
+
+          <mat-paginator [length]="officeService.resultsLength" [pageSize]="constanService.PAGE_SIZE"></mat-paginator>
+        </div>
+
+
+      </div>
+    </div>
+  </div>
+</div>

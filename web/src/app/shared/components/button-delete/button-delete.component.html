@@ -1,2 +1,4 @@
-<button mat-raised-button class="w-100"  type="button" [disabled]="disabled">{{globalFormConstants.DELETE}}</button>
-
+<button class="btn waves-effect waves-light btn-outline-warning  w-100" type="button" [disabled]="disabled" (click)="onClick()">
+  <i class="mdi mdi-delete"></i>
+  {{globalFormConstants.DELETE}}
+</button>

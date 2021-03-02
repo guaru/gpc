@@ -1,28 +1,16 @@
 package com.gisnet.gpc.domain.security;
 
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import javax.validation.constraints.NotEmpty;
 import com.gisnet.gpc.constants.ConstantDomain;
+import com.gisnet.gpc.domain.common.GenericEntity;
 
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 
-import ch.qos.logback.core.subst.Token.Type;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -32,38 +20,54 @@ import lombok.NoArgsConstructor;
  * @author Alejandro Ventura
  * @since 27-01-2021
  */
-@Entity
-@Table(name = ConstantDomain.TBL_FUNCTIONS, schema = ConstantDomain.SCHEME_SECURITY)
+
+@Document(collection =  ConstantDomain.COLL_FUNCTIONS)
 @Data
 @NoArgsConstructor
-public class Function implements Serializable {
+public class Function  implements Serializable,  GenericEntity<Function>{
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = ConstantDomain.COL_ID)
-    private Integer id;
+    private String id;
 
-    @NotNull
-    @Column(name = ConstantDomain.COL_NAME, length = ConstantDomain.LEN_150)
+    @NotEmpty(message = "Name required")
+    @Field(value   = ConstantDomain.FIELD_NAME)
     private String name;
-
-    @Column(name = ConstantDomain.COL_URL, length = ConstantDomain.LEN_250)
+    @Field(value   = ConstantDomain.FIELD_URL)
     private String url;
-
-    @Column(name = ConstantDomain.COL_ICON, length = ConstantDomain.LEN_50)
+    @Field(value =  ConstantDomain.FIELD_ICON)
     private String icon;
-
-    @Column(name = ConstantDomain.COL_ENABLED)
+    @Field(value  = ConstantDomain.FIELD_ENABLED)
     private Boolean enabled;
 
-    
-    @ManyToOne
-    @JoinColumn(name= ConstantDomain.COL_FUNCTION_FATHER_ID,referencedColumnName = ConstantDomain.COL_ID)
+    @DBRef
     private Function functionFather;
 
     /**
      * SERIAL ID
      */
     private static final long serialVersionUID = 4468802821146093638L;
+
+    @Override
+    public void update(Function source) {
+      this.name =  source.getName();
+      this.icon =  source.getIcon();
+      this.enabled =  source.getEnabled();
+      this.functionFather =  source.getFunctionFather();
+      this.url =  source.getUrl();
+    }
+
+    @Override
+    public Function createNewInstance() {
+        Function  newInstance = new Function();
+        newInstance.update(this);
+        return newInstance;
+    }
+
+    @Override
+    public void enabled(boolean enabled) {
+      this.setEnabled(enabled);
+    }
+
+  
 
 }

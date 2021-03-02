@@ -12,6 +12,12 @@
  */
 package com.gisnet.gpc.service;
 
+import com.gisnet.gpc.domain.security.Function;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
+
 /**
  * <h1>FunctionService</h1>
  * <p>
@@ -22,6 +28,7 @@ package com.gisnet.gpc.service;
  * @since 26-01-2021
  */
 
-public interface IFunctionService {
-
+public interface IFunctionService   {
+ 
+    Page<Function> findAll(Pageable pageable, String filter);
 }

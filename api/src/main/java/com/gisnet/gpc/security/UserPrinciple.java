@@ -20,7 +20,7 @@ import org.springframework.security.core.userdetails.UserDetails;
  */
 public class UserPrinciple implements UserDetails {
 
-    private Long id;
+    private String id;
     private String name;
     private String username;
     private String lastname;
@@ -32,7 +32,7 @@ public class UserPrinciple implements UserDetails {
 
     private Collection<? extends GrantedAuthority> authorities;
 
-    public UserPrinciple(Long id, String username, String name, String lastname, String password, String email,
+    public UserPrinciple(String id, String username, String name, String lastname, String password, String email,
             Boolean enable, Collection<? extends GrantedAuthority> authorities) {
         this.id = id;
         this.username = username;
@@ -52,7 +52,7 @@ public class UserPrinciple implements UserDetails {
                 user.getPassword(), user.getEmail(), user.getEnabled(), authorities);
     }
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 

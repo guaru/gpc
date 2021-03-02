@@ -60,12 +60,12 @@ export class AuthService {
     this._user.lastName = payload.lastName;
     this._user.email = payload.email;
     this._user.authorities = payload.authorities;
-    sessionStorage.setItem('user', JSON.stringify(this._user));
-    sessionStorage.setItem('token', accessToken.access_token);
+    localStorage.setItem('user', JSON.stringify(this._user));
+    localStorage.setItem('token', accessToken.access_token);
 
     this.getAccount(accessToken.username).subscribe(response=>{
         let functions: INav[] = response;
-        sessionStorage.setItem('functions', JSON.stringify(functions));
+      localStorage.setItem('functions', JSON.stringify(functions));
     },error=>{});
 
 
@@ -79,19 +79,19 @@ export class AuthService {
 
  public get user():User | null{
    return this._user != null && this._user.username ? this._user :
-            sessionStorage.getItem('user') ? JSON.parse(sessionStorage.getItem('user')||'') as User
+     localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')||'') as User
            : null;
   }
 
 
   public get token():string | null{
     return this._token != null && this._token!= '' && this._token.length > 0 ? this._token :
-            sessionStorage.getItem('token')!=null ? sessionStorage.getItem('token')  : null;
+      localStorage.getItem('token') != null ? localStorage.getItem('token')  : null;
   }
 
   public get functions():INav[] |  null {
     return this._functions != null && this._functions.length > 0  ?  this._functions :
-          sessionStorage.getItem('functions') != null ? JSON.parse(sessionStorage.getItem('functions') || '') as INav[] : null
+      localStorage.getItem('functions') != null ? JSON.parse(localStorage.getItem('functions') || '') as INav[] : null
   }
 
   public isAuthenticated():boolean
@@ -107,7 +107,7 @@ export class AuthService {
     return new Promise ( (resolve)=>{
       this._token = '';
       this._user = new User();
-      sessionStorage.clear();
+      localStorage.clear();
       resolve(true);
     });
   }

@@ -5,6 +5,7 @@ import { catchError, map, startWith, switchMap } from 'rxjs/operators';
 import { UserService } from './user.service';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
+import { GlobalConstantsService } from 'src/app/core/services/global-constants.service';
 
 @Component({
   selector: 'gpc-users',
@@ -17,7 +18,7 @@ export class UsersComponent implements AfterViewInit  {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(public userService:UserService) { }
+  constructor(public userService:UserService,public constantService:GlobalConstantsService) { }
 
 
 
@@ -25,6 +26,11 @@ export class UsersComponent implements AfterViewInit  {
     this.sort.sortChange.subscribe(() => this.paginator.pageIndex = 0);
     this.userService.initTable(this.sort,this.paginator);
   }
+
+  onChangeEnabled($event: boolean) {
+    console.log($event);
+  }
+
 
 
 

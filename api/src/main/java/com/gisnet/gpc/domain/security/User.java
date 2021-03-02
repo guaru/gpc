@@ -1,71 +1,79 @@
 package com.gisnet.gpc.domain.security;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotEmpty;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.gisnet.gpc.constants.ConstantDomain;
 import com.gisnet.gpc.domain.catalogs.Office;
+import com.gisnet.gpc.domain.common.GenericEntity;
 import com.gisnet.gpc.domain.common.Person;
+import com.querydsl.core.annotations.QueryEntity;
 
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
-@Entity
-@Table(name = ConstantDomain.TBL_USERS, schema = ConstantDomain.SCHEME_SECURITY)
+@QueryEntity
+@Document(collection  = ConstantDomain.COLL_USERS)
 @Data
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = false)
-public class User extends Person implements Serializable {
+public class User extends Person implements Serializable, GenericEntity<User> {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = ConstantDomain.COL_ID)
-    private Long id;
+    private String id;
 
-    @NotEmpty
-    @Column(name = ConstantDomain.COL_USERNAME, length = ConstantDomain.LEN_150, unique = true, nullable = false)
+    @NotEmpty(message = "Nombre de usuario requerido")
+    @Field(name   = ConstantDomain.FIELD_USERNAME)
     private String userName;
 
     @NotEmpty
-    @Column(name = ConstantDomain.COL_PASSWORD, length = ConstantDomain.LEN_350, nullable = false)
+    @Field(name   = ConstantDomain.FIELD_PASSWORD)
     private String password;
 
-    @JsonIgnore
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinTable(name = ConstantDomain.TBL_USERS_AUTHORITIES, schema = ConstantDomain.SCHEME_SECURITY, joinColumns = @JoinColumn(name = ConstantDomain.COL_USER_ID), inverseJoinColumns = @JoinColumn(name = ConstantDomain.COL_AUTHORITIE_ID), uniqueConstraints = {
-            @UniqueConstraint(columnNames = { ConstantDomain.COL_USER_ID, ConstantDomain.COL_AUTHORITIE_ID }) })
-    private Set<Authoritie> authorities;
+    
+    @DBRef
+    private List<Authoritie> authorities;
 
-    @JsonIgnore
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinTable(name = ConstantDomain.TBL_USER_FUNCTIONS, schema = ConstantDomain.SCHEME_SECURITY, joinColumns = @JoinColumn(name = ConstantDomain.COL_USER_ID), inverseJoinColumns = @JoinColumn(name = ConstantDomain.COL_FUNCTION_ID), uniqueConstraints = {
-            @UniqueConstraint(columnNames = { ConstantDomain.COL_USER_ID, ConstantDomain.COL_FUNCTION_ID }) })
+    
+    @DBRef
     private Set<Function> functions;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = ConstantDomain.COL_OFFICE_ID, referencedColumnName = ConstantDomain.COL_ID)
+    @DBRef
     private Office office;
 
     /**
      *
      */
     private static final long serialVersionUID = 4706523753809364203L;
+
+    @Override
+    public void update(User source) {
+        this.userName = source.getUserName();
+        this.setName(source.getName());
+        this.setEnabled(source.getEnabled());
+        this.setFunctions(source.getFunctions());
+        this.setAuthorities(source.getAuthorities());
+        this.setLastName(source.getLastName());
+        this.setEmail(source.getEmail());
+        this.setOffice(source.getOffice());
+    }
+
+    @Override
+    public User createNewInstance() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public void enabled(boolean enabled) {
+        this.setEnabled(enabled);
+    }
 }
