@@ -44,23 +44,21 @@ public class Area implements Serializable , GenericEntity<Area>{
 
     @Override
     public void update(Area source) {
-        // TODO Auto-generated method stub
-
+        this.key = source.getKey();
+        this.name  = source.getName();
+        this.enabled = source.getEnabled();
     }
 
     @Override
     public void enabled(boolean enabled) {
-        // TODO Auto-generated method stub
-
+        this.setEnabled(enabled);
     }
-
-
-
 
     @Override
     public Area createNewInstance() {
-        // TODO Auto-generated method stub
-        return null;
+         Area area= new Area();
+         area.update(this);
+         return area;
     }
 
 

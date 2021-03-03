@@ -1,5 +1,6 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { BehaviorSubject , merge, of as observableOf} from 'rxjs';
@@ -8,32 +9,36 @@ import { ApiUri } from 'src/app/core/enums/ApiUri';
 import { Area } from 'src/app/core/models/area.model';
 import { PageRequest } from 'src/app/core/models/page-request.model';
 import { PageResponse } from 'src/app/core/models/page-response.model';
+import { AlertService } from 'src/app/core/services/alert.service';
 import { GlobalEnviromentService } from 'src/app/core/services/global-enviroment.service';
 import { Util } from 'src/app/core/utils/Util';
+import { SpinnerService } from 'src/app/shared/components/spinner/spinner.service';
+import { AreaFormComponent } from './area-form/area-form.component';
+import { AreaHttpService } from './area-http.service';
 
 @Injectable()
 export class AreaService {
 
-  private _columns: string[] = ["name", "key", "enabled"];
+  private _columns: string[] = ["name", "key", "enabled","action"];
   private _areas: Area[];
 
   private _pageRequest: PageRequest;
   private _resultsLength: number;
   public isFormActive:boolean = false;
-  public selectedArea: Area | null;
+  public selectedArea: Area;
 
 
   private loadingSubject = new BehaviorSubject<boolean>(false);
   public loading$ = this.loadingSubject.asObservable();
 
-
-
-
-  constructor(private http: HttpClient, private globalEnv: GlobalEnviromentService) {
+  constructor(private areaHttpService: AreaHttpService,
+    private dialog: MatDialog,
+    private loadingService:SpinnerService,
+    private alertService:AlertService) {
     this._areas = [];
     this._pageRequest = new PageRequest();
     this._resultsLength = 0;
-    this.selectedArea = null;
+    this.selectedArea = new Area();
   }
 
   public initTable(sort: MatSort, paginator: MatPaginator) {
@@ -45,7 +50,7 @@ export class AreaService {
 
           return this.getPages(paginator.pageIndex, paginator.pageSize);
         }),
-        map((data: PageResponse<Function>) => {
+        map((data: PageResponse<Area>) => {
           this.loadingSubject.next(false);
           this._resultsLength = data.totalElements || 0;
           return data.content || [];
@@ -61,13 +66,54 @@ export class AreaService {
     this.loadingSubject.next(true);
     this._pageRequest.offset = offset;
     this._pageRequest.limit = limit;
-    return this.pageFunctions(this._pageRequest);
+    return this.areaHttpService.pages(this._pageRequest);
   }
 
 
-  private pageFunctions(pageRequest: PageRequest) {
-    let options: HttpParams = Util.createRequestOption(pageRequest);
-    return this.http.get<PageResponse<Function>>(`${this.globalEnv.env.URL_API}${ApiUri.AREAS}`, { params: options });
+  private openDialog()
+  {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    dialogConfig.data = this.selectedArea;
+    const dialogRef = this.dialog.open(AreaFormComponent, dialogConfig);
+    dialogRef.afterClosed().subscribe(
+      (data:Area) => {
+         this._areas.push(data);
+         this._areas = this._areas.filter(x=>x.id);
+        console.log("DATA",data)
+      }
+    );
+  }
+
+
+  public create(){
+    this.selectedArea = new Area();
+    this.openDialog();
+  }
+
+  public update(id:string)
+  {
+    this.selectedArea = this.areas.find(x => x.id === id) || new Area();
+    this.openDialog();
+  }
+
+  async  delete(id:string)
+  {
+   if(await this.alertService.confirm('Si elimina el área, las sucursales no podran utilizarla')){
+     this.loadingService.initLoading();
+     this.areaHttpService.delete(id).subscribe(response => {
+       if(response){
+          this.loadingService.endLoading();
+          this.alertService.success();
+          this._areas = this._areas.filter(x => x.id != id);
+       }
+     }, error => {
+         this.loadingService.endLoading()
+         this.alertService.error();
+     }
+     );
+   }
   }
 
   public get resultsLength(): number {

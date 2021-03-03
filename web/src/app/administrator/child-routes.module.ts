@@ -13,9 +13,8 @@ const childRoutes:Routes = [
       { path: Url.USUARIOS, component: UsersComponent , data:{name:"Usuarios"}},
       { path: Url.SUCURSALES, component: OfficesComponent, data: { name: "Sucursales" }},
       { path: Url.FUNCIONES, component: FunctionsComponent, data: { name: "Funciones" }},
-      { path: Url.AREAS, component: AreasComponent , data:{name:"Areas"} },
-      { path: Url.AREAS +  Url.AREA , component: AreaFormComponent, data:{name:"Nueva Area"} },
-      { path: Url.AREAS +  Url.AREA  + Url.ID, component: AreaFormComponent, data:{name:"Detalle Area"} },
+      { path: Url.AREAS, component: AreasComponent , data:{name:"Áreas"} },
+
 ];
 
 @NgModule({

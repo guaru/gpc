@@ -1,16 +1,11 @@
 package com.gisnet.gpc.api;
 
 import java.util.Optional;
-
 import javax.validation.Valid;
-import javax.validation.executable.ValidateOnExecution;
-
 import com.gisnet.gpc.constants.ConstantEnum;
 import com.gisnet.gpc.constants.ConstantWebApi;
 import com.gisnet.gpc.domain.security.User;
 import com.gisnet.gpc.service.IUserService;
-
-import org.apache.catalina.connector.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

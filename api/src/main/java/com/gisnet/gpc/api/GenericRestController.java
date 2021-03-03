@@ -54,9 +54,9 @@ public abstract class GenericRestController<T extends GenericEntity<T>> {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> delete(@PathVariable String id) {
+    public ResponseEntity<Boolean> delete(@PathVariable String id) {
         service.delete(id);
-        return ResponseEntity.ok("Ok");
+        return ResponseEntity.ok(true);
     }
 
 

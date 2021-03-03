@@ -6,6 +6,7 @@ export let fields: FormlyFieldConfig[] = [
   {
     key: 'name',
     type: 'input',
+    focus: true,
     templateOptions: {
       label: 'Nombre',
       placeholder: 'Nombre',

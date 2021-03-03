@@ -37,10 +37,24 @@ export class AlertService {
    });
  }
 
+  public error(msg?: string) {
+    msg = msg ? msg : this.globalConstantsService.MSG_ERROR_DEFAULT;
+    return Swal.fire({
+      title: 'Oops...',
+      text: msg,
+      icon: 'error',
+      confirmButtonText: "Enterado",
+      buttonsStyling: false,
+      customClass: {
+        confirmButton: "btn btn-outline-danger"
+      }
+    });
+  }
+
 
 
  public confirm(msg?:string):Promise<boolean>{
-    msg = msg ? msg : this.globalConstantsService.MSG_SUCCES_DEFAULT;
+   msg = msg ? msg : this.globalConstantsService.MSG_CONFIRM_DEFAULT;
     return new Promise((resolve)=>{
       Swal.fire({
         title: '¿Está seguro?',
@@ -48,7 +62,12 @@ export class AlertService {
         icon: 'warning',
         showCancelButton: true,
         confirmButtonText: 'Si.',
-        cancelButtonText: 'No'
+        cancelButtonText: 'No',
+        buttonsStyling: false,
+        customClass: {
+          confirmButton: "btn btn-outline-danger",
+          cancelButton: "btn btn-outline-secundary ml-2"
+        }
       }).then((result) => {
         if (result.value) {
           resolve(true);

@@ -3,6 +3,11 @@ import { PageRequest } from "../models/page-request.model";
 
 export class Util
 {
+
+  public static isEmpty(value:string):boolean{
+    return value != null && value != undefined  && value!='' && value.trim().length>0
+  }
+
   public static  toBase64(content: string): string{
     return btoa(content);
   }

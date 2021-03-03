@@ -13,6 +13,9 @@
 .mt-2{
   margin-top: 2% !important;
 }
+.ml-2{
+  margin-left:  2% i !important;
+}
 
 .pointer{
   cursor: pointer;
