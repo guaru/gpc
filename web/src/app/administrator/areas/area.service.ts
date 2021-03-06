@@ -6,6 +6,7 @@ import { MatSort } from '@angular/material/sort';
 import { BehaviorSubject , merge, of as observableOf} from 'rxjs';
 import { catchError, delay, map, startWith, switchMap } from 'rxjs/operators';
 import { ApiUri } from 'src/app/core/enums/ApiUri';
+import { IEnabled } from 'src/app/core/interface/IEnabled';
 import { Area } from 'src/app/core/models/area.model';
 import { PageRequest } from 'src/app/core/models/page-request.model';
 import { PageResponse } from 'src/app/core/models/page-response.model';
@@ -42,6 +43,7 @@ export class AreaService {
   }
 
   public initTable(sort: MatSort, paginator: MatPaginator) {
+
     merge(sort.sortChange, paginator.page)
       .pipe(
         startWith({}),
@@ -79,9 +81,10 @@ export class AreaService {
     const dialogRef = this.dialog.open(AreaFormComponent, dialogConfig);
     dialogRef.afterClosed().subscribe(
       (data:Area) => {
-         this._areas.push(data);
-         this._areas = this._areas.filter(x=>x.id);
-        console.log("DATA",data)
+        if(data){
+          this._areas.push(data);
+          this._areas = this._areas.filter(x => x.id);
+        }
       }
     );
   }
@@ -114,6 +117,20 @@ export class AreaService {
      }
      );
    }
+  }
+
+  async enabled(ienabled:IEnabled){
+      this.loadingService.initLoading();
+      this.areaHttpService.enabled(ienabled).subscribe(response => {
+        if (response) {
+          this.loadingService.endLoading();
+          this.alertService.success();
+        }
+      }, error => {
+        this.loadingService.endLoading()
+        this.alertService.error();
+      }
+      );
   }
 
   public get resultsLength(): number {

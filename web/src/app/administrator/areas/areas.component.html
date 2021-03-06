@@ -42,7 +42,7 @@
                 <ng-container matColumnDef="enabled">
                   <th mat-header-cell *matHeaderCellDef>Activa</th>
                   <td mat-cell *matCellDef="let row">
-                    <gpc-slide-enabled [enabled]="row.enabled" (checkEvent)="onChangeEnabled($event)">
+                    <gpc-slide-enabled [enabled]="row.enabled" (checkEvent)="onChangeEnabled($event,row.id)">
                     </gpc-slide-enabled>
                   </td>
                 </ng-container>

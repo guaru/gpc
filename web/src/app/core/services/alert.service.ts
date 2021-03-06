@@ -24,7 +24,7 @@ export class AlertService {
 
  public  success(msg?: string)
  {
-    msg = msg ? msg : this.globalConstantsService.MSG_SUCCES_DEFAULT;
+    msg = msg ? msg : "" ;// this.globalConstantsService.MSG_SUCCES_DEFAULT;
    return Swal.fire({
      title: 'Listo',
      text: msg,

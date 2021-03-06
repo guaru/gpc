@@ -3,6 +3,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { Router } from '@angular/router';
 import { Url } from 'src/app/core/enums/Url';
+import { IEnabled } from 'src/app/core/interface/IEnabled';
 import { Area } from 'src/app/core/models/area.model';
 import { GlobalConstantsService } from 'src/app/core/services/global-constants.service';
 import { SpinnerService } from 'src/app/shared/components/spinner/spinner.service';
@@ -27,8 +28,9 @@ export class AreasComponent implements AfterViewInit {
     this.areaService.initTable(this.sort, this.paginator);
   }
 
-  onChangeEnabled($event: boolean) {
-    console.log($event);
+  onChangeEnabled($event: boolean,id:string) {
+    let ienabled:IEnabled = { id : id,enabled : $event };
+     this.areaService.enabled(ienabled);
   }
 
   onCreate(){
@@ -37,6 +39,7 @@ export class AreasComponent implements AfterViewInit {
 
   onUpdate(id:string){
       this.areaService.update(id);
+      this.paginator.firstPage();
   }
 
   onDelete(id:string){

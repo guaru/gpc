@@ -17,7 +17,7 @@ export class AreaFormComponent implements OnInit {
     private dialogRef: MatDialogRef<AreaFormComponent>,
     @Inject(MAT_DIALOG_DATA) data:Area) {
     this.areaFormService._model =  data;
-    this.areaFormService._title =  (data?.id!='' ? 'Crear' : 'Editar') + "Área";
+    this.areaFormService._title =  (data?.id!='' ? 'Crear' : 'Editar') + " Área";
 
   }
 

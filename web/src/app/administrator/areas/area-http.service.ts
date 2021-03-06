@@ -25,9 +25,16 @@ export class AreaHttpService {
 
 
   public save(area:Area):Observable<Area>{
-    return this.http.post<Area>(`${this.globalEnv.env.URL_API}${ApiUri.AREAS}`,area).pipe(
-      catchError(this.globalConstantHttpService.handleError),
-    );
+    if(!Util.isEmpty(area.id||'')){
+      return this.http.post<Area>(`${this.globalEnv.env.URL_API}${ApiUri.AREAS}`, area).pipe(
+        catchError(this.globalConstantHttpService.handleError),
+      );
+    }else{
+      return this.http.put<Area>(`${this.globalEnv.env.URL_API}${ApiUri.AREAS}`, area).pipe(
+        catchError(this.globalConstantHttpService.handleError),
+      );
+    }
+
   }
 
 
