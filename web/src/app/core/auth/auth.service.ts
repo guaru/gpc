@@ -52,23 +52,27 @@ export class AuthService {
   }
 
 
-  public  saveUser(accessToken: IJwtResponse): void {
-    let payload = this.getInfoToken(accessToken.access_token);
-    this._user = new User();
-    this._user.username = accessToken.username;
-    this._user.name = payload.firtName;
-    this._user.lastName = payload.lastName;
-    this._user.email = payload.email;
-    this._user.authorities = payload.authorities;
-    localStorage.setItem('user', JSON.stringify(this._user));
-    localStorage.setItem('token', accessToken.access_token);
+  public  saveUser(accessToken: IJwtResponse): Promise<boolean> {
+    return new Promise(   ( resolve)=> {
+      let payload = this.getInfoToken(accessToken.access_token);
+      this._user = new User();
+      this._user.username = accessToken.username;
+      this._user.name = payload.firtName;
+      this._user.lastName = payload.lastName;
+      this._user.email = payload.email;
+      this._user.authorities = payload.authorities;
+      localStorage.setItem('user', JSON.stringify(this._user));
+      localStorage.setItem('token', accessToken.access_token);
 
-    this.getAccount(accessToken.username).subscribe(response=>{
+      this.getAccount(accessToken.username).subscribe(response => {
         let functions: INav[] = response;
-      localStorage.setItem('functions', JSON.stringify(functions));
-    },error=>{});
+        localStorage.setItem('functions', JSON.stringify(functions));
+        resolve(true);
+      }, error => {
+        resolve(false);
+       });
 
-
+    });
   }
 
 

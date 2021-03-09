@@ -5,11 +5,18 @@ import { MatSort } from '@angular/material/sort';
 import { PageRequest } from 'src/app/core/models/page-request.model';
 import { PageResponse } from 'src/app/core/models/page-response.model';
 import { User } from 'src/app/core/models/user.model';
-import { GlobalEnviromentService } from 'src/app/core/services/global-enviroment.service';
-import { Util } from 'src/app/core/utils/Util';
 import { merge, Observable, of as observableOf } from 'rxjs';
 import { catchError, delay, map, startWith, switchMap } from 'rxjs/operators';
 import { BehaviorSubject } from 'rxjs';
+import { UserHttpService } from './user-http.service';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { UserFormComponent } from './user-form/user-form.component';
+
+/**
+ * SERVICE LOGIC USERS
+ * @author Alejandro Ventura
+ * @since  '8-03-2021
+ */
 @Injectable()
 export class UserService {
 
@@ -17,6 +24,7 @@ export class UserService {
   private _users: User[];
   private  _pageRequest :PageRequest;
   private _resultsLength: number;
+  private _selectUser!:User;
 
 
   private loadingSubject = new BehaviorSubject<boolean>(false);
@@ -24,8 +32,8 @@ export class UserService {
 
 
 
-
-  constructor(private http:HttpClient,private globalEnv:GlobalEnviromentService) {
+  constructor(private userHttpService:UserHttpService
+    , private dialog: MatDialog) {
     this._users = [];
     this._pageRequest = new PageRequest();
     this._resultsLength = 0;
@@ -38,7 +46,6 @@ export class UserService {
         startWith({}),
         delay(0),
         switchMap(() => {
-
           return this.getPages(paginator.pageIndex,paginator.pageSize);
         }),
         map((data: PageResponse<User>) => {
@@ -57,14 +64,28 @@ export class UserService {
     this.loadingSubject.next(true);
     this._pageRequest.offset = offset;
     this._pageRequest.limit = limit;
-    return this.pageUsers(this._pageRequest);
+    return this.userHttpService.page(this._pageRequest);
   }
 
 
-  private pageUsers(pageRequest: PageRequest){
-    let options:HttpParams = Util.createRequestOption(pageRequest);
-    return this.http.get<PageResponse<User>>(`${this.globalEnv.env.URL_API}users`,{params:options});
+  private openDialog() {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    dialogConfig.data = this._selectUser;
+    const dialogRef = this.dialog.open(UserFormComponent, dialogConfig);
+    dialogRef.afterClosed().subscribe(
+      (data: User) => {
+
+      }
+    );
   }
+
+  public create(){
+    this._selectUser =  new User();
+    this.openDialog();
+  }
+
 
   public get resultsLength(): number {
     return this._resultsLength;
@@ -77,14 +98,6 @@ export class UserService {
   public get columns(): string[] {
     return this._columns;
   }
-
-
-
-
-
-
-
-
 
 
 

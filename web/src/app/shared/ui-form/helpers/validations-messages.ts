@@ -2,11 +2,11 @@ import { ErrorHandler } from "@angular/core";
 import { FormlyFieldConfig } from "@ngx-formly/core";
 
 export function minlengthValidationMessage(err: any, field: FormlyFieldConfig) {
-  return `Should have at least ${field.templateOptions?.minLength} characters`;
+  return `Ingrese minimo ${field.templateOptions?.minLength} caracteres`;
 }
 
 export function maxlengthValidationMessage(err: any, field: FormlyFieldConfig) {
-  return `This value should be less than ${field.templateOptions?.maxLength} characters`;
+  return `Debe ingresar maximo ${field.templateOptions?.maxLength} 10 catacteres`;
 }
 
 export function minValidationMessage(err: any, field: FormlyFieldConfig) {
@@ -16,3 +16,4 @@ export function minValidationMessage(err: any, field: FormlyFieldConfig) {
 export function maxValidationMessage(err: any, field: FormlyFieldConfig) {
   return `This value should be less than ${field.templateOptions?.max}`;
 }
+

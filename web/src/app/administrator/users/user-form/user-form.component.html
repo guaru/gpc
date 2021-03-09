@@ -1,0 +1,23 @@
+<h2 mat-dialog-title>
+   <i class="mdi mdi-account-key"></i>
+  {{userFormService._title}}
+  <hr/>
+</h2>
+
+<mat-dialog-content [formGroup]="userFormService._form">
+  <formly-form [model]="userFormService._model" [fields]="userFormService._fields" [options]="userFormService._options"
+    [form]="userFormService._form"></formly-form>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <div class="col-2">
+    <gpc-button-cancel (clickEvent)="onCancel()"></gpc-button-cancel>
+  </div>
+  <div class="col-2"></div>
+  <div class="col-2">
+    <gpc-button-delete [disabled]="userFormService._model?.id!=''"></gpc-button-delete>
+  </div>
+  <div class="col-2">
+    <gpc-button-submit [disabled]="!userFormService._form.valid" (eventClick)="onSave()"></gpc-button-submit>
+  </div>
+</mat-dialog-actions>
