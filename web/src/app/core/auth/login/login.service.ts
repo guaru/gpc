@@ -37,16 +37,17 @@ export class LoginService {
   }
 
 
-  public login(){
-    this.authService.loginAuth(this._model.userName || '',this._model.password || '').subscribe(response=>{
+  async  login(){
+    this.authService.loginAuth(this._model.userName || '',this._model.password || '').subscribe( async(response)=>{
         this._invalidUser = false;
-        this.authService.saveUser(response);
-        this.router.navigate([Url.HOME]);
+        const isSave =  await this.authService.saveUser(response);
+        if(isSave)
+          this.router.navigate([Url.ADMINISTRADOR]);
+
       },error =>{
               this._invalidUser = true;
       });
   }
-
   public get invalidUser(): boolean {
     return this._invalidUser;
   }

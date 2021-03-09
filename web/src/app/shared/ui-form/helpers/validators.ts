@@ -13,3 +13,8 @@ export function maximumMoneyValidation(control:any, type:any) {
 
   return null;
 }
+
+export function emailValidation(control:any,type:any){
+  return !control.value || /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(control.value) ? null : { 'email':true}
+}
+

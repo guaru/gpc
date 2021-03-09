@@ -6,11 +6,12 @@ import { UserService } from './user.service';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { GlobalConstantsService } from 'src/app/core/services/global-constants.service';
+import { UserHttpService } from './user-http.service';
 
 @Component({
   selector: 'gpc-users',
   templateUrl: './users.component.html',
-  providers:[UserService]
+  providers:[UserService,UserHttpService]
 })
 export class UsersComponent implements AfterViewInit  {
 
@@ -29,6 +30,10 @@ export class UsersComponent implements AfterViewInit  {
 
   onChangeEnabled($event: boolean) {
     console.log($event);
+  }
+
+  onCreate(){
+    this.userService.create();
   }
 
 

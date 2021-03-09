@@ -24,7 +24,6 @@ public class AreaRestController extends GenericRestController<Area> {
     @Autowired IAreaService areaService;
     public AreaRestController(IGenericRepository<Area> repository) {
         super(repository);
-        // TODO Auto-generated constructor stub
     }
 
 

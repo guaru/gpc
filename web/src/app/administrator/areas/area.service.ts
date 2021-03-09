@@ -82,8 +82,11 @@ export class AreaService {
     dialogRef.afterClosed().subscribe(
       (data:Area) => {
         if(data){
-          this._areas.push(data);
-          this._areas = this._areas.filter(x => x.id);
+          const index:number = this._areas.findIndex(x => x.id===data.id);
+          if(index > -1)
+              this._areas[index] =  data;
+          else
+              this._areas.push(data);
         }
       }
     );

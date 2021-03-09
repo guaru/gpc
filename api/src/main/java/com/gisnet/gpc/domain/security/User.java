@@ -68,7 +68,6 @@ public class User extends Person implements Serializable, GenericEntity<User> {
 
     @Override
     public User createNewInstance() {
-        // TODO Auto-generated method stub
         return null;
     }
 

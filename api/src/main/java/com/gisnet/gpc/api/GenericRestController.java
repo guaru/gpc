@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.validation.FieldError;
 import org.springframework.http.HttpStatus;
+import java.util.List;
 
 public abstract class GenericRestController<T extends GenericEntity<T>> {
 
@@ -32,6 +33,11 @@ public abstract class GenericRestController<T extends GenericEntity<T>> {
         };
     }
 
+
+    @GetMapping("/all")
+    public ResponseEntity<List<T>> getAll() {
+        return ResponseEntity.ok(service.getAll());
+    }
 
     @GetMapping("/{id}")
     public ResponseEntity<T> getOne(@PathVariable String id) {

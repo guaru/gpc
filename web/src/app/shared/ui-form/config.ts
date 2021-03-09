@@ -4,9 +4,12 @@ import {
   maxlengthValidationMessage,
   maxValidationMessage,
   minlengthValidationMessage,
-  minValidationMessage
+  minValidationMessage,
 } from './helpers/validations-messages';
 
+import {
+   emailValidation
+} from './helpers/validators'
 
 const appearance: MatFormFieldDefaultOptions = {
   appearance: "standard"
@@ -20,10 +23,11 @@ export const config: ConfigOption = {
     { name: 'maxlength', message: maxlengthValidationMessage },
     { name: 'min', message: minValidationMessage },
     { name: 'max', message: maxValidationMessage },
-    { name: 'maximumMoneyValidation', message: 'should be 100' }
+    { name: 'maximumMoneyValidation', message: 'should be 100' },
+    { name: 'email', message:'Ingrese un correo electrónico valido'}
   ],
   validators : [
-
+    { name: 'email', validation: emailValidation}
   ]
 };
 
