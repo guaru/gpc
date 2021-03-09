@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { Url } from '../core/enums/Url';
-import { AreaFormComponent } from './areas/area-form/area-form.component';
 import { AreasComponent } from './areas/areas.component';
 import { FunctionsComponent } from './functions/functions.component';
 

@@ -1,0 +1,19 @@
+<h2 mat-dialog-title>{{officeFormService._title}} </h2>
+
+  <mat-dialog-content [formGroup]="officeFormService._form">
+          <formly-form [model]="officeFormService._model" [fields]="officeFormService._fields"
+            [options]="officeFormService._options" [form]="officeFormService._form"></formly-form>
+  </mat-dialog-content>
+
+  <mat-dialog-actions>
+        <div class="col-2">
+          <gpc-button-cancel (clickEvent)="onCancel()"></gpc-button-cancel>
+        </div>
+        <div class="col-2"></div>
+        <div class="col-2">
+          <gpc-button-delete [disabled]="officeFormService._model?.id!=''"></gpc-button-delete>
+        </div>
+        <div class="col-2">
+          <gpc-button-submit [disabled]="!officeFormService._form.valid" (eventClick)="onSave()"></gpc-button-submit>
+        </div>
+  </mat-dialog-actions>

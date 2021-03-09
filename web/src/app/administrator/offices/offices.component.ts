@@ -1,6 +1,7 @@
 import { AfterViewInit, Component, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
+import { IEnabled } from 'src/app/core/interface/IEnabled';
 import { GlobalConstantsService } from 'src/app/core/services/global-constants.service';
 import { OfficeService } from './office.service';
 
@@ -21,10 +22,23 @@ export class OfficesComponent implements  AfterViewInit   {
     this.officeService.initTable(this.sort, this.paginator);
   }
 
-  onChangeEnabled($event:boolean){
-    console.log($event);
+  onChangeEnabled($event:boolean,id:string){
+    let ienabled:IEnabled = { id : id,enabled : $event };
+     this.officeService.enabled(ienabled);
   }
 
+  onCreate(){
+    this.officeService.create();
+  }
+
+  onUpdate(id:string){
+      this.officeService.update(id);
+      this.paginator.firstPage();
+  }
+
+  onDelete(id:string){
+     this.officeService.delete(id);
+  }
 
 
 }

@@ -11,16 +11,18 @@ import { SharedMaterialModule } from '../shared/shared-material.module';
 import { FunctionsComponent } from './functions/functions.component';
 import { AreasComponent } from './areas/areas.component';
 import { AreaFormComponent } from './areas/area-form/area-form.component';
+import { OfficeFormComponent } from './offices/office-form/office-form.component';
 
 @NgModule({
-  declarations: [UsersComponent, AdministratorComponent, OfficesComponent, FunctionsComponent, AreasComponent, AreaFormComponent],
+  declarations: [UsersComponent, AdministratorComponent, OfficesComponent, FunctionsComponent, AreasComponent, AreaFormComponent,OfficeFormComponent],
   exports: [
     UsersComponent,
     AdministratorComponent,
     OfficesComponent,
     FunctionsComponent,
     AreasComponent,
-    AreaFormComponent
+    AreaFormComponent,
+    OfficeFormComponent
   ],
   imports: [
     CommonModule,
