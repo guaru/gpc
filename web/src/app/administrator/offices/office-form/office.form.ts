@@ -15,7 +15,6 @@ export let fields: FormlyFieldConfig[] = [
       maxLength:50
     }
   },
-
   {
     key: 'key',
     type: 'input',
@@ -27,7 +26,22 @@ export let fields: FormlyFieldConfig[] = [
       maxLength:4
     },
 
-  },{
+  },
+  {
+    key: 'state',
+    type: 'select',
+    templateOptions: {
+      label: 'Estado',
+      placeholder: 'Seleccione estado',
+      description: '',
+      required: true,
+      options: [],
+        valueProp: 'id',
+        labelProp: 'name'
+    },
+
+  },
+  {
     key:"enabled",
     type: 'toggle',
     templateOptions: {

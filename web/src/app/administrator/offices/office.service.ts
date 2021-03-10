@@ -89,6 +89,7 @@ export class OfficeService {
 
   public create(){
     this.selectedOffice = new Office();
+    this.selectedOffice.enable = true;
     this.openDialog();
   }
 

@@ -3,12 +3,13 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { IEnabled } from 'src/app/core/interface/IEnabled';
 import { GlobalConstantsService } from 'src/app/core/services/global-constants.service';
+import { OfficeHttpService } from './office-http.service';
 import { OfficeService } from './office.service';
 
 @Component({
   selector: 'gpc-offices',
   templateUrl: './offices.component.html',
-  providers:[OfficeService]
+  providers:[OfficeService, OfficeHttpService]
 })
 export class OfficesComponent implements  AfterViewInit   {
 

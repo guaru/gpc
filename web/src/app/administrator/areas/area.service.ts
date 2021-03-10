@@ -95,6 +95,7 @@ export class AreaService {
 
   public create(){
     this.selectedArea = new Area();
+    this.selectedArea.enabled = true;
     this.openDialog();
   }
 

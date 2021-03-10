@@ -28,6 +28,7 @@ public class ConstantDomain {
     public final static String FIELD_PASSWORD = "password";
     public final static String FIELD_EMAIL = "email";
     public final static String FIELD_NUMBER_ESTATE = "numberState";
+    public final static String FIELD_NUMBER_MUNICIPALITY = "numberMunicipality";
     public final static String FIELD_ADDRESS = "address";
     public final static String FIELD_KEY = "key";
 
