@@ -21,8 +21,10 @@ export class UserFormComponent implements OnInit {
 
   }
 
-  onSave(){
-      console.log(this.userFormService._model);
+  async onSave(){
+     let user:User | null = await this.userFormService.save();
+     if(user!=null)
+       this.dialogRef.close(user);
   }
 
   onCancel(){

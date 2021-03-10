@@ -7,6 +7,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { GlobalConstantsService } from 'src/app/core/services/global-constants.service';
 import { UserHttpService } from './user-http.service';
+import { IEnabled } from 'src/app/core/interface/IEnabled';
 
 @Component({
   selector: 'gpc-users',
@@ -28,13 +29,21 @@ export class UsersComponent implements AfterViewInit  {
     this.userService.initTable(this.sort,this.paginator);
   }
 
-  onChangeEnabled($event: boolean) {
-    console.log($event);
+
+  onChangeEnabled($event: boolean, id: string) {
+      let ienabled: IEnabled = { id: id, enabled: $event };
+      this.userService.enabled(ienabled);
   }
 
   onCreate(){
     this.userService.create();
   }
+
+  onDelete(id:string){
+     this.userService.delete(id);
+
+  }
+
 
 
 

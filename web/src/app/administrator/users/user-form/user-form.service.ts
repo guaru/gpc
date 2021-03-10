@@ -3,11 +3,12 @@ import { FormGroup } from '@angular/forms';
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
 import { Observable, of } from 'rxjs';
 import { Label } from 'src/app/core/enums/Label';
+import { Authoritie } from 'src/app/core/models/authorite.model';
 import { User } from 'src/app/core/models/user.model';
 import { AlertService } from 'src/app/core/services/alert.service';
 import { CatalogHttpService } from 'src/app/core/services/catalog-http.service';
 import { SpinnerService } from 'src/app/shared/components/spinner/spinner.service';
-import {fields as FORM_FIELDS, options as FORM_OPTIONS} from './user.form'
+import { UserHttpService } from '../user-http.service';
 
 @Injectable()
 export class UserFormService {
@@ -21,13 +22,34 @@ export class UserFormService {
   constructor(
     private alertService:AlertService,
     private loadingService:SpinnerService,
-    private catalogService:CatalogHttpService
+    private catalogService:CatalogHttpService,
+    private userHttpService:UserHttpService
 
   ) {
      this._form =  new FormGroup({});
-     this._options =  FORM_OPTIONS;
+    this._options  = {};
      this.setFields();
    }
+
+   public save():Promise<User|null>{
+      return new Promise(resolve=>{
+        if(this._form.valid){
+          this._model.userName =  this._model.email;
+          this.loadingService.initLoading();
+          this.userHttpService.save(this._model).subscribe(data=>{
+              this.loadingService.endLoading();
+              resolve(data);
+          },error=>{
+               this.loadingService.endLoading();
+               this.alertService.error();
+              resolve(null);
+          });
+        }else
+            resolve(null);
+      });
+   }
+
+
 
    private setFields(){
      this._fields = [
@@ -60,7 +82,7 @@ export class UserFormService {
              type: 'input',
              key: 'email',
              templateOptions: {
-               label: Label.CORREO_ELECTRONICO,
+               label: Label.EMAIL,
                required: true,
                type: "email"
              },
@@ -74,7 +96,6 @@ export class UserFormService {
              key: 'phone',
              templateOptions: {
                label: Label.PHONE,
-               required: true,
                maxLength:10,
                minLength:10,
                type: 'tel'
@@ -88,21 +109,28 @@ export class UserFormService {
                label: Label.ROLES,
                required:true,
                multiple: true,
-               options: this.catalogService.getAutorithies(),
-               valueProp: 'id',
-               labelProp: 'name',
+               options:  this.catalogService.getAutorithies(),
              },
            },
-           /* {
+           {
               className: 'col-6',
               key: 'office',
-              type: 'autocomplete',
+             type: 'select',
               templateOptions: {
-                label: Label.OFFICE
-
+                label: Label.OFFICE,
+                required: true,
+                options: this.catalogService.getOffices()
               },
-            }*/
-
+            }
+           , {
+             className: 'col-3',
+             key: "enabled",
+             type: 'toggle',
+             templateOptions: {
+               label: Label.ENABLED,
+               description: '',
+             },
+           }
 
          ],
 

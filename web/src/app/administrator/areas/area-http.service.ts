@@ -25,7 +25,7 @@ export class AreaHttpService {
 
 
   public save(area:Area):Observable<Area>{
-    if(!Util.isEmpty(area.id||'')){
+    if(Util.isEmpty(area.id||'')){
       return this.http.post<Area>(`${this.globalEnv.env.URL_API}${ApiUri.AREAS}`, area).pipe(
         catchError(this.globalConstantHttpService.handleError),
       );

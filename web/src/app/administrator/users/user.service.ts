@@ -11,6 +11,9 @@ import { BehaviorSubject } from 'rxjs';
 import { UserHttpService } from './user-http.service';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { UserFormComponent } from './user-form/user-form.component';
+import { SpinnerService } from 'src/app/shared/components/spinner/spinner.service';
+import { AlertService } from 'src/app/core/services/alert.service';
+import { IEnabled } from 'src/app/core/interface/IEnabled';
 
 /**
  * SERVICE LOGIC USERS
@@ -20,7 +23,7 @@ import { UserFormComponent } from './user-form/user-form.component';
 @Injectable()
 export class UserService {
 
-  private _columns: string[] = ["Nombre", "Usuario","Activo"];// "Sucursal", "Roles"];
+  private _columns: string[] = ["name", "username","office","enabled","action"];// "Sucursal", "Roles"];
   private _users: User[];
   private  _pageRequest :PageRequest;
   private _resultsLength: number;
@@ -32,8 +35,10 @@ export class UserService {
 
 
 
-  constructor(private userHttpService:UserHttpService
-    , private dialog: MatDialog) {
+  constructor(private userHttpService:UserHttpService,
+    private dialog: MatDialog,
+    private loadingService:SpinnerService,
+    private alertService:AlertService) {
     this._users = [];
     this._pageRequest = new PageRequest();
     this._resultsLength = 0;
@@ -81,11 +86,43 @@ export class UserService {
     );
   }
 
+  async enabled(ienabled: IEnabled) {
+    this.loadingService.initLoading();
+    this.userHttpService.enabled(ienabled).subscribe(response => {
+      if (response) {
+        this.loadingService.endLoading();
+        this.alertService.success();
+      }
+    }, error => {
+      this.loadingService.endLoading()
+      this.alertService.error();
+    }
+    );
+  }
+
+
   public create(){
     this._selectUser =  new User();
     this.openDialog();
   }
 
+  async delete(id: string) {
+    const user = this._users.find(x=>x.id===id);
+
+    if (await this.alertService.confirm('Eliminara el usuario '+ user?.userName)) {
+      this.loadingService.initLoading();
+      this.userHttpService.delete(id).subscribe(response => {
+        if (response) {
+          this.loadingService.endLoading();
+          this.alertService.success();
+        }
+      }, error => {
+        this.loadingService.endLoading()
+        this.alertService.error();
+      }
+      );
+    }
+  }
 
   public get resultsLength(): number {
     return this._resultsLength;

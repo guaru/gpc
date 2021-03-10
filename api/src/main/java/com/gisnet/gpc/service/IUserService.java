@@ -63,4 +63,8 @@ public interface IUserService {
 
      User update(User source);
 
+     boolean delete(String id);
+
+     boolean enabled(String id, boolean enabled);
+
 }

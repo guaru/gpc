@@ -1,10 +1,11 @@
 export enum Label{
-  CORREO_ELECTRONICO="Correo electrónico",
+  EMAIL="Correo electrónico",
   PHONE = "Teléfono",
   NAME = "Nombre",
   LAST_NAME ="Apellidos",
   KEY = "Clave",
   OFFICE="Sucursal",
-  ROLES  = "Roles"
+  ROLES  = "Roles",
+  ENABLED= "Activo"
 
 }

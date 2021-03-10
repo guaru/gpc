@@ -60,7 +60,7 @@ export class AuthService {
       this._user.name = payload.firtName;
       this._user.lastName = payload.lastName;
       this._user.email = payload.email;
-      this._user.authorities = payload.authorities;
+      this._user.roles = payload.authorities;
       localStorage.setItem('user', JSON.stringify(this._user));
       localStorage.setItem('token', accessToken.access_token);
 
@@ -119,7 +119,7 @@ export class AuthService {
   public hasRole(role:string):boolean
   {
       if(this.isAuthenticated()){
-       let result =  this.user?.authorities?.filter(x=>x == role);
+       let result =  this.user?.roles?.filter(x=>x == role);
          return result && result.length > 0 || false;
       }
       return false;
