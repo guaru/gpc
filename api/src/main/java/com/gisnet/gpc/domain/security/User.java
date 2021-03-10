@@ -41,11 +41,9 @@ public class User extends Person implements Serializable, GenericEntity<User> {
     @JsonIgnore
     private String password;
 
-    
     @DBRef
     private List<Authoritie> authorities;
 
-    
     @DBRef
     private Set<Function> functions;
 
@@ -66,6 +64,7 @@ public class User extends Person implements Serializable, GenericEntity<User> {
         this.setAuthorities(source.getAuthorities());
         this.setLastName(source.getLastName());
         this.setEmail(source.getEmail());
+        this.setPhone(source.getPhone());
         this.setOffice(source.getOffice());
     }
 

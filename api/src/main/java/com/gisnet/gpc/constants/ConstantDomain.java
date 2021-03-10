@@ -20,6 +20,7 @@ public class ConstantDomain {
 
     // COLUMNS
     public final static String FIELD_NAME = "name";
+    public final static String FIELD_DESCRIPTION =  "description";
     public final static String FIELD_LASTNAME = "lastName";
     public final static String FIELD_URL = "url";
     public final static String FIELD_ICON = "icon";

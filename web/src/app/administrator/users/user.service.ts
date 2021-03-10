@@ -106,9 +106,14 @@ export class UserService {
     this.openDialog();
   }
 
+  public update(id:string)
+  {
+      this._selectUser =  this._users.find(_=>_.id === id) || new User();
+      this.openDialog();
+  }
+
   async delete(id: string) {
     const user = this._users.find(x=>x.id===id);
-
     if (await this.alertService.confirm('Eliminara el usuario '+ user?.userName)) {
       this.loadingService.initLoading();
       this.userHttpService.delete(id).subscribe(response => {

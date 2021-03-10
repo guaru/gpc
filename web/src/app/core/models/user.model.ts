@@ -9,6 +9,7 @@ export class User extends Person
       public id?:string,
       public userName?:string,
       public password?:string,
+      public phone?:string,
       public authorities?: Authoritie[],
       public roles?:string[],
       public office?:Office,

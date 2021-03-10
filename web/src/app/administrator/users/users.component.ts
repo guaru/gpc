@@ -12,37 +12,41 @@ import { IEnabled } from 'src/app/core/interface/IEnabled';
 @Component({
   selector: 'gpc-users',
   templateUrl: './users.component.html',
-  providers:[UserService,UserHttpService]
+  providers: [UserService, UserHttpService]
 })
-export class UsersComponent implements AfterViewInit  {
+export class UsersComponent implements AfterViewInit {
 
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(public userService:UserService,public constantService:GlobalConstantsService) { }
+  constructor(public userService: UserService, public constantService: GlobalConstantsService) { }
 
 
 
   ngAfterViewInit() {
     this.sort.sortChange.subscribe(() => this.paginator.pageIndex = 0);
-    this.userService.initTable(this.sort,this.paginator);
+    this.userService.initTable(this.sort, this.paginator);
   }
 
 
   onChangeEnabled($event: boolean, id: string) {
-      let ienabled: IEnabled = { id: id, enabled: $event };
-      this.userService.enabled(ienabled);
+    let ienabled: IEnabled = { id: id, enabled: $event };
+    this.userService.enabled(ienabled);
   }
 
-  onCreate(){
+  onCreate() {
     this.userService.create();
   }
 
-  onDelete(id:string){
-     this.userService.delete(id);
-
+  onDelete(id: string) {
+    this.userService.delete(id);
   }
+
+  onUpdate(id: string) {
+    this.userService.update(id);
+  }
+
 
 
 

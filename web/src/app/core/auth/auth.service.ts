@@ -56,7 +56,7 @@ export class AuthService {
     return new Promise(   ( resolve)=> {
       let payload = this.getInfoToken(accessToken.access_token);
       this._user = new User();
-      this._user.username = accessToken.username;
+      this._user.userName = accessToken.username;
       this._user.name = payload.firtName;
       this._user.lastName = payload.lastName;
       this._user.email = payload.email;
@@ -82,7 +82,7 @@ export class AuthService {
 
 
  public get user():User | null{
-   return this._user != null && this._user.username ? this._user :
+   return this._user != null && this._user.userName ? this._user :
      localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')||'') as User
            : null;
   }

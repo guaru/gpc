@@ -21,7 +21,7 @@ export class CatalogHttpService {
   public getAutorithies(): Observable<any>{
     return  this.http.get<Authoritie[]>(`${this.globalEnv.env.URL_API}${ApiUri.AUTHORITIES}/all`).pipe(
       map(_ => {
-              return _.map(x=>{ return {label:x.name,value:x} })
+              return _.map(x=>{ return {label:x.description,value:x.id} })
             }),
       catchError(this.globalConstHttp.handleError)
     );
@@ -30,9 +30,9 @@ export class CatalogHttpService {
 
   public getOffices(): Observable<any>{
     return this.http.get<Office[]>(`${this.globalEnv.env.URL_API}${ApiUri.OFFICES}/all`).pipe(
-      map(_ => {
-        return _.map(x => { return { label: x.key +' - '+ x.name, value: x } })
-      }),
+     map(_ => {
+        return _.map(x => { return { label: x.key +' - '+ x.name, value: x.id } })
+     }),
       catchError(this.globalConstHttp.handleError)
     );
   }
