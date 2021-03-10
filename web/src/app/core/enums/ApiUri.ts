@@ -2,5 +2,6 @@ export enum ApiUri{
    FUNCTIIONS='functions',
    AREAS='areas',
    AUTHORITIES='authorities',
-   OFFICES = 'offices'
+   OFFICES = 'offices',
+   USERS = 'users'
 }

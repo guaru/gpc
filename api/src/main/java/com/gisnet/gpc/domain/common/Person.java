@@ -19,7 +19,10 @@ public class Person {
     private String lastName;
 
     @Email
+    @NotEmpty
     private String email;
+
+    private String phone;
 
     private Boolean enabled;
 

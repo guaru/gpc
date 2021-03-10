@@ -26,6 +26,9 @@ public class Authoritie implements Serializable, GenericEntity<Authoritie> {
     @Field(name  = ConstantDomain.FIELD_NAME)
     private String name;
 
+    @Field(name = ConstantDomain.FIELD_DESCRIPTION)
+    private String description;
+
     @Field(name  = ConstantDomain.FIELD_ENABLED)
     private Boolean enabled;
 

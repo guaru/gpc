@@ -56,11 +56,11 @@ export class AuthService {
     return new Promise(   ( resolve)=> {
       let payload = this.getInfoToken(accessToken.access_token);
       this._user = new User();
-      this._user.username = accessToken.username;
+      this._user.userName = accessToken.username;
       this._user.name = payload.firtName;
       this._user.lastName = payload.lastName;
       this._user.email = payload.email;
-      this._user.authorities = payload.authorities;
+      this._user.roles = payload.authorities;
       localStorage.setItem('user', JSON.stringify(this._user));
       localStorage.setItem('token', accessToken.access_token);
 
@@ -82,7 +82,7 @@ export class AuthService {
 
 
  public get user():User | null{
-   return this._user != null && this._user.username ? this._user :
+   return this._user != null && this._user.userName ? this._user :
      localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')||'') as User
            : null;
   }
@@ -119,7 +119,7 @@ export class AuthService {
   public hasRole(role:string):boolean
   {
       if(this.isAuthenticated()){
-       let result =  this.user?.authorities?.filter(x=>x == role);
+       let result =  this.user?.roles?.filter(x=>x == role);
          return result && result.length > 0 || false;
       }
       return false;

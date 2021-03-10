@@ -105,4 +105,26 @@ public class UserDetailService implements IUserService, UserDetailsService {
         return user;
     }
 
+    @Override
+    public boolean delete(String id) {
+       Optional<User> user  = this.findById(id);
+       if(user.isPresent()){
+           this.iUserRepository.delete(user.get());
+           return true;
+       }
+       return false;
+    }
+
+    @Override
+    public boolean enabled(String id, boolean enabled) {
+        Optional<User> user = this.findById(id);
+        if(user.isPresent()){
+            User userEntity = user.get();
+            userEntity.enabled(enabled);
+            this.iUserRepository.save(userEntity);
+            return true;
+        }
+        return false;
+    }
+
 }
