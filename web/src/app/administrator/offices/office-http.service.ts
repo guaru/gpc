@@ -15,15 +15,16 @@ import { Util } from "src/app/core/utils/Util";
 export class OfficeHttpService {
     constructor(private http: HttpClient,
         private globalEnv: GlobalEnviromentService,
-        private globalConstantHttpService:GlobalConstantHttpService) 
+        private globalConstantHttpService:GlobalConstantHttpService)
         { }
-    
+
     public pages(pageRequest: PageRequest) {
         let options: HttpParams = Util.createRequestOption(pageRequest);
-        return this.http.get<PageResponse<Office>>(`${this.globalEnv.env.URL_API}${ApiUri.OFFICES}`, { params: options });
+        return this.http.get<PageResponse<Office>>(`${this.globalEnv.env.URL_API}${ApiUri.OFFICES}`, { params: options })
+          .pipe(catchError(this.globalConstantHttpService.handleError));
     }
-    
-    
+
+
     public save(office:Office):Observable<Office>{
         if(!Util.isEmpty(office.id||'')){
             return this.http.post<Office>(`${this.globalEnv.env.URL_API}${ApiUri.OFFICES}`, office).pipe(
@@ -34,16 +35,16 @@ export class OfficeHttpService {
             catchError(this.globalConstantHttpService.handleError),
             );
         }
-    
+
     }
-    
-    
+
+
     public delete(id:string): Observable<boolean> {
         return this.http.delete<boolean>(`${this.globalEnv.env.URL_API}${ApiUri.OFFICES}/${id}`).pipe(
             catchError(this.globalConstantHttpService.handleError),
         );
     }
-    
+
     public enabled(enabled:IEnabled):Observable<boolean>{
         return this.http.put<boolean>(`${this.globalEnv.env.URL_API}${ApiUri.OFFICES}/enabled`,enabled).pipe(
             catchError(this.globalConstantHttpService.handleError),

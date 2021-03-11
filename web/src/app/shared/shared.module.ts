@@ -14,6 +14,7 @@ import { SlideEnabledComponent } from './components/slide-enabled/slide-enabled.
 import { ButtonCreateComponent } from './components/button-create/button-create.component';
 import { ButtonCancelComponent } from './components/button-cancel/button-cancel.component';
 import { SpinnerComponent } from './components/spinner/spinner.component';
+import { SearchTextComponent } from './components/search-text/search-text.component';
 
 
 
@@ -27,7 +28,8 @@ import { SpinnerComponent } from './components/spinner/spinner.component';
     SlideEnabledComponent,
     ButtonCreateComponent,
     ButtonCancelComponent,
-    SpinnerComponent
+    SpinnerComponent,
+    SearchTextComponent
   ],
   exports:[
     BreadcrumbsComponent,
@@ -38,11 +40,13 @@ import { SpinnerComponent } from './components/spinner/spinner.component';
     ButtonCreateComponent,
     ButtonDeleteComponent,
     ButtonCancelComponent,
-    SpinnerComponent
+    SpinnerComponent,
+    SearchTextComponent
   ],
   imports: [
     CommonModule,
     SharedMaterialModule,
+    FormsModule,
     RouterModule,
   ]
 })

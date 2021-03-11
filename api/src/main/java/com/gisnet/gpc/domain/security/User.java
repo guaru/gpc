@@ -2,7 +2,6 @@ package com.gisnet.gpc.domain.security;
 
 import java.io.Serializable;
 import java.util.List;
-import java.util.Set;
 
 import javax.validation.constraints.NotEmpty;
 
@@ -44,8 +43,9 @@ public class User extends Person implements Serializable, GenericEntity<User> {
     @DBRef
     private List<Authoritie> authorities;
 
-    @DBRef
-    private Set<Function> functions;
+    @DBRef(lazy = true)
+    @JsonIgnore
+    private List<Function> functions;
 
     @DBRef
     private Office office;

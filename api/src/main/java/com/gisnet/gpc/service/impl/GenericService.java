@@ -20,7 +20,7 @@ public abstract class GenericService<T extends GenericEntity<T>> {
     }
 
     public List<T> getAll() {
-        return repository.findAll();
+        return repository.findByEnabledTrue();
     }
 
     public T get(String id) {

@@ -26,12 +26,13 @@ export class Util
       if (req.sortField !== '' && req.sortField !== undefined) {
         params = params.append('sort', req.sortField + ',' + (req.sortOrder === 1 ? 'asc' : 'desc'));
       }
-
-      for (let filtro of req.filters||[]) {
-        if (filtro[1] !== '' && filtro[1] !== null) {
-          params = params.append(filtro[0], filtro[1]);
+      if(req.filters){
+       for (let filtro  of req.filters!) {
+        if (filtro.value !== '' && filtro.value !== null && filtro.value!=undefined) {
+          params = params.append(filtro.name, filtro.value);
         }
-      }
+       }
+     }
     }
     return params;
   }

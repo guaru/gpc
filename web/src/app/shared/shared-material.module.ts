@@ -6,6 +6,7 @@ import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import {MatDialogModule} from '@angular/material/dialog'
+import { MatInputModule } from '@angular/material/input';
 
 const materialModules = [
 
@@ -15,7 +16,8 @@ const materialModules = [
   MatSortModule,
   MatTableModule,
   MatSlideToggleModule,
-  MatDialogModule
+  MatDialogModule,
+  MatInputModule
 ];
 
 @NgModule({

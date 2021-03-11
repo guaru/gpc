@@ -16,7 +16,6 @@ import { IEnabled } from 'src/app/core/interface/IEnabled';
 })
 export class UsersComponent implements AfterViewInit {
 
-
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
@@ -24,11 +23,10 @@ export class UsersComponent implements AfterViewInit {
 
 
 
-  ngAfterViewInit() {
+  ngAfterViewInit():void  {
     this.sort.sortChange.subscribe(() => this.paginator.pageIndex = 0);
     this.userService.initTable(this.sort, this.paginator);
   }
-
 
   onChangeEnabled($event: boolean, id: string) {
     let ienabled: IEnabled = { id: id, enabled: $event };
@@ -47,9 +45,8 @@ export class UsersComponent implements AfterViewInit {
     this.userService.update(id);
   }
 
-
-
-
-
+  onSearch(filter:string){
+     this.userService.search(filter);
+  }
 
 }

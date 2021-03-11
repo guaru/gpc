@@ -16,7 +16,16 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { UserFormComponent } from './users/user-form/user-form.component';
 
 @NgModule({
-  declarations: [UsersComponent, AdministratorComponent, OfficesComponent, FunctionsComponent, AreasComponent, AreaFormComponent, DashboardComponent, UserFormComponent,OfficeFormComponent],
+  declarations: [UsersComponent,
+     AdministratorComponent,
+     OfficesComponent,
+     FunctionsComponent,
+     AreasComponent,
+     AreaFormComponent,
+     DashboardComponent,
+     UserFormComponent,
+     OfficeFormComponent],
+
   exports: [
     UsersComponent,
     AdministratorComponent,

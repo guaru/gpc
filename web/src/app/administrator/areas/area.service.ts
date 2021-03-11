@@ -27,10 +27,10 @@ export class AreaService {
   private _resultsLength: number;
   public isFormActive:boolean = false;
   public selectedArea: Area;
+  private _searchSubject =new   BehaviorSubject<string>('');
+  private _search$ = this._searchSubject.asObservable();
 
 
-  private loadingSubject = new BehaviorSubject<boolean>(false);
-  public loading$ = this.loadingSubject.asObservable();
 
   constructor(private areaHttpService: AreaHttpService,
     private dialog: MatDialog,
@@ -44,7 +44,7 @@ export class AreaService {
 
   public initTable(sort: MatSort, paginator: MatPaginator) {
 
-    merge(sort.sortChange, paginator.page)
+    merge(sort.sortChange, paginator.page,this._search$)
       .pipe(
         startWith({}),
         delay(0),
@@ -53,19 +53,19 @@ export class AreaService {
           return this.getPages(paginator.pageIndex, paginator.pageSize);
         }),
         map((data: PageResponse<Area>) => {
-          this.loadingSubject.next(false);
+          this.loadingService.endLoading();
           this._resultsLength = data.totalElements || 0;
           return data.content || [];
         }),
         catchError(() => {
-          this.loadingSubject.next(false);
+          this.loadingService.endLoading();
           return observableOf([]);
         })
     ).subscribe(data => this._areas = data);
   }
 
   public getPages(offset: number, limit: number) {
-    this.loadingSubject.next(true);
+    this.loadingService.initLoading();
     this._pageRequest.offset = offset;
     this._pageRequest.limit = limit;
     return this.areaHttpService.pages(this._pageRequest);
@@ -82,11 +82,7 @@ export class AreaService {
     dialogRef.afterClosed().subscribe(
       (data:Area) => {
         if(data){
-          const index:number = this._areas.findIndex(x => x.id===data.id);
-          if(index > -1)
-              this._areas[index] =  data;
-          else
-              this._areas.push(data);
+          this.reload();
         }
       }
     );
@@ -109,11 +105,11 @@ export class AreaService {
   {
    if(await this.alertService.confirm('Si elimina el área, las sucursales no podran utilizarla')){
      this.loadingService.initLoading();
-     this.areaHttpService.delete(id).subscribe(response => {
+     this.areaHttpService.delete(id).subscribe(async response => {
        if(response){
           this.loadingService.endLoading();
-          this.alertService.success();
-          this._areas = this._areas.filter(x => x.id != id);
+          await this.alertService.success();
+          this.reload();
        }
      }, error => {
          this.loadingService.endLoading()
@@ -136,6 +132,15 @@ export class AreaService {
       }
       );
   }
+
+  public search(filter:string){
+    this._searchSubject.next(filter);
+  }
+
+  public reload() {
+    this._searchSubject.next('');
+  }
+
 
   public get resultsLength(): number {
     return this._resultsLength;
