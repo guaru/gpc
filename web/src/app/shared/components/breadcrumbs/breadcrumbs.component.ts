@@ -10,9 +10,12 @@ import { filter, map } from 'rxjs/operators';
 })
 export class BreadcrumbsComponent {
 
-  name: string ;
+  name: string;
+  icon:string;
   constructor(private router:Router) {
     this.name = '';
+    this.icon = '';
+
     this.getDataRouter();
   }
 
@@ -24,6 +27,7 @@ export class BreadcrumbsComponent {
       )
       .subscribe(data => {
         this.name = data.name;
+        this.icon =  data.icon;
       });
   }
 

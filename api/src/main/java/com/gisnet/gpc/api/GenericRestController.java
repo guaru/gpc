@@ -9,6 +9,9 @@ import com.gisnet.gpc.domain.common.GenericEntity;
 import com.gisnet.gpc.dto.EnabledDTO;
 import com.gisnet.gpc.repository.repository.IGenericRepository;
 import com.gisnet.gpc.service.impl.GenericService;
+import com.mongodb.MongoSocketOpenException;
+import com.mongodb.MongoSocketWriteException;
+import com.mongodb.MongoTimeoutException;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -21,6 +24,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.validation.FieldError;
+import org.springframework.dao.DataAccessResourceFailureException;
 import org.springframework.http.HttpStatus;
 import java.util.List;
 
@@ -77,4 +81,39 @@ public abstract class GenericRestController<T extends GenericEntity<T>> {
         });
         return errors;
     }
+
+    @ResponseStatus(HttpStatus.REQUEST_TIMEOUT)
+    @ExceptionHandler(DataAccessResourceFailureException.class)
+    public Map<String, String> handleValidationExceptions(DataAccessResourceFailureException ex) {
+        Map<String, String> errors = new HashMap<>();
+        errors.put("TIME_OUT", "TIMEOUT_DATABASE");
+        return errors;
+    }
+
+    @ResponseStatus(HttpStatus.REQUEST_TIMEOUT)
+    @ExceptionHandler(MongoSocketWriteException.class)
+    public Map<String, String> handleValidationExceptions(MongoSocketWriteException ex) {
+        Map<String, String> errors = new HashMap<>();
+        errors.put("TIME_OUT", "TIMEOUT_DATABASE");
+        return errors;
+    }
+
+    @ResponseStatus(HttpStatus.REQUEST_TIMEOUT)
+    @ExceptionHandler(MongoSocketOpenException.class)
+    public Map<String, String> handleValidationExceptions(MongoSocketOpenException ex) {
+        Map<String, String> errors = new HashMap<>();
+        errors.put("TIME_OUT", "DATASOURCE_NOT_OPEN");
+        return errors;
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(NullPointerException.class)
+    public Map<String, String> handleValidationExceptions(NullPointerException ex) {
+        Map<String, String> errors = new HashMap<>();
+        errors.put("NULL", "DATA NULL VALIDATE");
+        return errors;
+    }
+
+    
+
 }

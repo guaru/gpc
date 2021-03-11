@@ -14,6 +14,7 @@ import { UserFormComponent } from './user-form/user-form.component';
 import { SpinnerService } from 'src/app/shared/components/spinner/spinner.service';
 import { AlertService } from 'src/app/core/services/alert.service';
 import { IEnabled } from 'src/app/core/interface/IEnabled';
+import { IFilter } from 'src/app/core/interface/IFilter';
 
 /**
  * SERVICE LOGIC USERS
@@ -28,10 +29,9 @@ export class UserService {
   private  _pageRequest :PageRequest;
   private _resultsLength: number;
   private _selectUser!:User;
-
-
-  private loadingSubject = new BehaviorSubject<boolean>(false);
-  public loading$ = this.loadingSubject.asObservable();
+  private searchSubject = new BehaviorSubject<string>('');
+  public search$ =  this.searchSubject.asObservable();
+  paginator!: MatPaginator;
 
 
 
@@ -41,12 +41,15 @@ export class UserService {
     private alertService:AlertService) {
     this._users = [];
     this._pageRequest = new PageRequest();
+    this._pageRequest.filters = [{ name: 'userName' }] as IFilter[];
     this._resultsLength = 0;
+
 
   }
 
   public initTable(sort: MatSort, paginator: MatPaginator){
-    merge(sort.sortChange, paginator.page)
+    this.paginator = paginator;
+    merge(sort.sortChange, paginator.page,this.search$)
       .pipe(
         startWith({}),
         delay(0),
@@ -54,19 +57,20 @@ export class UserService {
           return this.getPages(paginator.pageIndex,paginator.pageSize);
         }),
         map((data: PageResponse<User>) => {
-          this.loadingSubject.next(false);
+
+          this.loadingService.endLoading();
           this._resultsLength = data.totalElements || 0;
           return data.content || [];
         }),
         catchError(() => {
-          this.loadingSubject.next(false);
+          this.loadingService.endLoading();
           return observableOf([]);
         })
       ).subscribe(data => this._users = data);
   }
 
   public getPages(offset:number,limit:number){
-    this.loadingSubject.next(true);
+    this.loadingService.initLoading();
     this._pageRequest.offset = offset;
     this._pageRequest.limit = limit;
     return this.userHttpService.page(this._pageRequest);
@@ -81,7 +85,8 @@ export class UserService {
     const dialogRef = this.dialog.open(UserFormComponent, dialogConfig);
     dialogRef.afterClosed().subscribe(
       (data: User) => {
-
+        if(data)
+         this.reload();
       }
     );
   }
@@ -116,10 +121,11 @@ export class UserService {
     const user = this._users.find(x=>x.id===id);
     if (await this.alertService.confirm('Eliminara el usuario '+ user?.userName)) {
       this.loadingService.initLoading();
-      this.userHttpService.delete(id).subscribe(response => {
+      this.userHttpService.delete(id).subscribe(async response => {
         if (response) {
           this.loadingService.endLoading();
-          this.alertService.success();
+          await this.alertService.success();
+          this.reload();
         }
       }, error => {
         this.loadingService.endLoading()
@@ -127,6 +133,17 @@ export class UserService {
       }
       );
     }
+  }
+
+  public search(filter:string)
+  {
+      this._pageRequest.filters![0].value = filter;
+      this.searchSubject.next(filter);
+  }
+
+  public reload()
+  {
+    this.searchSubject.next('');
   }
 
   public get resultsLength(): number {

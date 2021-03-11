@@ -1,9 +1,11 @@
 package com.gisnet.gpc.domain.security;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.validation.constraints.NotEmpty;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.gisnet.gpc.constants.ConstantDomain;
 import com.gisnet.gpc.domain.common.GenericEntity;
 
@@ -32,6 +34,10 @@ public class Authoritie implements Serializable, GenericEntity<Authoritie> {
     @Field(name  = ConstantDomain.FIELD_ENABLED)
     private Boolean enabled;
 
+    @Field(name = ConstantDomain.FIELD_FUNCTIONS)
+    @JsonIgnore
+    private List<String> functions;
+
     /**
     *
     */
@@ -41,6 +47,8 @@ public class Authoritie implements Serializable, GenericEntity<Authoritie> {
     public void update(Authoritie source) {
         this.name =  source.name;
         this.enabled =  source.enabled;
+        this.description =  source.description;
+        this.functions =  source.functions;
     }
 
     @Override

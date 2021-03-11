@@ -42,6 +42,10 @@ public class Function  implements Serializable,  GenericEntity<Function>{
     @DBRef
     private Function functionFather;
 
+    public Function(String id){
+        this.id =  id;
+    }
+
     /**
      * SERIAL ID
      */

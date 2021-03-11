@@ -3,22 +3,23 @@ package com.gisnet.gpc.security;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 import java.util.stream.Collectors;
 
-import com.gisnet.gpc.constants.ConstantDomain;
+import com.gisnet.gpc.domain.security.Authoritie;
 import com.gisnet.gpc.domain.security.Function;
-import com.gisnet.gpc.domain.security.QUser;
 import com.gisnet.gpc.domain.security.User;
 import com.gisnet.gpc.dto.FunctionDTO;
 import com.gisnet.gpc.repository.repository.IUserRepository;
+import com.gisnet.gpc.service.IAuthoritieService;
 import com.gisnet.gpc.service.IUserService;
+import com.gisnet.gpc.service.impl.AuthoritieService;
+import com.gisnet.gpc.util.PredicateUtil;
 import com.gisnet.gpc.util.Utils;
 import com.querydsl.core.BooleanBuilder;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.mongodb.core.query.TextCriteria;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -42,6 +43,12 @@ public class UserDetailService implements IUserService, UserDetailsService {
     @Autowired
     private IUserRepository iUserRepository;
 
+    @Autowired
+    private PredicateUtil<User> predicateUtil;
+
+    @Autowired
+    private IAuthoritieService iAuthoritieService;  
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         
@@ -52,16 +59,19 @@ public class UserDetailService implements IUserService, UserDetailsService {
 
     @Override
     public Page<User> findAllUsers(Pageable pageable, String name,Long officeId) {
-      QUser user  = new QUser(ConstantDomain.COLL_USERS);
-      BooleanBuilder where = new BooleanBuilder();
+      TextCriteria text = new TextCriteria();
+      text.caseSensitive(false);
+      text.matching(name);
+      BooleanBuilder where = new BooleanBuilder();  
       if(!Utils.isEmpty(name))
-         where.and(user.name.contains(name));
-         if(where.getValue()!=null)
+           where.and(this.predicateUtil.toTextPredicate(text,User.class));
+       if(where.getValue()!=null)
            return iUserRepository.findAll(where.getValue(), pageable);
         else 
             return iUserRepository.findAll(pageable);
     }
-
+    
+   
     @Override
     @Transactional(readOnly = true)
     public User findByUserName(String username) {
@@ -78,17 +88,23 @@ public class UserDetailService implements IUserService, UserDetailsService {
     public List<FunctionDTO> getFunctions(String username) {
         User user  =  iUserRepository.findByUserNameAndEnabledTrue(username);
         List<FunctionDTO> nav =  new ArrayList<FunctionDTO>();
-        Set<Function>  functions  =  user.getFunctions();
-        List<Function> fathers = functions.stream().filter(x->x.getFunctionFather()==null).collect(Collectors.toList());
-        fathers.forEach(x->{
-            List<Function> child = functions.stream().filter(i->i.getFunctionFather()!=null && i.getFunctionFather().getId().equals(x.getId())).collect(Collectors.toList());
-            nav.add(new FunctionDTO(x,child));
-        });
+        if(user.getFunctions()!=null){
+            List<Function> fathers = user.getFunctions().stream().filter(x -> x.getFunctionFather() == null)
+                    .collect(Collectors.toList());
+            fathers.forEach(x -> {
+                List<Function> child = user.getFunctions().stream()
+                        .filter(i -> i.getFunctionFather() != null && i.getFunctionFather().getId().equals(x.getId()))
+                        .collect(Collectors.toList());
+                nav.add(new FunctionDTO(x, child));
+            });
+        }
+      
         return nav;
     }
 
     @Override
     public User save(User user) {
+        user.setFunctions(this.parseFunctions(user.getAuthorities()));
         iUserRepository.save(user);
         return user;
     }
@@ -97,6 +113,7 @@ public class UserDetailService implements IUserService, UserDetailsService {
     public User update(User source) {
         User user = iUserRepository.findById(source.getId()).orElse(null);
         if(user!=null){
+            source.setFunctions(this.parseFunctions(source.getAuthorities()));
             user.update(source);
             iUserRepository.save(user);
         }else{
@@ -125,6 +142,20 @@ public class UserDetailService implements IUserService, UserDetailsService {
             return true;
         }
         return false;
+    }
+
+    private  List<Function> parseFunctions(List<Authoritie> authorities){
+        if(authorities==null || authorities.size()<=0)
+          return null;
+
+        List<Function> functions = new ArrayList<Function>();
+        authorities.stream().forEach(x -> {
+            Authoritie authoritie = this.iAuthoritieService.findOne(x.id);
+            authoritie.getFunctions().stream().forEach(functionId -> {
+                functions.add(new Function(functionId));
+            });
+        });
+        return functions;
     }
 
 }

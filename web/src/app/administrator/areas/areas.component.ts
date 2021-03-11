@@ -1,12 +1,8 @@
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
-import { Router } from '@angular/router';
-import { Url } from 'src/app/core/enums/Url';
 import { IEnabled } from 'src/app/core/interface/IEnabled';
-import { Area } from 'src/app/core/models/area.model';
 import { GlobalConstantsService } from 'src/app/core/services/global-constants.service';
-import { SpinnerService } from 'src/app/shared/components/spinner/spinner.service';
 import { AreaHttpService } from './area-http.service';
 import { AreaService } from './area.service';
 
@@ -23,7 +19,7 @@ export class AreasComponent implements AfterViewInit {
   constructor(public areaService: AreaService,
     public contantService:GlobalConstantsService) { }
 
-  ngAfterViewInit(): void {
+  ngAfterViewInit():void {
     this.sort.sortChange.subscribe(() => this.paginator.pageIndex = 0);
     this.areaService.initTable(this.sort, this.paginator);
   }
@@ -44,6 +40,10 @@ export class AreasComponent implements AfterViewInit {
 
   onDelete(id:string){
      this.areaService.delete(id);
+  }
+
+  onSearch(filter:string){
+    this.areaService.search(filter);
   }
 
 }

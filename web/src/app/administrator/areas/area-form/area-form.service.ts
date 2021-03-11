@@ -27,9 +27,9 @@ export class AreaFormService {
     return new Promise((resolve) => {
       if (this._form.valid) {
         this.loadService.initLoading();
-        this.areaHttpService.save(this._model).subscribe((data:Area) => {
+        this.areaHttpService.save(this._model).subscribe(async (data:Area) => {
           this.loadService.endLoading();
-          this.alertService.success();
+          await  this.alertService.success();
           resolve(data);
         }, error => {
           this.loadService.endLoading();

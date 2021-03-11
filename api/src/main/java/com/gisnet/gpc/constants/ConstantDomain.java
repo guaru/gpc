@@ -25,6 +25,7 @@ public class ConstantDomain {
     public final static String FIELD_URL = "url";
     public final static String FIELD_ICON = "icon";
     public final static String FIELD_ENABLED = "enabled";
+    public final static String FIELD_FUNCTIONS = "functions";
     public final static String FIELD_USERNAME = "userName";
     public final static String FIELD_PASSWORD = "password";
     public final static String FIELD_EMAIL = "email";

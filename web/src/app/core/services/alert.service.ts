@@ -1,3 +1,4 @@
+import { resolve } from '@angular/compiler-cli/src/ngtsc/file_system';
 import { Injectable } from '@angular/core';
 import Swal from 'sweetalert2';
 import { GlobalConstantsService } from './global-constants.service';
@@ -22,19 +23,24 @@ export class AlertService {
     });
   }
 
- public  success(msg?: string)
+ public  success(msg?: string):Promise<boolean>
  {
     msg = msg ? msg : "" ;// this.globalConstantsService.MSG_SUCCES_DEFAULT;
-   return Swal.fire({
-     title: 'Listo',
-     text: msg,
-     icon: 'success',
-     confirmButtonText: "Enterado",
-     buttonsStyling: false,
-     customClass: {
-       confirmButton: "btn btn-outline-danger"
-     }
-   });
+  return new Promise( (resolve) => {
+      Swal.fire({
+       title: 'Listo',
+       text: msg,
+       icon: 'success',
+       confirmButtonText: "Enterado",
+       buttonsStyling: false,
+       customClass: {
+         confirmButton: "btn btn-outline-danger"
+       }
+     }).then(()=>{
+       resolve(true);
+     });
+
+  });
  }
 
   public error(msg?: string) {
