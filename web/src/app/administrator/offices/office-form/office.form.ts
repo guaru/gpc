@@ -42,6 +42,20 @@ export let fields: FormlyFieldConfig[] = [
 
   },
   {
+    key: 'state',
+    type: 'select',
+    templateOptions: {
+      label: 'Estado',
+      placeholder: 'Seleccione estado',
+      description: '',
+      required: true,
+      options: [],
+        valueProp: 'id',
+        labelProp: 'name'
+    },
+
+  },
+  {
     key:"enabled",
     type: 'toggle',
     templateOptions: {
