@@ -26,7 +26,7 @@ export let fields: FormlyFieldConfig[]  = [
       label: Label.KEY,
       description: '',
       required: true,
-      maxLength:4
+      maxLength:5
     },
 
   },
@@ -62,6 +62,9 @@ export let fields: FormlyFieldConfig[]  = [
       label: Label.ADDRESS,
       description: '',
       required: true,
+      maxLength:150,
+      minRows:2,
+      maxRows:5
     },
   },
   {
