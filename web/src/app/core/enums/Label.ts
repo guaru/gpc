@@ -6,6 +6,10 @@ export enum Label{
   KEY = "Clave",
   OFFICE="Sucursal",
   ROLES  = "Roles",
-  ENABLED= "Activo"
+  ENABLED= "Activo",
+  AREA="Área",
+  STATE="Estado",
+  NUMBER_STATE="Num. de Estado",
+  ADDRESS="Dirección"
 
 }

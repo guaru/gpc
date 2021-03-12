@@ -41,5 +41,9 @@ export class OfficesComponent implements  AfterViewInit   {
      this.officeService.delete(id);
   }
 
+  onSearch(filter:string){
+    this.officeService.search(filter);
+ }
+
 
 }

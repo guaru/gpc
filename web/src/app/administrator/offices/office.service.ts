@@ -6,11 +6,12 @@ import { MatSort } from '@angular/material/sort';
 import { BehaviorSubject, merge, of as observableOf  } from 'rxjs';
 import { catchError, delay, map, startWith, switchMap } from 'rxjs/operators';
 import { IEnabled } from 'src/app/core/interface/IEnabled';
+import { IFilter } from 'src/app/core/interface/IFilter';
 import { Office } from 'src/app/core/models/office.model';
 import { PageRequest } from 'src/app/core/models/page-request.model';
 import { PageResponse } from 'src/app/core/models/page-response.model';
 import { AlertService } from 'src/app/core/services/alert.service';
-import { GlobalEnviromentService } from 'src/app/core/services/global-enviroment.service';
+import { CatalogHttpService } from 'src/app/core/services/catalog-http.service';
 import { Util } from 'src/app/core/utils/Util';
 import { SpinnerService } from 'src/app/shared/components/spinner/spinner.service';
 import { OfficeFormComponent } from './office-form/office-form.component';
@@ -19,17 +20,16 @@ import { OfficeHttpService } from './office-http.service';
 @Injectable()
 export class OfficeService {
 
-  private _columns: string[] = ["Nombre", "Clave","Direccion","Estado","Activa"];
+  private _columns: string[] = ["name", "key","address","state","enabled","action"];
   private _offices: Office[];
   private _pageRequest: PageRequest;
   private _resultsLength: number;
-  public selectedOffice: Office;
+  public selectedOffice!: Office;
 
+  private searchSubject = new BehaviorSubject<string>('');
+  public search$ =  this.searchSubject.asObservable();
 
-  private loadingSubject = new BehaviorSubject<boolean>(false);
-  public loading$ = this.loadingSubject.asObservable();
-
-
+  paginator!: MatPaginator;
 
 
   constructor(private officeHttpService: OfficeHttpService,
@@ -38,12 +38,14 @@ export class OfficeService {
     private alertService:AlertService) {
     this._offices = [];
     this._pageRequest = new PageRequest();
+    this._pageRequest.filters = [{ name: 'filter' }] as IFilter[];
     this._resultsLength = 0;
-    this.selectedOffice = new Office();
+
   }
 
   public initTable(sort: MatSort, paginator: MatPaginator) {
-    merge(sort.sortChange, paginator.page)
+    this.paginator = paginator;
+    merge(sort.sortChange, paginator.page,this.search$)
       .pipe(
         startWith({}),
         delay(0),
@@ -52,19 +54,19 @@ export class OfficeService {
           return this.getPages(paginator.pageIndex, paginator.pageSize);
         }),
         map((data: PageResponse<Office>) => {
-          this.loadingSubject.next(false);
+          this.loadingService.endLoading();
           this._resultsLength = data.totalElements || 0;
           return data.content || [];
         }),
         catchError(() => {
-          this.loadingSubject.next(false);
+          this.loadingService.endLoading();
           return observableOf([]);
         })
       ).subscribe(data => this._offices = data);
   }
 
   public getPages(offset: number, limit: number) {
-    this.loadingSubject.next(true);
+    this.loadingService.initLoading();
     this._pageRequest.offset = offset;
     this._pageRequest.limit = limit;
     return this.officeHttpService.pages(this._pageRequest);
@@ -80,8 +82,7 @@ export class OfficeService {
     dialogRef.afterClosed().subscribe(
       (data:Office) => {
         if(data){
-          this._offices = this._offices.filter(x => x.id != data.id);
-          this._offices.push(data);
+          this.reload();
         }
       }
     );
@@ -89,7 +90,7 @@ export class OfficeService {
 
   public create(){
     this.selectedOffice = new Office();
-    this.selectedOffice.enable = true;
+    this.selectedOffice.enabled = true;
     this.openDialog();
   }
 
@@ -117,6 +118,11 @@ export class OfficeService {
    }
   }
 
+  public reload()
+  {
+    this.searchSubject.next('');
+  }
+
   async enabled(ienabled:IEnabled){
       this.loadingService.initLoading();
       this.officeHttpService.enabled(ienabled).subscribe(response => {
@@ -129,6 +135,13 @@ export class OfficeService {
         this.alertService.error();
       }
       );
+  }
+
+  public search(filter:string)
+  {
+      debugger;
+      this._pageRequest.filters![0].value = filter;
+      this.searchSubject.next(filter);
   }
 
   public get resultsLength(): number {

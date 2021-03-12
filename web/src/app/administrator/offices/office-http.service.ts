@@ -26,7 +26,7 @@ export class OfficeHttpService {
 
 
     public save(office:Office):Observable<Office>{
-        if(!Util.isEmpty(office.id||'')){
+        if(Util.isEmpty(office.id||'')){
             return this.http.post<Office>(`${this.globalEnv.env.URL_API}${ApiUri.OFFICES}`, office).pipe(
             catchError(this.globalConstantHttpService.handleError),
             );

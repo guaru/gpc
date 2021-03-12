@@ -1,3 +1,4 @@
+import { Area } from "./area.model";
 import { State } from "./state.model";
 
 export class Office {
@@ -7,7 +8,8 @@ export class Office {
     public key?:string,
     public address?:string,
     public state?:State,
-    public enable?: boolean
+    public areas?:Area[],
+    public enabled?: boolean
 
   ){
 

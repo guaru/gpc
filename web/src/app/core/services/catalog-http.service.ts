@@ -4,8 +4,10 @@ import { Observable, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { ApiUri } from '../enums/ApiUri';
 import { Label } from '../enums/Label';
+import { Area } from '../models/area.model';
 import { Authoritie } from '../models/authorite.model';
 import { Office } from '../models/office.model';
+import { State } from '../models/state.model';
 import { GlobalConstantHttpService } from './global-constant-http.service';
 import { GlobalEnviromentService } from './global-enviroment.service';
 
@@ -30,6 +32,24 @@ export class CatalogHttpService {
 
   public getOffices(): Observable<any>{
     return this.http.get<Office[]>(`${this.globalEnv.env.URL_API}${ApiUri.OFFICES}/all`).pipe(
+     map(_ => {
+        return _.map(x => { return { label: x.key +' - '+ x.name, value: x.id } })
+     }),
+      catchError(this.globalConstHttp.handleError)
+    );
+  }
+
+  public getStates(): Observable<any>{
+    return this.http.get<State[]>(`${this.globalEnv.env.URL_API}${ApiUri.COMMUN}/getStates`).pipe(
+     map(_ => {
+        return _.map(x => { return { label: x.numberState +' - '+ x.name, value: x.id } })
+     }),
+      catchError(this.globalConstHttp.handleError)
+    );
+  }
+
+  public getAreas(): Observable<any>{
+    return this.http.get<Area[]>(`${this.globalEnv.env.URL_API}${ApiUri.AREAS}/all`).pipe(
      map(_ => {
         return _.map(x => { return { label: x.key +' - '+ x.name, value: x.id } })
      }),

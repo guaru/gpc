@@ -1,4 +1,8 @@
-<h2 mat-dialog-title>{{officeFormService._title}} </h2>
+<h2 mat-dialog-title>
+  <i class="mdi mdi-bank"></i>
+  {{officeFormService._title}}
+ <hr/>
+</h2>
 
   <mat-dialog-content [formGroup]="officeFormService._form">
           <formly-form [model]="officeFormService._model" [fields]="officeFormService._fields"

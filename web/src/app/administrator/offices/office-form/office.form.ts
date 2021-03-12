@@ -1,26 +1,29 @@
 import { FormlyFieldConfig, FormlyFormOptions } from "@ngx-formly/core";
+import { Label } from "src/app/core/enums/Label";
 
 
-export let options: FormlyFormOptions = {};
-export let fields: FormlyFieldConfig[] = [
+export let fields: FormlyFieldConfig[]  = [
+{
+  fieldGroupClassName: 'row',
+  fieldGroup: [
   {
+    className: 'col-6',
     key: 'name',
     type: 'input',
     focus: true,
     templateOptions: {
-      label: 'Nombre',
-      placeholder: 'Nombre',
+      label: Label.NAME,
       description: '',
       required: true,
       maxLength:50
     }
   },
   {
+    className: 'col-6',
     key: 'key',
     type: 'input',
     templateOptions: {
-      label: 'Clave',
-      placeholder: 'Clave',
+      label: Label.KEY,
       description: '',
       required: true,
       maxLength:4
@@ -28,34 +31,41 @@ export let fields: FormlyFieldConfig[] = [
 
   },
   {
+    className: 'col-6',
     key: 'state',
     type: 'select',
     templateOptions: {
-      label: 'Estado',
+      label: Label.STATE,
       placeholder: 'Seleccione estado',
       description: '',
-      required: true,
-      options: [],
-        valueProp: 'id',
-        labelProp: 'name'
+      required: true
     },
 
   },
   {
-    key: 'state',
+    className: 'col-6',
+    key: 'areas',
     type: 'select',
     templateOptions: {
-      label: 'Estado',
-      placeholder: 'Seleccione estado',
+      label: Label.AREA,
       description: '',
       required: true,
-      options: [],
-        valueProp: 'id',
-        labelProp: 'name'
+      multiple: true
     },
 
   },
   {
+    className: 'col-12',
+    key: 'address',
+    type: 'textarea',
+    templateOptions: {
+      label: Label.ADDRESS,
+      description: '',
+      required: true,
+    },
+  },
+  {
+    className: 'col-3',
     key:"enabled",
     type: 'toggle',
     templateOptions: {
@@ -65,4 +75,5 @@ export let fields: FormlyFieldConfig[] = [
   }
 
 
-];
+  ]
+}];

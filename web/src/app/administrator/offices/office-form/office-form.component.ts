@@ -16,7 +16,8 @@ export class OfficeFormComponent implements AfterViewChecked {
     private dialogRef: MatDialogRef<OfficeFormComponent>,
     @Inject(MAT_DIALOG_DATA) data:Office, private cdRef:ChangeDetectorRef) {
     this.officeFormService._title =  (data?.id!='' ? 'Crear' : 'Editar') + " Sucursal";
-    this.officeFormService._model =  data;
+    this.officeFormService.setModel(data);
+    this.officeFormService.buildFields();
   }
 
   ngAfterViewChecked()
