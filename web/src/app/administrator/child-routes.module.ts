@@ -11,7 +11,7 @@ import { UsersComponent } from './users/users.component';
 const childRoutes:Routes = [
   { path: '', component: DashboardComponent, data: { name: "Dashboard"}},
   { path: Url.USUARIOS, component: UsersComponent, data: { name: "Usuarios", icon: "mdi mdi-account-key"}},
-  { path: Url.SUCURSALES, component: OfficesComponent, data: { name: "Sucursales" }},
+  { path: Url.SUCURSALES, component: OfficesComponent, data: { name: "Sucursales", icon: "mdi mdi-home-map-marker" }},
   { path: Url.FUNCIONES, component: FunctionsComponent, data: { name: "Funciones" }},
   { path: Url.AREAS, component: AreasComponent, data: { name: "Áreas", icon:"mdi mdi-view-module"} },
 

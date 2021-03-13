@@ -40,6 +40,9 @@ public class User extends Person implements Serializable, GenericEntity<User> {
     @JsonIgnore
     private String password;
 
+    @Field(name = ConstantDomain.FIELD_SEND_EMAIL_REGISTER)
+    private Boolean sendEmailRegister;
+
     @DBRef
     private List<Authoritie> authorities;
 

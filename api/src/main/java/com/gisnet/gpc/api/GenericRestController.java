@@ -11,8 +11,6 @@ import com.gisnet.gpc.repository.repository.IGenericRepository;
 import com.gisnet.gpc.service.impl.GenericService;
 import com.mongodb.MongoSocketOpenException;
 import com.mongodb.MongoSocketWriteException;
-import com.mongodb.MongoTimeoutException;
-
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.DeleteMapping;

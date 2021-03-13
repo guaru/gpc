@@ -59,12 +59,14 @@ public interface IUserService {
      List<FunctionDTO> getFunctions(String username);
 
 
-     User save(User user);
+     User create(User user);
 
      User update(User source);
 
      boolean delete(String id);
 
      boolean enabled(String id, boolean enabled);
+
+     void sendMailRegister(User user);
 
 }
