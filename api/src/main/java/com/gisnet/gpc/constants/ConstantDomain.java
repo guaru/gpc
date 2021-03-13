@@ -16,6 +16,7 @@ public class ConstantDomain {
     public final static String COLL_OFFICES = "offices";
     public final static String COLL_AREAS = "areas";
     public final static String COLL_STATES = "states";
+    public final static String COLL_PARAMETERS = "parameters";
     public final static String COLL_MUNICIPALITIES = "municipalities";
 
     // COLUMNS
@@ -33,6 +34,8 @@ public class ConstantDomain {
     public final static String FIELD_NUMBER_MUNICIPALITY = "numberMunicipality";
     public final static String FIELD_ADDRESS = "address";
     public final static String FIELD_KEY = "key";
+    public final static String FIELD_SEND_EMAIL_REGISTER = "sendEmailRegister";
+    public final static String FIELD_VALUE = "value";
 
     // COLUMNS ID
     public final static String FIELD_ID = "id";

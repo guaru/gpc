@@ -11,7 +11,8 @@ import org.springframework.data.mongodb.repository.config.EnableMongoRepositorie
 
 @SpringBootApplication
 @EnableMongoRepositories
-public class GpcApplication extends SpringBootServletInitializer {
+public class GpcApplication //extends SpringBootServletInitializer 
+{
 
    @Autowired IUserRepository repository;
 	public static void main(String[] args) {
@@ -24,13 +25,13 @@ public class GpcApplication extends SpringBootServletInitializer {
 
 	}
 
-	@Override
+	/*@Override
 	protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
 		
 		return application.sources(applicationClass);
 	}
 
-	private static Class<GpcApplication> applicationClass = GpcApplication.class;
+	private static Class<GpcApplication> applicationClass = GpcApplication.class;*/
 
 
 

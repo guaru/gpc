@@ -14,7 +14,6 @@ const childRoutes:Routes = [
   { path: Url.SUCURSALES, component: OfficesComponent, data: { name: "Sucursales", icon: "mdi mdi-bank" }},
   { path: Url.FUNCIONES, component: FunctionsComponent, data: { name: "Funciones" }},
   { path: Url.AREAS, component: AreasComponent, data: { name: "Áreas", icon:"mdi mdi-view-module"} },
-
 ];
 
 @NgModule({

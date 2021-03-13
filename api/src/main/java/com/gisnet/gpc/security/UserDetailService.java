@@ -1,18 +1,24 @@
 package com.gisnet.gpc.security;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
+
+import javax.mail.MessagingException;
 
 import com.gisnet.gpc.domain.security.Authoritie;
 import com.gisnet.gpc.domain.security.Function;
 import com.gisnet.gpc.domain.security.User;
 import com.gisnet.gpc.dto.FunctionDTO;
+import com.gisnet.gpc.dto.MailDTO;
 import com.gisnet.gpc.repository.repository.IUserRepository;
 import com.gisnet.gpc.service.IAuthoritieService;
+import com.gisnet.gpc.service.IMailService;
 import com.gisnet.gpc.service.IUserService;
-import com.gisnet.gpc.service.impl.AuthoritieService;
 import com.gisnet.gpc.util.PredicateUtil;
 import com.gisnet.gpc.util.Utils;
 import com.querydsl.core.BooleanBuilder;
@@ -48,6 +54,9 @@ public class UserDetailService implements IUserService, UserDetailsService {
 
     @Autowired
     private IAuthoritieService iAuthoritieService;  
+
+    @Autowired
+    private IMailService iMailService;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -103,9 +112,10 @@ public class UserDetailService implements IUserService, UserDetailsService {
     }
 
     @Override
-    public User save(User user) {
+    public User create(User user) {
         user.setFunctions(this.parseFunctions(user.getAuthorities()));
         iUserRepository.save(user);
+        this.sendMailRegister(user);
         return user;
     }
 
@@ -156,6 +166,30 @@ public class UserDetailService implements IUserService, UserDetailsService {
             });
         });
         return functions;
+    }
+
+    @Override
+    public void sendMailRegister(User user) {
+        MailDTO mail = new MailDTO();
+        mail.setFrom("aventura@e-gisnet.com");// replace with your desired email
+        mail.setMailTo(user.getEmail());// replace with your desired email
+        mail.setSubject("Completar registro");
+
+        Map<String, Object> model = new HashMap<String, Object>();
+        model.put("name", "Developer!");
+        model.put("location", "United States");
+        model.put("sign", "Java Developer");
+        mail.setProps(model);
+
+        try {
+            iMailService.sendMail(mail);
+        } catch (MessagingException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
     }
 
 }

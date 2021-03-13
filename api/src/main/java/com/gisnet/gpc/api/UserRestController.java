@@ -1,16 +1,12 @@
 package com.gisnet.gpc.api;
 
 import java.util.Optional;
-import java.util.concurrent.TimeoutException;
-
 import javax.validation.Valid;
 import com.gisnet.gpc.constants.ConstantEnum;
 import com.gisnet.gpc.constants.ConstantWebApi;
 import com.gisnet.gpc.domain.security.User;
 import com.gisnet.gpc.dto.EnabledDTO;
 import com.gisnet.gpc.service.IUserService;
-import com.mongodb.MongoExecutionTimeoutException;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -51,7 +47,7 @@ public class UserRestController  {
 
     @PostMapping
     public ResponseEntity<?> create(@Valid @RequestBody User user){
-        return new ResponseEntity<>(userService.save(user),HttpStatus.OK);
+        return new ResponseEntity<>(userService.create(user),HttpStatus.OK);
     }
 
     @PutMapping

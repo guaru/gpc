@@ -1,16 +1,12 @@
 package com.gisnet.gpc.domain.catalogs;
 
 import java.io.Serializable;
-
 import javax.validation.constraints.NotEmpty;
-
 import com.gisnet.gpc.domain.common.GenericEntity;
 import com.querydsl.core.annotations.QueryEntity;
-
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
-
 import com.gisnet.gpc.constants.ConstantDomain;
 import lombok.Data;
 import lombok.NoArgsConstructor;

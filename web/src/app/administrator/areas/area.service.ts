@@ -7,6 +7,7 @@ import { BehaviorSubject , merge, of as observableOf} from 'rxjs';
 import { catchError, delay, map, startWith, switchMap } from 'rxjs/operators';
 import { ApiUri } from 'src/app/core/enums/ApiUri';
 import { IEnabled } from 'src/app/core/interface/IEnabled';
+import { IFilter } from 'src/app/core/interface/IFilter';
 import { Area } from 'src/app/core/models/area.model';
 import { PageRequest } from 'src/app/core/models/page-request.model';
 import { PageResponse } from 'src/app/core/models/page-response.model';
@@ -38,6 +39,7 @@ export class AreaService {
     private alertService:AlertService) {
     this._areas = [];
     this._pageRequest = new PageRequest();
+    this._pageRequest.filters = [{ name: 'filter' }]  as IFilter[];
     this._resultsLength = 0;
     this.selectedArea = new Area();
   }
@@ -134,6 +136,7 @@ export class AreaService {
   }
 
   public search(filter:string){
+    this._pageRequest.filters![0].value  = filter;
     this._searchSubject.next(filter);
   }
 

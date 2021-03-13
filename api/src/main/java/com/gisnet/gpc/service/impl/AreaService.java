@@ -27,7 +27,7 @@ public class AreaService implements IAreaService {
         QArea function = new QArea(ConstantDomain.COLL_FUNCTIONS);
         BooleanBuilder where = new BooleanBuilder();
         if (!Utils.isEmpty(filter))
-            where.and(function.name.contains(filter)).or(function.key.contains(filter));
+            where.and(function.name.containsIgnoreCase(filter)).or(function.key.containsIgnoreCase(filter));
 
         return where.getValue() != null ? areaRepository.findAll(where.getValue(), pageable)
                 : areaRepository.findAll(pageable);
