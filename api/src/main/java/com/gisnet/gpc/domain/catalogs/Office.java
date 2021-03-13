@@ -60,6 +60,7 @@ public class Office implements Serializable , GenericEntity<Office> {
         this.address =  source.address;
         this.enabled =  source.enabled;
         this.state =  source.state;
+        this.areas = source.areas;
     }
 
     @Override
