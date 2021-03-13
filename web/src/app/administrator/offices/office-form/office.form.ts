@@ -60,11 +60,10 @@ export let fields: FormlyFieldConfig[]  = [
     type: 'textarea',
     templateOptions: {
       label: Label.ADDRESS,
-      description: '',
+      rows: 3,
       required: true,
       maxLength:150,
-      minRows:2,
-      maxRows:5
+
     },
   },
   {
