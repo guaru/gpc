@@ -115,7 +115,7 @@ public class UserDetailService implements IUserService, UserDetailsService {
     public User create(User user) {
         user.setFunctions(this.parseFunctions(user.getAuthorities()));
         iUserRepository.save(user);
-        this.sendMailRegister(user);
+       // this.sendMailRegister(user);
         return user;
     }
 
@@ -161,9 +161,12 @@ public class UserDetailService implements IUserService, UserDetailsService {
         List<Function> functions = new ArrayList<Function>();
         authorities.stream().forEach(x -> {
             Authoritie authoritie = this.iAuthoritieService.findOne(x.id);
-            authoritie.getFunctions().stream().forEach(functionId -> {
-                functions.add(new Function(functionId));
-            });
+            if(!Utils.isEmpty(authoritie.getFunctions())){
+                authoritie.getFunctions().stream().forEach(functionId -> {
+                    functions.add(new Function(functionId));
+                });
+            }
+            
         });
         return functions;
     }

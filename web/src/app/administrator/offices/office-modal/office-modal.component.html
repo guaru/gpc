@@ -1,0 +1,10 @@
+<h2 mat-dialog-title>
+  <i class="mdi mdi-bank"></i>
+  {{_title}}
+ <hr/>
+</h2>
+
+  <mat-dialog-content >
+    <gpc-office-form [data]="data" (eventSave)="onSave($event)" (eventCancel)="onCancel()"></gpc-office-form>
+  </mat-dialog-content>
+

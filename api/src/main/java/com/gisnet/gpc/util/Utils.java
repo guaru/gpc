@@ -1,6 +1,7 @@
 package com.gisnet.gpc.util;
 
 import java.io.IOException;
+import java.util.List;
 
 import org.apache.commons.io.FileUtils;
 import org.springframework.core.io.ClassPathResource;
@@ -31,6 +32,11 @@ public class Utils {
 
     public static boolean isEmpty(Object obj){
            return ObjectUtils.isEmpty(obj);
+    }
+
+    public static boolean isEmpty(List<Object> list)
+    {
+            return list==null ||  ObjectUtils.isEmpty(list);
     }
 
 }

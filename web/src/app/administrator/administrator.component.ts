@@ -7,7 +7,9 @@ declare function  customFunctionInit():void;
 })
 export class AdministratorComponent implements OnInit {
 
-  constructor() { }
+  constructor() {
+    customFunctionInit();
+   }
 
   ngOnInit(): void {
     customFunctionInit();

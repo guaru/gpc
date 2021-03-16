@@ -51,4 +51,13 @@ export class OfficeHttpService {
         );
     }
 
+    public get(id: string):Observable<Office>{
+      return this.http.get<Office>(`${this.globalEnv.env.URL_API}${ApiUri.OFFICES}/${id}`)
+      .pipe(
+        catchError(this.globalConstantHttpService.handleError)
+      );
+    }
+
+
+
 }

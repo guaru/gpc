@@ -1,6 +1,7 @@
 package com.gisnet.gpc.domain.catalogs;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
 import javax.validation.constraints.NotEmpty;
@@ -27,24 +28,27 @@ import lombok.NoArgsConstructor;
 @Document(collection = ConstantDomain.COLL_OFFICES)
 @Data
 @NoArgsConstructor
-public class Office implements Serializable , GenericEntity<Office> {
+public class Office implements Serializable, GenericEntity<Office> {
 
     @Id
     private String id;
-    
     @NotEmpty
-    @Field(value  = ConstantDomain.FIELD_NAME)
-    private String name;   
+    @Field(value = ConstantDomain.FIELD_NAME)
+    private String name;
     @Field(value = ConstantDomain.FIELD_KEY)
     private String key;
-    @Field(value  = ConstantDomain.FIELD_ADDRESS)
+    @Field(value = ConstantDomain.FIELD_ADDRESS)
     private String address;
-    @Field(value  = ConstantDomain.FIELD_ENABLED)
+    @Field(value = ConstantDomain.FIELD_ENABLED)
     private Boolean enabled;
-
+    @Field(value = ConstantDomain.FIELD_DAYS_ATTENTION)
+    private List<String> daysOperation;
+    @Field(value = ConstantDomain.FIELD_INIT_TIME_ATTENTION)
+    private String initTimeAttention;
+    @Field(value = ConstantDomain.FIELD_END_TIME_ATTENTION)
+    private String endTimeAttention;
     @DBRef
     private State state;
-
     @DBRef
     private List<Area> areas;
 
@@ -55,18 +59,21 @@ public class Office implements Serializable , GenericEntity<Office> {
 
     @Override
     public void update(Office source) {
-        this.name =  source.name;
-        this.key = source.key;
-        this.address =  source.address;
-        this.enabled =  source.enabled;
-        this.state =  source.state;
-        this.areas = source.areas;
+        this.name = source.getName();
+        this.key = source.getKey();
+        this.address = source.getAddress();
+        this.enabled = source.getEnabled();
+        this.state = source.getState();
+        this.areas = source.getAreas();
+        this.daysOperation =  source.getDaysOperation();
+        this.initTimeAttention =  source.getInitTimeAttention();
+        this.endTimeAttention  = source.getEndTimeAttention();
     }
 
     @Override
     public Office createNewInstance() {
-        Office office =  new Office();
-         office.update(this);
+        Office office = new Office();
+        office.update(this);
         return office;
     }
 

@@ -6,6 +6,7 @@ import { ApiUri } from '../enums/ApiUri';
 import { Label } from '../enums/Label';
 import { Area } from '../models/area.model';
 import { Authoritie } from '../models/authorite.model';
+import { Day } from '../models/day.model';
 import { Office } from '../models/office.model';
 import { State } from '../models/state.model';
 import { GlobalConstantHttpService } from './global-constant-http.service';
@@ -20,7 +21,7 @@ export class CatalogHttpService {
     ,private globalEnv:GlobalEnviromentService
     ,private globalConstHttp:GlobalConstantHttpService) { }
 
-  public getAutorithies(): Observable<any>{
+  public getAutorithies(): Observable<any[]>{
     return  this.http.get<Authoritie[]>(`${this.globalEnv.env.URL_API}${ApiUri.AUTHORITIES}/all`).pipe(
       map(_ => {
               return _.map(x=>{ return {label:x.description,value:x.id} })
@@ -30,7 +31,7 @@ export class CatalogHttpService {
   }
 
 
-  public getOffices(): Observable<any>{
+  public getOffices(): Observable<any[]>{
     return this.http.get<Office[]>(`${this.globalEnv.env.URL_API}${ApiUri.OFFICES}/all`).pipe(
      map(_ => {
         return _.map(x => { return { label: x.key +' - '+ x.name, value: x.id } })
@@ -39,7 +40,7 @@ export class CatalogHttpService {
     );
   }
 
-  public getStates(): Observable<any>{
+  public getStates(): Observable<any[]>{
     return this.http.get<State[]>(`${this.globalEnv.env.URL_API}${ApiUri.COMMUN}/getStates`).pipe(
      map(_ => {
         return _.map(x => { return { label: x.numberState +' - '+ x.name, value: x.id } })
@@ -48,11 +49,20 @@ export class CatalogHttpService {
     );
   }
 
-  public getAreas(): Observable<any>{
+  public getAreas(): Observable<any[]>{
     return this.http.get<Area[]>(`${this.globalEnv.env.URL_API}${ApiUri.AREAS}/all`).pipe(
      map(_ => {
         return _.map(x => { return { label: x.key +' - '+ x.name, value: x.id } })
      }),
+      catchError(this.globalConstHttp.handleError)
+    );
+  }
+
+  public getDays(): Observable<any[]>{
+    return this.http.get<Day[]>(`${this.globalEnv.env.URL_API}${ApiUri.COMMUN}/getDays`).pipe(
+      map(_ => {
+        return _.map(x => { return { label:  x.name, value: x.id } })
+      }),
       catchError(this.globalConstHttp.handleError)
     );
   }

@@ -6,6 +6,8 @@ export interface ITokenInfo{
   firtName: string;
   jti: string;
   lastName:string;
+  officeId:string;
+  officeName: string;
   scope:string[];
   user_name: string;
 }

@@ -7,6 +7,7 @@ import { AdministratorRoutingModule } from './administrator/administrator.routin
 
 //COMPONENTS
 import { Component404 } from './core/404/404.component';
+import { OfficeRoutingModule } from './office/office.routing';
 
 
 const routes: Routes = [
@@ -20,6 +21,7 @@ const routes: Routes = [
     RouterModule.forRoot(routes),
     CoreRoutingModule,
     AdministratorRoutingModule,
+    OfficeRoutingModule
 
   ],
   exports: [RouterModule]

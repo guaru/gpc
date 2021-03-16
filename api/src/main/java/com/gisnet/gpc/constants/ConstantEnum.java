@@ -6,7 +6,7 @@ public class ConstantEnum {
   
     public enum Authoritie implements GrantedAuthority {
 
-        ROLE_ADMIN(Code.ROLE_ADMIN), ROLE_GESTOR(Code.ROLE_GESTOR);
+        ROLE_ADMIN(Code.ROLE_ADMIN), ROLE_ADMIN_OFFICE(Code.ROLE_ADMIN_OFFICE);
 
         private final String authority;
 
@@ -21,7 +21,7 @@ public class ConstantEnum {
 
         public class Code {
             public static final String ROLE_ADMIN = "ROLE_ADMIN";
-            public static final String ROLE_GESTOR = "ROLE_GESTOR";
+            public static final String ROLE_ADMIN_OFFICE = "ROLE_ADMIN_OFFICE";
         }
     }
     
