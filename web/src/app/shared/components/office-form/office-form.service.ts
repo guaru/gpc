@@ -4,7 +4,7 @@ import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
 import { Area } from 'src/app/core/models/area.model';
 import { SpinnerService } from 'src/app/shared/components/spinner/spinner.service';
 import { AlertService } from 'src/app/core/services/alert.service';
-import { OfficeHttpService } from '../../administrator/offices/office-http.service';
+import { OfficeHttpService } from '../../../administrator/offices/office-http.service';
 import { Office } from 'src/app/core/models/office.model';
 import { OfficeForm } from './office.form';
 import { CatalogHttpService } from 'src/app/core/services/catalog-http.service';

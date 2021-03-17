@@ -13,8 +13,6 @@ import { AreasComponent } from './areas/areas.component';
 import { AreaFormComponent } from './areas/area-form/area-form.component';
 import { OfficeModalComponent } from './offices/office-modal/office-modal.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
-import { UserFormComponent } from './users/user-form/user-form.component';
-import { OfficeFormModule } from '../common/office-form/office-form.module';
 
 @NgModule({
   declarations: [UsersComponent,
@@ -24,7 +22,6 @@ import { OfficeFormModule } from '../common/office-form/office-form.module';
      AreasComponent,
      AreaFormComponent,
      DashboardComponent,
-     UserFormComponent,
      OfficeModalComponent],
 
   exports: [
@@ -41,8 +38,7 @@ import { OfficeFormModule } from '../common/office-form/office-form.module';
     SharedModule,
     RouterModule,
     UiFormModule,
-    SharedMaterialModule,
-    OfficeFormModule
+    SharedMaterialModule
   ]
 })
 export class AdministratorModule { }

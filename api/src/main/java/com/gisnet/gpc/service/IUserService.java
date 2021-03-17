@@ -18,6 +18,7 @@ import java.util.Optional;
 import com.gisnet.gpc.domain.security.User;
 import com.gisnet.gpc.dto.FunctionDTO;
 
+import org.bson.types.ObjectId;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -68,5 +69,7 @@ public interface IUserService {
      boolean enabled(String id, boolean enabled);
 
      void sendMailRegister(User user);
+
+     List<User> getOperators(ObjectId officeId);
 
 }

@@ -1,7 +1,7 @@
 import { AfterViewChecked, ChangeDetectorRef, Component, EventEmitter, Inject, Input, OnInit, Output } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Office } from 'src/app/core/models/office.model';
-import { OfficeHttpService } from '../../administrator/offices/office-http.service';
+import { OfficeHttpService } from '../../../administrator/offices/office-http.service';
 import { OfficeFormService } from './office-form.service';
 
 @Component({

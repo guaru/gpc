@@ -12,5 +12,6 @@ export enum Url
     AREAS =   'areas',
     AREA = '/area',
     ID = "/:id",
-    CONFIGURACION  = "configuracion"
+    CONFIGURACION  = "configuracion",
+    OPERADORES = "operadores"
 }

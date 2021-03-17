@@ -28,6 +28,8 @@ export class UserHttpService {
     return this.http.get<PageResponse<User>>(`${this.globalEnv.env.URL_API}users`, { params: options });
   }
 
+
+
   public save(user:User):Observable<User>{
     if(Util.isEmpty(user.id||'')){
       return this.http.post<User>(`${this.globalEnv.env.URL_API}${ApiUri.USERS}`, user)
@@ -40,8 +42,8 @@ export class UserHttpService {
           catchError(this.globalConstantHttpService.handleError)
         );
     }
-
   }
+
 
   public enabled(enabled: IEnabled): Observable<boolean> {
     return this.http.put<boolean>(`${this.globalEnv.env.URL_API}${ApiUri.USERS}/enabled`, enabled).pipe(
@@ -53,6 +55,11 @@ export class UserHttpService {
     return this.http.delete<boolean>(`${this.globalEnv.env.URL_API}${ApiUri.USERS}/${id}`).pipe(
       catchError(this.globalConstantHttpService.handleError),
     );
+  }
+
+  public getOperators(officeId:string){
+    return this.http.get<User[]>(`${this.globalEnv.env.URL_API}${ApiUri.USERS}/operators/${officeId}`)
+    .pipe(catchError(this.globalConstantHttpService.handleError));
   }
 
 }

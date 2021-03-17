@@ -13,11 +13,11 @@
     </div>
     <div class="col-6">
       <label>Estado</label>
-      <h3>Veracruz</h3>
+      <h3>{{configurationService.office?.state?.name}}</h3>
     </div>
     <div class="col-6">
       <label>Dirección</label>
-      <h3>Luis encinaas 17, country club, Hermosillo</h3>
+      <h3>{{configurationService.office?.address}}</h3>
     </div>
 </div>
 <gpc-office-form  *ngIf="configurationService.office" [data]="configurationService.office" [modConfig]="true"></gpc-office-form>

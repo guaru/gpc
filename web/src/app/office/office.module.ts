@@ -6,20 +6,19 @@ import { UiFormModule } from '../shared/ui-form/ui-form.module';
 import { SharedMaterialModule } from '../shared/shared-material.module';
 import { OfficeComponent } from './office.component';
 import { ConfigurationComponent } from './configuration/configuration.component';
-import { OfficeFormModule } from '../common/office-form/office-form.module';
+import { OperadorComponent } from './operador/operador.component';
 
 
 
 @NgModule({
-  declarations: [OfficeComponent, ConfigurationComponent],
+  declarations: [OfficeComponent, ConfigurationComponent, OperadorComponent],
   exports:  [OfficeComponent],
   imports: [
     CommonModule,
     SharedModule,
     RouterModule,
     UiFormModule,
-    SharedMaterialModule,
-    OfficeFormModule
+    SharedMaterialModule
   ]
 })
 export class OfficeModule { }
