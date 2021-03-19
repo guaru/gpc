@@ -4,7 +4,7 @@ import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { BehaviorSubject, merge, of as observableOf  } from 'rxjs';
-import { catchError, delay, map, startWith, switchMap } from 'rxjs/operators';
+import { catchError, delay, map, startWith, switchMap, tap } from 'rxjs/operators';
 import { IEnabled } from 'src/app/core/interface/IEnabled';
 import { IFilter } from 'src/app/core/interface/IFilter';
 import { Office } from 'src/app/core/models/office.model';
@@ -14,7 +14,7 @@ import { AlertService } from 'src/app/core/services/alert.service';
 import { CatalogHttpService } from 'src/app/core/services/catalog-http.service';
 import { Util } from 'src/app/core/utils/Util';
 import { SpinnerService } from 'src/app/shared/components/spinner/spinner.service';
-import { OfficeFormComponent } from './office-form/office-form.component';
+import { OfficeModalComponent } from './office-modal/office-modal.component';
 import { OfficeHttpService } from './office-http.service';
 
 @Injectable()
@@ -78,7 +78,7 @@ export class OfficeService {
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
     dialogConfig.data = this.selectedOffice;
-    const dialogRef = this.dialog.open(OfficeFormComponent, dialogConfig);
+    const dialogRef = this.dialog.open(OfficeModalComponent, dialogConfig);
     dialogRef.afterClosed().subscribe(
       (data:Office) => {
         if(data){
@@ -118,6 +118,8 @@ export class OfficeService {
    }
   }
 
+
+
   public reload()
   {
     this.searchSubject.next('');
@@ -142,6 +144,12 @@ export class OfficeService {
       debugger;
       this._pageRequest.filters![0].value = filter;
       this.searchSubject.next(filter);
+  }
+
+  public get(id:string):Promise<Office>
+  {
+       this.loadingService.initLoading();
+      return  this.officeHttpService.get(id).pipe(tap(_=>this.loadingService.endLoading())).toPromise();
   }
 
   public get resultsLength(): number {

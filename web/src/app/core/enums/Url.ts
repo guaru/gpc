@@ -7,8 +7,12 @@ export enum Url
     ADMINISTRADOR = 'administrador',
     USUARIOS = 'usuarios',
     SUCURSALES = 'sucursales',
+    SUCURSAL = 'sucursal',
     FUNCIONES = 'funciones',
     AREAS =   'areas',
     AREA = '/area',
-    ID = "/:id"
+    ID = "/:id",
+    CONFIGURACION  = "configuracion",
+    OPERADORES = "operadores",
+    TURNADOR = 'turnador',
 }

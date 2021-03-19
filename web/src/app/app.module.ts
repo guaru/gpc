@@ -10,6 +10,8 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AdministratorModule } from './administrator/administrator.module';
+import { OfficeModule } from './office/office.module';
+import { TurnadorModule } from './turnador/turnador.module';
 
 
 
@@ -24,8 +26,10 @@ import { AdministratorModule } from './administrator/administrator.module';
     BrowserModule,
     CoreModule,
     AdministratorModule,
+    OfficeModule,
     AppRoutingModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    TurnadorModule
 
 
   ],

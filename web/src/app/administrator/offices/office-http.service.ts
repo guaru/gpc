@@ -38,7 +38,6 @@ export class OfficeHttpService {
 
     }
 
-
     public delete(id:string): Observable<boolean> {
         return this.http.delete<boolean>(`${this.globalEnv.env.URL_API}${ApiUri.OFFICES}/${id}`).pipe(
             catchError(this.globalConstantHttpService.handleError),
@@ -50,5 +49,14 @@ export class OfficeHttpService {
             catchError(this.globalConstantHttpService.handleError),
         );
     }
+
+    public get(id: string):Observable<Office>{
+      return this.http.get<Office>(`${this.globalEnv.env.URL_API}${ApiUri.OFFICES}/${id}`)
+      .pipe(
+        catchError(this.globalConstantHttpService.handleError)
+      );
+    }
+
+
 
 }

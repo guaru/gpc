@@ -14,7 +14,12 @@
   margin-top: 2% !important;
 }
 .ml-2{
-  margin-left:  2% i !important;
+  margin-left:  2%  !important;
+}
+
+.clear-mr{
+  margin-right: 0 !important;
+  margin-left: 0  !important;
 }
 
 .pointer{

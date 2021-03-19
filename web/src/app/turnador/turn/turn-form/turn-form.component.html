@@ -1,0 +1,18 @@
+<div *ngIf="turnFormService.fields" [formGroup]="turnFormService.form">
+  <formly-form [model]="turnFormService.model" [fields]="turnFormService.fields"
+    [options]="turnFormService.options" [form]="turnFormService.form"></formly-form>
+</div>
+
+<div class="row mt-3" *ngIf="turnFormService.fields">
+  <div class="co-sm-4 col-md-4 col-lg-2" >
+    <gpc-button-cancel (clickEvent)="onCancel()"></gpc-button-cancel>
+  </div>
+
+  <div class="col-sm-4  col-md-4 col-lg-2 col-lg-offset-2" >
+    <gpc-button-delete [disabled]="turnFormService.model?.id!=''"></gpc-button-delete>
+  </div>
+
+  <div class="col-sm-4 col-md-4 col-lg-2">
+    <gpc-button-submit [disabled]="!turnFormService.form.valid" (eventClick)="onSave()"></gpc-button-submit>
+  </div>
+</div>

@@ -6,18 +6,33 @@ import { FormlyMaterialModule } from '@ngx-formly/material';
 import { FormlyMatToggleModule } from '@ngx-formly/material/toggle';
 
 import {config, providerFormly} from './config';
+import { ButtonSubmitComponent } from '../components/button-submit/button-submit.component';
+import { ButtonDeleteComponent } from '../components/button-delete/button-delete.component';
+import { SlideEnabledComponent } from '../components/slide-enabled/slide-enabled.component';
+import { ButtonCreateComponent } from '../components/button-create/button-create.component';
+import { ButtonCancelComponent } from '../components/button-cancel/button-cancel.component';
+import { SharedMaterialModule } from '../shared-material.module';
 
 
 
 @NgModule({
-  declarations: [],
+  declarations: [ButtonSubmitComponent,
+    ButtonDeleteComponent,
+    SlideEnabledComponent,
+    ButtonCreateComponent,
+    ButtonCancelComponent],
   exports:[
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
     FormlyModule,
     FormlyMaterialModule,
-    FormlyMatToggleModule
+    FormlyMatToggleModule,
+    ButtonSubmitComponent,
+    ButtonDeleteComponent,
+    SlideEnabledComponent,
+    ButtonCreateComponent,
+    ButtonCancelComponent
   ],
   imports: [
     CommonModule,
@@ -25,7 +40,8 @@ import {config, providerFormly} from './config';
     ReactiveFormsModule,
     FormlyModule.forRoot(config),
     FormlyMaterialModule,
-    FormlyMatToggleModule
+    FormlyMatToggleModule,
+    SharedMaterialModule
   ],
   providers:[
     providerFormly

@@ -49,10 +49,6 @@ public class Parameter  implements Serializable , GenericEntity<Parameter>{
       this.setEnabled(enabled);
     }
 
-    @Override
-    public String getId() {
-        return this.getId();
-    }
 
     @Override
     public Parameter createNewInstance() {

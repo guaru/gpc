@@ -10,11 +10,12 @@ import { catchError, delay, map, startWith, switchMap } from 'rxjs/operators';
 import { BehaviorSubject } from 'rxjs';
 import { UserHttpService } from './user-http.service';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { UserFormComponent } from './user-form/user-form.component';
+import { UserFormComponent } from '../../shared/components/user-form/user-form.component';
 import { SpinnerService } from 'src/app/shared/components/spinner/spinner.service';
 import { AlertService } from 'src/app/core/services/alert.service';
 import { IEnabled } from 'src/app/core/interface/IEnabled';
 import { IFilter } from 'src/app/core/interface/IFilter';
+import { IUserFormData } from 'src/app/core/interface/IUserFormData';
 
 /**
  * SERVICE LOGIC USERS
@@ -81,7 +82,7 @@ export class UserService {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
-    dialogConfig.data = this._selectUser;
+    dialogConfig.data = {user:this._selectUser } as IUserFormData;
     const dialogRef = this.dialog.open(UserFormComponent, dialogConfig);
     dialogRef.afterClosed().subscribe(
       (data: User) => {

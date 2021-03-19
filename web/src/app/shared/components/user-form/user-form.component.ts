@@ -1,8 +1,8 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormGroup } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { IUserFormData } from 'src/app/core/interface/IUserFormData';
 import { User } from 'src/app/core/models/user.model';
-import { UserHttpService } from '../user-http.service';
+import { UserHttpService } from '../../../administrator/users/user-http.service';
 import { UserFormService } from './user-form.service';
 
 @Component({
@@ -14,9 +14,12 @@ export class UserFormComponent implements OnInit {
 
   constructor(public userFormService:UserFormService,
     private dialogRef: MatDialogRef<UserFormComponent>,
-    @Inject(MAT_DIALOG_DATA) data: User) {
-        this.userFormService.setModel(data);
-        this.userFormService.buildFields();
+    @Inject(MAT_DIALOG_DATA) data:IUserFormData) {
+        this.userFormService.setModel(data.user);
+        this.userFormService.buildFields(data.operator ?  data.operator :  false,
+                                            data.officeId ?  data.officeId : '');
+         if(data.title)
+           this.userFormService._title = data.title;
      }
 
   ngOnInit(): void {

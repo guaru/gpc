@@ -7,6 +7,7 @@ import { IConfirmation } from '../interface/IConfirmation';
 import { IJwtResponse } from '../interface/IJwtResponse';
 import { INav } from '../interface/INav';
 import { ITokenInfo } from '../interface/ITokenInfo';
+import { Office } from '../models/office.model';
 import { User } from '../models/user.model';
 import { GlobalConstantHttpService } from '../services/global-constant-http.service';
 import { GlobalEnviromentService } from '../services/global-enviroment.service';
@@ -77,6 +78,7 @@ export class AuthService {
       this._user.lastName = payload.lastName;
       this._user.email = payload.email;
       this._user.roles = payload.authorities;
+      this._user.office  = new Office(payload.officeId,payload.officeName);
       localStorage.setItem('user', JSON.stringify(this._user));
       localStorage.setItem('token', accessToken.access_token);
 

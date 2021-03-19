@@ -8,9 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
-
 import javax.mail.MessagingException;
-
 import com.gisnet.gpc.domain.security.Authoritie;
 import com.gisnet.gpc.domain.security.Function;
 import com.gisnet.gpc.domain.security.User;
@@ -24,6 +22,8 @@ import com.gisnet.gpc.service.IUserService;
 import com.gisnet.gpc.util.PredicateUtil;
 import com.gisnet.gpc.util.Utils;
 import com.querydsl.core.BooleanBuilder;
+
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -196,9 +196,12 @@ public class UserDetailService implements IUserService, UserDetailsService {
         List<Function> functions = new ArrayList<Function>();
         authorities.stream().forEach(x -> {
             Authoritie authoritie = this.iAuthoritieService.findOne(x.id);
-            authoritie.getFunctions().stream().forEach(functionId -> {
-                functions.add(new Function(functionId));
-            });
+            if(!Utils.isEmpty(authoritie.getFunctions())){
+                authoritie.getFunctions().stream().forEach(functionId -> {
+                    functions.add(new Function(functionId));
+                });
+            }
+            
         });
         return functions;
     }
@@ -231,5 +234,9 @@ public class UserDetailService implements IUserService, UserDetailsService {
     }
 
     
+    @Override
+    public List<User> getOperators(ObjectId officeId) {
+       return this.iUserRepository.findOperators(officeId,new ObjectId("6032fff88eb6c936593425f8"));
+    }
 
 }

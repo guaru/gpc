@@ -23,7 +23,7 @@ public class OfficeService implements IOfficeService {
         QOffice office =  new  QOffice(ConstantDomain.COLL_OFFICES);
         BooleanBuilder where  = new BooleanBuilder();
         if(!Utils.isEmpty(filter))
-           where.and(office.name.contains(filter)).or(office.key.contains(filter));
+           where.and(office.name.containsIgnoreCase(filter)).or(office.key.containsIgnoreCase(filter));
         return where.getValue()!=null ?  officeRepository.findAll(where.getValue(), pageable) :  officeRepository.findAll(pageable);
     }
     

@@ -18,6 +18,8 @@ public class ConstantDomain {
     public final static String COLL_STATES = "states";
     public final static String COLL_PARAMETERS = "parameters";
     public final static String COLL_MUNICIPALITIES = "municipalities";
+    public final static String COLL_DAY = "days";
+    public final static String COLL_TURNS = "turns";
 
     // COLUMNS
     public final static String FIELD_NAME = "name";
@@ -32,11 +34,22 @@ public class ConstantDomain {
     public final static String FIELD_EXPIRATION_CONFIRMATION = "expirationConfirmation";
     public final static String FIELD_EMAIL = "email";
     public final static String FIELD_NUMBER_ESTATE = "numberState";
+    public final static String FIELD_NUMBER = "number";
     public final static String FIELD_NUMBER_MUNICIPALITY = "numberMunicipality";
     public final static String FIELD_ADDRESS = "address";
     public final static String FIELD_KEY = "key";
     public final static String FIELD_SEND_EMAIL_REGISTER = "sendEmailRegister";
     public final static String FIELD_VALUE = "value";
+    public final static String FIELD_DAYS_ATTENTION = "daysAttention";
+    public final static String FIELD_INIT_TIME_ATTENTION = "initTimeAttention";
+    public final static String FIELD_END_TIME_ATTENTION = "endTimeAttention";
+    public final static String FIELD_PHONE = "phone";
+    public final static String FIELD_IS_CLIENT = "isClient";
+    public final static String FIELD_USER_CREATE = "userCreate";
+    public final static String FIELD_CREATE = "create";
+    public final static String FIELD_OFFICE = "office";
+    public final static String FIELD_ATTENDED = "attended";
+    public final static String FIELD_IN_ATTENTION = "inAttention";
 
     // COLUMNS ID
     public final static String FIELD_ID = "id";

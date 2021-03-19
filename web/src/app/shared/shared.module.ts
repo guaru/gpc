@@ -15,6 +15,9 @@ import { ButtonCreateComponent } from './components/button-create/button-create.
 import { ButtonCancelComponent } from './components/button-cancel/button-cancel.component';
 import { SpinnerComponent } from './components/spinner/spinner.component';
 import { SearchTextComponent } from './components/search-text/search-text.component';
+import { OfficeFormComponent } from './components/office-form/office-form.component';
+import { UiFormModule } from './ui-form/ui-form.module';
+import { UserFormComponent } from './components/user-form/user-form.component';
 
 
 
@@ -23,30 +26,25 @@ import { SearchTextComponent } from './components/search-text/search-text.compon
     BreadcrumbsComponent,
     SidebarComponent,
     HeaderComponent,
-    ButtonSubmitComponent,
-    ButtonDeleteComponent,
-    SlideEnabledComponent,
-    ButtonCreateComponent,
-    ButtonCancelComponent,
     SpinnerComponent,
-    SearchTextComponent
+    SearchTextComponent,
+    OfficeFormComponent,
+    UserFormComponent
   ],
   exports:[
     BreadcrumbsComponent,
     SidebarComponent,
     HeaderComponent,
-    ButtonSubmitComponent,
-    SlideEnabledComponent,
-    ButtonCreateComponent,
-    ButtonDeleteComponent,
-    ButtonCancelComponent,
     SpinnerComponent,
-    SearchTextComponent
+    SearchTextComponent,
+    OfficeFormComponent,
+    UserFormComponent
   ],
   imports: [
     CommonModule,
     SharedMaterialModule,
     FormsModule,
+    UiFormModule,
     RouterModule,
   ]
 })

@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping(value = ConstantWebApi.OFFICES_URI)
-@Secured(ConstantEnum.Authoritie.Code.ROLE_ADMIN)
+@Secured({ConstantEnum.Authoritie.Code.ROLE_ADMIN,ConstantEnum.Authoritie.Code.ROLE_ADMIN_OFFICE})
 public class OfficeRestController extends GenericRestController<Office> {
 
     @Autowired IOfficeService officeService;

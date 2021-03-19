@@ -1,4 +1,5 @@
 import { Area } from "./area.model";
+import { Day } from "./day.model";
 import { State } from "./state.model";
 
 export class Office {
@@ -9,6 +10,9 @@ export class Office {
     public address?:string,
     public state?:State,
     public areas?:Area[],
+    public daysOperation?:String[],
+    public initTimeAttention?:string,
+    public endTimeAttention?:string,
     public enabled?: boolean
 
   ){

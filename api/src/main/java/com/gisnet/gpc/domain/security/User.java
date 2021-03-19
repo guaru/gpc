@@ -14,6 +14,7 @@ import com.gisnet.gpc.domain.common.Person;
 import com.querydsl.core.annotations.QueryEntity;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
@@ -52,6 +53,7 @@ public class User extends Person implements Serializable, GenericEntity<User> {
     private List<Function> functions;
 
     @DBRef
+    @Indexed(background = true)
     private Office office;
 
     @Field(name   = ConstantDomain.FIELD_EXPIRATION_CONFIRMATION)

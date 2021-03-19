@@ -11,9 +11,8 @@ import { SharedMaterialModule } from '../shared/shared-material.module';
 import { FunctionsComponent } from './functions/functions.component';
 import { AreasComponent } from './areas/areas.component';
 import { AreaFormComponent } from './areas/area-form/area-form.component';
-import { OfficeFormComponent } from './offices/office-form/office-form.component';
+import { OfficeModalComponent } from './offices/office-modal/office-modal.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
-import { UserFormComponent } from './users/user-form/user-form.component';
 
 @NgModule({
   declarations: [UsersComponent,
@@ -23,8 +22,7 @@ import { UserFormComponent } from './users/user-form/user-form.component';
      AreasComponent,
      AreaFormComponent,
      DashboardComponent,
-     UserFormComponent,
-     OfficeFormComponent],
+     OfficeModalComponent],
 
   exports: [
     UsersComponent,
@@ -33,7 +31,7 @@ import { UserFormComponent } from './users/user-form/user-form.component';
     FunctionsComponent,
     AreasComponent,
     AreaFormComponent,
-    OfficeFormComponent
+    OfficeModalComponent
   ],
   imports: [
     CommonModule,

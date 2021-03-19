@@ -10,8 +10,8 @@ import { User } from 'src/app/core/models/user.model';
 import { AlertService } from 'src/app/core/services/alert.service';
 import { CatalogHttpService } from 'src/app/core/services/catalog-http.service';
 import { SpinnerService } from 'src/app/shared/components/spinner/spinner.service';
-import { UserHttpService } from '../user-http.service';
-import { fields as FORM_FIELDS} from './user.form';
+import { UserHttpService } from '../../../administrator/users/user-http.service';
+import { UserForm} from './user.form';
 /**
  * SERVER LOGIC FOR COMPONENT USER FORM
  * @author Alejandro Ventura
@@ -79,13 +79,10 @@ export class UserFormService {
    }
 
 
-  public buildFields() {
-    this._fields = FORM_FIELDS;
-    this._fields[0].fieldGroup!.find(_ => _.key ==='authorities')!.templateOptions!.options = this.catalogService.getAutorithies();
-    this._fields[0].fieldGroup!.find(_ => _.key === 'office')!.templateOptions!.options = this.catalogService.getOffices();
+  public buildFields(operator:boolean,officeId:string) {
+    let userForm =  new UserForm(this.catalogService.getAutorithies()
+                        ,this.catalogService.getOffices(),operator,officeId);
+    this._fields =  userForm.buildFields();
   }
-
-
-
 
 }
