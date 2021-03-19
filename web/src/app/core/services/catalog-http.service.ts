@@ -58,6 +58,16 @@ export class CatalogHttpService {
     );
   }
 
+
+  public getOffice(officeId:string): Observable<any[]> {
+    return this.http.get<Area[]>(`${this.globalEnv.env.URL_API}${ApiUri.COMMUN}/getOffice/${officeId}`).pipe(
+      map(_ => {
+        return _.map(x => { return { label: x.key + ' - ' + x.name, value: x.id } })
+      }),
+      catchError(this.globalConstHttp.handleError)
+    );
+  }
+
   public getDays(): Observable<any[]>{
     return this.http.get<Day[]>(`${this.globalEnv.env.URL_API}${ApiUri.COMMUN}/getDays`).pipe(
       map(_ => {

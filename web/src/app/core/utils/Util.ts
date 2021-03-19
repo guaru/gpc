@@ -38,8 +38,8 @@ export class Util
   }
 
 
-  public static tranformToForm(){
-
+  public static arrayToOption(array:any[]){
+    return array.map(_=> { return { label:_.name, value:_.id} });
   }
 
 }

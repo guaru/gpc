@@ -4,5 +4,6 @@ export enum ApiUri{
    COMMUN='commun',
    AUTHORITIES='authorities',
    OFFICES = 'offices',
+   TURN = 'turn',
    USERS = 'users'
 }

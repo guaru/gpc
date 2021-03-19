@@ -48,6 +48,7 @@ public class ConstantDomain {
     public final static String FIELD_CREATE = "create";
     public final static String FIELD_OFFICE = "office";
     public final static String FIELD_ATTENDED = "attended";
+    public final static String FIELD_IN_ATTENTION = "inAttention";
 
     // COLUMNS ID
     public final static String FIELD_ID = "id";

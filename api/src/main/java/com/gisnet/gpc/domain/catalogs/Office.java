@@ -1,7 +1,6 @@
 package com.gisnet.gpc.domain.catalogs;
 
 import java.io.Serializable;
-import java.util.Date;
 import java.util.List;
 
 import javax.validation.constraints.NotEmpty;

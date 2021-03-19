@@ -3,11 +3,9 @@ package com.gisnet.gpc.domain.operation;
 import java.util.Date;
 
 import javax.persistence.Id;
-
 import com.gisnet.gpc.constants.ConstantDomain;
 import com.gisnet.gpc.domain.catalogs.Office;
 import com.gisnet.gpc.domain.security.User;
-
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.index.TextIndexed;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -29,7 +27,7 @@ public class Turn  {
      private String key;
 
      @TextIndexed
-     @Field(value = ConstantDomain.FIELD_OFFICE)
+     @Field(value = ConstantDomain.FIELD_LASTNAME)
      private String lastName;
 
      @Field(value = ConstantDomain.FIELD_OFFICE)
@@ -51,10 +49,14 @@ public class Turn  {
      @Field(value = ConstantDomain.FIELD_ATTENDED)
      private Boolean attended;
 
-     @Field(value = ConstantDomain.FIELD_ATTENDED)
-     private Boolean sendEmailCreate;
+     @Field(value = ConstantDomain.FIELD_IN_ATTENTION)
+     private Boolean inAttention;
 
-     @Field(value=ConstantDomain.FIELD_FUNCTIONS)
+     private Boolean sendSmsCreate;
+
+     private Boolean sendSmsNext;
+
+     @Field(value=ConstantDomain.FIELD_PHONE)
      private String phone;
 
 
