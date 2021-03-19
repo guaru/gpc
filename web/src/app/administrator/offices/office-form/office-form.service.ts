@@ -61,7 +61,6 @@ export class OfficeFormService {
       office.areas = this._model.areas?.map( (_:string)=>{
       return new Area(_);
    });
-   debugger;
     return office;
  }
 

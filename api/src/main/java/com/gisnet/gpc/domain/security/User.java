@@ -1,6 +1,7 @@
 package com.gisnet.gpc.domain.security;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
 import javax.validation.constraints.NotEmpty;
@@ -53,6 +54,9 @@ public class User extends Person implements Serializable, GenericEntity<User> {
     @DBRef
     private Office office;
 
+    @Field(name   = ConstantDomain.FIELD_EXPIRATION_CONFIRMATION)
+    private Date expirationConfirmation;
+
     /**
      *
      */
@@ -69,6 +73,7 @@ public class User extends Person implements Serializable, GenericEntity<User> {
         this.setEmail(source.getEmail());
         this.setPhone(source.getPhone());
         this.setOffice(source.getOffice());
+        this.setExpirationConfirmation(source.getExpirationConfirmation());
     }
 
     @Override

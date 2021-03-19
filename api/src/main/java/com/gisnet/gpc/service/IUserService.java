@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.Optional;
 
 import com.gisnet.gpc.domain.security.User;
+import com.gisnet.gpc.dto.ConfirmationDTO;
 import com.gisnet.gpc.dto.FunctionDTO;
 
 import org.springframework.data.domain.Page;
@@ -69,4 +70,5 @@ public interface IUserService {
 
      void sendMailRegister(User user);
 
+     User confirmationUser(ConfirmationDTO source);
 }

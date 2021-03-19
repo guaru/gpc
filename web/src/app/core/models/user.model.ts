@@ -8,7 +8,7 @@ export class User extends Person
     constructor(
       public id?:string,
       public userName?:string,
-      public password?:string,
+      public password?:string|null,
       public phone?:string,
       public authorities?: Authoritie[],
       public roles?:string[],

@@ -2,6 +2,7 @@ package com.gisnet.gpc.security;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,6 +14,7 @@ import javax.mail.MessagingException;
 import com.gisnet.gpc.domain.security.Authoritie;
 import com.gisnet.gpc.domain.security.Function;
 import com.gisnet.gpc.domain.security.User;
+import com.gisnet.gpc.dto.ConfirmationDTO;
 import com.gisnet.gpc.dto.FunctionDTO;
 import com.gisnet.gpc.dto.MailDTO;
 import com.gisnet.gpc.repository.repository.IUserRepository;
@@ -30,6 +32,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
@@ -113,9 +116,27 @@ public class UserDetailService implements IUserService, UserDetailsService {
 
     @Override
     public User create(User user) {
+        //BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        String uuid = java.util.UUID.randomUUID().toString();
+        //String credentials = "password"
+        //uuid = encoder.encode(uuid);
+        Calendar now = Calendar.getInstance();
+        now.add(Calendar.HOUR, 24);
         user.setFunctions(this.parseFunctions(user.getAuthorities()));
+        user.setPassword(uuid);
+        user.setSendEmailRegister(false);
+        user.setExpirationConfirmation(now.getTime());
         iUserRepository.save(user);
-        this.sendMailRegister(user);
+
+        Runnable runnable = 
+        new Runnable() {
+            @Override
+            public void run() { UserDetailService.this.sendMailRegister(user); }
+        };
+
+        Thread thread = new Thread(runnable);
+        thread.start();
+
         return user;
     }
 
@@ -125,6 +146,20 @@ public class UserDetailService implements IUserService, UserDetailsService {
         if(user!=null){
             source.setFunctions(this.parseFunctions(source.getAuthorities()));
             user.update(source);
+            iUserRepository.save(user);
+        }else{
+           throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        }
+        return user;
+    }
+
+    @Override
+    public User confirmationUser(ConfirmationDTO source) {
+        User user = iUserRepository.findById(source.getId()).orElse(null);
+        if(user!=null){
+            BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+            user.setPassword(encoder.encode(source.getPassword()));
+            user.setEnabled(true);
             iUserRepository.save(user);
         }else{
            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
@@ -170,6 +205,7 @@ public class UserDetailService implements IUserService, UserDetailsService {
 
     @Override
     public void sendMailRegister(User user) {
+
         MailDTO mail = new MailDTO();
         mail.setFrom("aventura@e-gisnet.com");// replace with your desired email
         mail.setMailTo(user.getEmail());// replace with your desired email
@@ -182,7 +218,9 @@ public class UserDetailService implements IUserService, UserDetailsService {
         mail.setProps(model);
 
         try {
-            iMailService.sendMail(mail);
+            iMailService.sendMail(mail,user);
+            user.setSendEmailRegister(true);
+            this.iUserRepository.save(user);
         } catch (MessagingException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -191,5 +229,7 @@ public class UserDetailService implements IUserService, UserDetailsService {
             e.printStackTrace();
         }
     }
+
+    
 
 }
