@@ -79,4 +79,6 @@ public interface IUserService {
      ResponseDTO exist(String id, String username);
 
      void sendEmailsWithoutSend();
+
+     boolean sendConfirmation(String id);
 }

@@ -51,6 +51,12 @@ export class UserHttpService {
     );
   }
 
+  public sendConfirmation(id: string): Observable<boolean> {
+    return this.http.put<boolean>(`${this.globalEnv.env.URL_API}${ApiUri.USERS}/sendConfirmation`, id).pipe(
+      catchError(this.globalConstantHttpService.handleError),
+    );
+  }
+
   public delete(id: string): Observable<boolean> {
     return this.http.delete<boolean>(`${this.globalEnv.env.URL_API}${ApiUri.USERS}/${id}`).pipe(
       catchError(this.globalConstantHttpService.handleError),

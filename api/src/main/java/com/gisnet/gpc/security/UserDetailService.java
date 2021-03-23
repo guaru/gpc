@@ -127,6 +127,7 @@ public class UserDetailService implements IUserService, UserDetailsService {
         user.setPassword(uuid);
         user.setSendEmailRegister(false);
         user.setExpirationConfirmation(now.getTime());
+        user.setConfirmed(false);
         iUserRepository.save(user);
 
         Runnable runnable = 
@@ -184,6 +185,7 @@ public class UserDetailService implements IUserService, UserDetailsService {
             BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
             user.setPassword(encoder.encode(source.getPassword()));
             user.setEnabled(true);
+            user.setConfirmed(true);
             iUserRepository.save(user);
         }else{
            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
@@ -228,6 +230,35 @@ public class UserDetailService implements IUserService, UserDetailsService {
             
         });
         return functions;
+    }
+
+    @Override
+    public boolean sendConfirmation(String id){
+
+        
+        User user = iUserRepository.findById(id).orElse(null);
+
+        String uuid = java.util.UUID.randomUUID().toString();
+        //String credentials = "password"
+        //uuid = encoder.encode(uuid);
+        Calendar now = Calendar.getInstance();
+        now.add(Calendar.HOUR, 24);
+        user.setPassword(uuid);
+        user.setExpirationConfirmation(now.getTime());
+        iUserRepository.save(user);
+
+
+
+        Runnable runnable = 
+        new Runnable() {
+            @Override
+            public void run() { UserDetailService.this.sendMailRegister(user); }
+        };
+
+        Thread thread = new Thread(runnable);
+        thread.start();
+
+        return true;
     }
 
     @Override

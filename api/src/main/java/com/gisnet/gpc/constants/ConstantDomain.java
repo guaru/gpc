@@ -33,6 +33,7 @@ public class ConstantDomain {
     public final static String FIELD_USERNAME = "userName";
     public final static String FIELD_PASSWORD = "password";
     public final static String FIELD_EXPIRATION_CONFIRMATION = "expirationConfirmation";
+    public final static String FIELD_CONFIRMED = "confirmed";
     public final static String FIELD_EMAIL = "email";
     public final static String FIELD_NUMBER_ESTATE = "numberState";
     public final static String FIELD_NUMBER = "number";

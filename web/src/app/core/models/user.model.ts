@@ -13,7 +13,8 @@ export class User extends Person
       public authorities?: Authoritie[],
       public roles?:string[],
       public office?:Office,
-      public functions?:Function[]
+      public functions?:Function[],
+      public confirmed?: boolean
     ){
        super();
     }

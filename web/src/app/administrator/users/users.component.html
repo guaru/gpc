@@ -42,7 +42,7 @@
               <ng-container matColumnDef="enabled">
                 <th mat-header-cell *matHeaderCellDef>Activo</th>
                 <td mat-cell *matCellDef="let row">
-                  <gpc-slide-enabled [enabled]="row.enabled" (checkEvent)="onChangeEnabled($event,row.id)"></gpc-slide-enabled>
+                  <gpc-slide-enabled [enabled]="row.enabled" (checkEvent)="onChangeEnabled(row.id)"></gpc-slide-enabled>
                 </td>
               </ng-container>
 
@@ -50,11 +50,15 @@
                 <ng-container matColumnDef="action">
                   <th mat-header-cell *matHeaderCellDef>Acciones</th>
                   <td mat-cell *matCellDef="let row">
+                    
                     <a class="pointer" data-toggle="tooltip" data-original-title="Editar" (click)="onUpdate(row.id)">
                       <i class="fa fa-pencil text-inverse m-r-10"></i>
                     </a>
                     <a class="pointer" data-toggle="tooltip" data-original-title="Eliminar" (click)="onDelete(row.id)">
                       <i class="fa fa-close text-danger"></i>
+                    </a>
+                    <a class="pointer" style="padding-left: 10px;" data-toggle="tooltip" data-original-title="Reenviar Confirmación" *ngIf="!row.confirmed" (click)="onSendConfirmation(row.id)">
+                      <i class="fa fa-send text-inverse m-r-10"></i>
                     </a>
                   </td>
                 </ng-container>

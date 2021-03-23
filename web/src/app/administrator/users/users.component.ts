@@ -33,6 +33,10 @@ export class UsersComponent implements AfterViewInit {
     this.userService.enabled(ienabled);
   }
 
+  onSendConfirmation(id: string) {
+    this.userService.sendConfirmation(id);
+  }
+
   onCreate() {
     this.userService.create();
   }

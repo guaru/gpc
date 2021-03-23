@@ -42,6 +42,12 @@ public class AccountRestController {
                 Calendar expiration = Calendar.getInstance();
                 expiration.setTime(u.getExpirationConfirmation());
 
+                if(u.getConfirmed()){
+                    response.setMessage("La cuenta ya se encuentra confirmada");
+                    response.setSuccess(false);
+                    return new ResponseEntity<>(response,HttpStatus.OK);
+                }
+
                 if(now.compareTo(expiration) > 0){
                     response.setMessage("La confirmacion esta expirada");
                     response.setSuccess(false);

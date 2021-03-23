@@ -63,6 +63,11 @@ public class UserRestController  {
         return new ResponseEntity<>(userService.enabled(enabled.getId(),enabled.isEnabled()), HttpStatus.OK);
     }
 
+    @PutMapping("/sendConfirmation")
+    public ResponseEntity<?> sendConfirmation(@Valid @RequestBody String id) {
+        return new ResponseEntity<>(userService.sendConfirmation(id), HttpStatus.OK);
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@PathVariable String id){
      return  new ResponseEntity<>(userService.delete(id), HttpStatus.OK);

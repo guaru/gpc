@@ -59,6 +59,9 @@ public class User extends Person implements Serializable, GenericEntity<User> {
     @Field(name   = ConstantDomain.FIELD_EXPIRATION_CONFIRMATION)
     private Date expirationConfirmation;
 
+    @Field(name   = ConstantDomain.FIELD_CONFIRMED)
+    private Boolean confirmed;
+
     /**
      *
      */
@@ -75,6 +78,7 @@ public class User extends Person implements Serializable, GenericEntity<User> {
         this.setEmail(source.getEmail());
         this.setPhone(source.getPhone());
         this.setOffice(source.getOffice());
+        this.setConfirmed(source.getConfirmed());
         this.setExpirationConfirmation(source.getExpirationConfirmation());
     }
 
