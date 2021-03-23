@@ -15,6 +15,7 @@ import com.gisnet.gpc.domain.security.User;
 import com.gisnet.gpc.dto.ConfirmationDTO;
 import com.gisnet.gpc.dto.FunctionDTO;
 import com.gisnet.gpc.dto.MailDTO;
+import com.gisnet.gpc.dto.ResponseDTO;
 import com.gisnet.gpc.repository.repository.IUserRepository;
 import com.gisnet.gpc.service.IAuthoritieService;
 import com.gisnet.gpc.service.IMailService;
@@ -141,6 +142,29 @@ public class UserDetailService implements IUserService, UserDetailsService {
     }
 
     @Override
+    public void sendEmailsWithoutSend(){
+        List<User> users = this.iUserRepository.findAllByEnabledTrueAndSendEmailRegisterFalse();
+        Calendar now = Calendar.getInstance();
+        for(User u : users){
+            Calendar expiration = Calendar.getInstance();
+                expiration.setTime(u.getExpirationConfirmation());
+
+                if(now.compareTo(expiration) > 0){
+                    /*Calendar new = Calendar.getInstance();
+                    now.add(Calendar.HOUR, 24);
+                    user.setFunctions(this.parseFunctions(user.getAuthorities()));
+                    user.setPassword(uuid);
+                    user.setSendEmailRegister(false);
+                    user.setExpirationConfirmation(now.getTime());
+                    iUserRepository.save(user);*/
+                }else{
+                    this.sendMailRegister(u);
+                }
+        }
+
+    }
+
+    @Override
     public User update(User source) {
         User user = iUserRepository.findById(source.getId()).orElse(null);
         if(user!=null){
@@ -237,6 +261,28 @@ public class UserDetailService implements IUserService, UserDetailsService {
     @Override
     public List<User> getOperators(ObjectId officeId) {
        return this.iUserRepository.findOperators(officeId,new ObjectId("6032fff88eb6c936593425f8"));
+    }
+
+    @Override
+    public ResponseDTO exist(String id, String username) {
+       
+
+       ResponseDTO response = new ResponseDTO();
+
+        User result =this.iUserRepository.findOneByIdNotAndUserName(id, username);
+        
+        if(result != null){
+            response.setError(true);
+            if(result.getEnabled() != null && result.getEnabled().booleanValue() == true){
+                response.setMessage("El usario ya se encuentra registrado y activo");
+            }else{
+                response.setMessage("El usuario ya se encuentra registrado, pero se encuentra inactivado");
+            }
+        }else{
+            response.setError(false);
+        }
+        
+        return response;
     }
 
 }

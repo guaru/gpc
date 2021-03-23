@@ -1,5 +1,6 @@
 import { MatFormFieldDefaultOptions, MAT_FORM_FIELD_DEFAULT_OPTIONS } from "@angular/material/form-field";
 import { ConfigOption } from "@ngx-formly/core";
+import { FormlyAutocomplete } from "../components/autocomplete/formly-autocomplete.component";
 import {
   maxlengthValidationMessage,
   maxValidationMessage,
@@ -28,6 +29,9 @@ export const config: ConfigOption = {
   ],
   validators : [
     { name: 'email', validation: emailValidation}
+  ],
+  types : [
+    { name: 'autocomplete', component: FormlyAutocomplete,  wrappers: ['form-field'] }
   ]
 };
 

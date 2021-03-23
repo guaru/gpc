@@ -23,8 +23,8 @@ export class ListTurnComponent implements OnInit {
     }
 
 
-    onToAttention($turn:Turn){
-      console.log($turn.id);
+    onToAttention($turn?:Turn){
+      console.log($turn?.id);
     }
 
 }

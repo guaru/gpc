@@ -30,6 +30,23 @@ export class CatalogHttpService {
     );
   }
 
+  public getMonths(): any[]{
+    return  [
+      {label:'ENERO',value:'0'} ,
+      {label:'FEBRERO',value:'1'},
+      {label:'MARZO',value:'2'},
+      {label:'ABRIL',value:'3'},
+      {label:'MAYO',value:'4'},
+      {label:'JUNIO',value:'5'},
+      {label:'JULIO',value:'6'},
+      {label:'AGOSTO',value:'7'},
+      {label:'SEPTIEMBRE',value:'8'},
+      {label:'OCTUBRE',value:'9'},
+      {label:'NOVIEMBRE',value:'10'},
+      {label:'DICIEMBRE',value:'11'} 
+    ];
+  }
+
 
   public getOffices(): Observable<any[]>{
     return this.http.get<Office[]>(`${this.globalEnv.env.URL_API}${ApiUri.OFFICES}/all`).pipe(

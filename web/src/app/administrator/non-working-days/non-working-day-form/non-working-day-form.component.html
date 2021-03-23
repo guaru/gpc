@@ -1,0 +1,20 @@
+<h2 mat-dialog-title>{{nonWorkingDayFormService._title}} </h2>
+
+  <mat-dialog-content [formGroup]="nonWorkingDayFormService._form">
+          <formly-form [model]="nonWorkingDayFormService._model" [fields]="nonWorkingDayFormService._fields"
+            [options]="nonWorkingDayFormService._options" [form]="nonWorkingDayFormService._form"></formly-form>
+  </mat-dialog-content>
+
+  <mat-dialog-actions>
+        <div class="col-2">
+          <gpc-button-cancel (clickEvent)="onCancel()"></gpc-button-cancel>
+        </div>
+        <div class="col-2"></div>
+        <div class="col-2">
+          <gpc-button-delete [disabled]="nonWorkingDayFormService._model?.id!=''"></gpc-button-delete>
+        </div>
+        <div class="col-2">
+          <gpc-button-submit [disabled]="!nonWorkingDayFormService._form.valid" (eventClick)="onSave()"></gpc-button-submit>
+        </div>
+  </mat-dialog-actions>
+

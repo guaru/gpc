@@ -3,49 +3,50 @@ import { Injectable } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
-import { BehaviorSubject, merge, of as observableOf  } from 'rxjs';
-import { catchError, delay, map, startWith, switchMap, tap } from 'rxjs/operators';
+import { BehaviorSubject , merge, of as observableOf} from 'rxjs';
+import { catchError, delay, map, startWith, switchMap } from 'rxjs/operators';
+import { ApiUri } from 'src/app/core/enums/ApiUri';
 import { IEnabled } from 'src/app/core/interface/IEnabled';
 import { IFilter } from 'src/app/core/interface/IFilter';
-import { Office } from 'src/app/core/models/office.model';
+import { NonWorkingDay } from 'src/app/core/models/non-working-day.model';
 import { PageRequest } from 'src/app/core/models/page-request.model';
 import { PageResponse } from 'src/app/core/models/page-response.model';
 import { AlertService } from 'src/app/core/services/alert.service';
-import { CatalogHttpService } from 'src/app/core/services/catalog-http.service';
+import { GlobalEnviromentService } from 'src/app/core/services/global-enviroment.service';
 import { Util } from 'src/app/core/utils/Util';
 import { SpinnerService } from 'src/app/shared/components/spinner/spinner.service';
-import { OfficeModalComponent } from './office-modal/office-modal.component';
-import { OfficeHttpService } from './office-http.service';
+import { NonWorkingDayFormComponent } from './non-working-day-form/non-working-day-form.component';
+import { NonWorkingDayHttpService } from './non-working-day-http.service';
 
 @Injectable()
-export class OfficeService {
+export class NonWorkingDaysService {
 
-  private _columns: string[] = ["name", "key","address","state","enabled","action"];
-  private _offices: Office[];
+  private _columns: string[] = ["month", "day", "enabled","action"];
+  private _days: NonWorkingDay[];
+
   private _pageRequest: PageRequest;
   private _resultsLength: number;
-  public selectedOffice!: Office;
-
-  private searchSubject = new BehaviorSubject<string>('');
-  public search$ =  this.searchSubject.asObservable();
-
-  paginator!: MatPaginator;
+  public isFormActive:boolean = false;
+  public selectedDay: NonWorkingDay;
+  private _searchSubject =new   BehaviorSubject<string>('');
+  private _search$ = this._searchSubject.asObservable();
 
 
-  constructor(private officeHttpService: OfficeHttpService,
+
+  constructor(private nonWorkingDayHttpService: NonWorkingDayHttpService,
     private dialog: MatDialog,
     private loadingService:SpinnerService,
     private alertService:AlertService) {
-    this._offices = [];
+    this._days = [];
     this._pageRequest = new PageRequest();
-    this._pageRequest.filters = [{ name: 'filter' }] as IFilter[];
+    this._pageRequest.filters = [{ name: 'filter' }]  as IFilter[];
     this._resultsLength = 0;
-
+    this.selectedDay = new NonWorkingDay();
   }
 
   public initTable(sort: MatSort, paginator: MatPaginator) {
-    this.paginator = paginator;
-    merge(sort.sortChange, paginator.page,this.search$)
+
+    merge(sort.sortChange, paginator.page,this._search$)
       .pipe(
         startWith({}),
         delay(0),
@@ -53,7 +54,7 @@ export class OfficeService {
 
           return this.getPages(paginator.pageIndex, paginator.pageSize);
         }),
-        map((data: PageResponse<Office>) => {
+        map((data: PageResponse<NonWorkingDay>) => {
           this.loadingService.endLoading();
           this._resultsLength = data.totalElements || 0;
           return data.content || [];
@@ -62,25 +63,26 @@ export class OfficeService {
           this.loadingService.endLoading();
           return observableOf([]);
         })
-      ).subscribe(data => this._offices = data);
+    ).subscribe(data => this._days = data);
   }
 
   public getPages(offset: number, limit: number) {
     this.loadingService.initLoading();
     this._pageRequest.offset = offset;
     this._pageRequest.limit = limit;
-    return this.officeHttpService.pages(this._pageRequest);
+    return this.nonWorkingDayHttpService.pages(this._pageRequest);
   }
+
 
   private openDialog()
   {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
-    dialogConfig.data = this.selectedOffice;
-    const dialogRef = this.dialog.open(OfficeModalComponent, dialogConfig);
+    dialogConfig.data = this.selectedDay;
+    const dialogRef = this.dialog.open(NonWorkingDayFormComponent, dialogConfig);
     dialogRef.afterClosed().subscribe(
-      (data:Office) => {
+      (data:NonWorkingDay) => {
         if(data){
           this.reload();
         }
@@ -88,15 +90,16 @@ export class OfficeService {
     );
   }
 
+
   public create(){
-    this.selectedOffice = new Office();
-    this.selectedOffice.enabled = true;
+    this.selectedDay = new NonWorkingDay();
+    this.selectedDay.enabled = true;
     this.openDialog();
   }
 
   public update(id:string)
   {
-    this.selectedOffice = this.offices.find(x => x.id === id) || new Office();
+    this.selectedDay = this._days.find(x => x.id === id) || new NonWorkingDay();
     this.openDialog();
   }
 
@@ -104,11 +107,11 @@ export class OfficeService {
   {
    if(await this.alertService.confirm('Si elimina el área, las sucursales no podran utilizarla')){
      this.loadingService.initLoading();
-     this.officeHttpService.delete(id).subscribe(response => {
+     this.nonWorkingDayHttpService.delete(id).subscribe(async response => {
        if(response){
           this.loadingService.endLoading();
-          this.alertService.success();
-          this._offices = this._offices.filter(x => x.id != id);
+          await this.alertService.success();
+          this.reload();
        }
      }, error => {
          this.loadingService.endLoading()
@@ -118,16 +121,9 @@ export class OfficeService {
    }
   }
 
-
-
-  public reload()
-  {
-    this.searchSubject.next('');
-  }
-
   async enabled(ienabled:IEnabled){
       this.loadingService.initLoading();
-      this.officeHttpService.enabled(ienabled).subscribe(response => {
+      this.nonWorkingDayHttpService.enabled(ienabled).subscribe(response => {
         if (response) {
           this.loadingService.endLoading();
           this.alertService.success();
@@ -139,24 +135,22 @@ export class OfficeService {
       );
   }
 
-  public search(filter:string)
-  {
-      this._pageRequest.filters![0].value = filter;
-      this.searchSubject.next(filter);
+  public search(filter:string){
+    this._pageRequest.filters![0].value  = filter;
+    this._searchSubject.next(filter);
   }
 
-  public get(id:string):Promise<Office>
-  {
-       this.loadingService.initLoading();
-      return  this.officeHttpService.get(id).pipe(tap(_=>this.loadingService.endLoading())).toPromise();
+  public reload() {
+    this._searchSubject.next('');
   }
+
 
   public get resultsLength(): number {
     return this._resultsLength;
   }
 
-  public get offices(): Office[] {
-    return this._offices;
+  public get days(): NonWorkingDay[] {
+    return this._days;
   }
 
   public get columns(): string[] {

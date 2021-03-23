@@ -4,6 +4,7 @@ import { Url } from '../core/enums/Url';
 import { AreasComponent } from './areas/areas.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { FunctionsComponent } from './functions/functions.component';
+import { NonWorkingDaysComponent } from './non-working-days/non-working-days.component';
 
 import { OfficesComponent } from './offices/offices.component';
 import { UsersComponent } from './users/users.component';
@@ -14,6 +15,7 @@ const childRoutes:Routes = [
   { path: Url.SUCURSALES, component: OfficesComponent, data: { name: "Sucursales", icon: "mdi mdi-bank" }},
   { path: Url.FUNCIONES, component: FunctionsComponent, data: { name: "Funciones" }},
   { path: Url.AREAS, component: AreasComponent, data: { name: "Áreas", icon:"mdi mdi-view-module"} },
+  { path: Url.NON_WORKING_DAYS, component: NonWorkingDaysComponent, data: { name: "Días Inhábiles", icon:"mdi mdi-view-module"} },
 ];
 
 @NgModule({

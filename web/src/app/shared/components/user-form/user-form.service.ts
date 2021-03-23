@@ -1,3 +1,4 @@
+import { ThrowStmt } from '@angular/compiler';
 import { Injectable } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
@@ -25,6 +26,7 @@ export class UserFormService {
   public _options: FormlyFormOptions;
   public _model!: IUserForm;
   public _title:string = "Usuario";
+  private offices: any[] = [];
 
   constructor(
     private alertService:AlertService,
@@ -35,7 +37,14 @@ export class UserFormService {
   ) {
      this._form =  new FormGroup({});
      this._options  = {};
-
+     this.loadingService.initLoading();
+    this.catalogService.getOffices().subscribe(data=>{
+        this.offices =  data;
+        this.loadingService.endLoading();
+    },error=>{
+         this.loadingService.endLoading();
+         this.alertService.error();
+    });
    }
 
    public save():Promise<User|null>{
@@ -56,12 +65,33 @@ export class UserFormService {
       });
    }
 
+   exist():Promise<boolean|null>{
+    return new Promise((resolve) => {
+      if (this._form.valid) {
+        this.loadingService.initLoading();
+        this.userHttpService.exist(this._model.email,this._model.id).subscribe(async (data:any) => {
+          this.loadingService.endLoading();
+          if(data.error){
+            this.alertService.error(data.message);
+          }
+          resolve(!data.error);
+          
+          
+        }, error => {
+          this.loadingService.endLoading();
+          this.alertService.error();
+          resolve(null);
+        });
+      }
+    });
+  }
+
 
 
    public setModel(user:User)
    {
       this._model = Object.assign({},user) as IUserForm;
-      this._model.office =  user.office?.id;
+      this._model.office = user.id ? {value: user.office?.id, label: user.office?.key + ' - ' + user.office?.name} : '';
       this._model.authorities =  user.authorities?.map(_=> {
            return _.id||'';
       });
@@ -71,7 +101,7 @@ export class UserFormService {
       this._model.userName = this._model.email;//NOTA: EL USERNAME SIEMPRE SERA EL CORREO ELECTRÓNICO DEL USUARIO
       let user = new User();
       user = Object.assign({},this._model) as User;
-      user.office =  new Office(this._model.office);
+      user.office =  new Office(this._model.office.value);
       user.authorities = this._model.authorities?.map( (_:string)=>{
         return new Authoritie(_);
      });
@@ -83,6 +113,13 @@ export class UserFormService {
     let userForm =  new UserForm(this.catalogService.getAutorithies()
                         ,this.catalogService.getOffices(),operator,officeId);
     this._fields =  userForm.buildFields();
+    this._fields[0].fieldGroup!.find(_ => _.key === 'office')!.templateOptions!.filter = (term: any) => of(term ? this.filterStates(term) : this.offices.slice());
+
+  }
+
+  filterStates(name: any) {
+    return this.offices.filter(state =>
+      state.label.toLowerCase().indexOf(name instanceof Object ? name.label : name.toLowerCase()) === 0);
   }
 
 }

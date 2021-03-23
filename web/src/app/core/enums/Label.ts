@@ -2,6 +2,8 @@ export enum Label{
   EMAIL="Correo electrónico",
   PHONE = "Teléfono",
   NAME = "Nombre",
+  DAY = "Día",
+  MONTH = "Mes",
   LAST_NAME ="Apellidos",
   KEY = "Clave",
   OFFICE="Sucursal",

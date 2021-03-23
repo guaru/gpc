@@ -13,6 +13,8 @@ import { AreasComponent } from './areas/areas.component';
 import { AreaFormComponent } from './areas/area-form/area-form.component';
 import { OfficeModalComponent } from './offices/office-modal/office-modal.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { NonWorkingDaysComponent } from './non-working-days/non-working-days.component';
+import { NonWorkingDayFormComponent } from './non-working-days/non-working-day-form/non-working-day-form.component';
 
 @NgModule({
   declarations: [UsersComponent,
@@ -22,7 +24,9 @@ import { DashboardComponent } from './dashboard/dashboard.component';
      AreasComponent,
      AreaFormComponent,
      DashboardComponent,
-     OfficeModalComponent],
+     OfficeModalComponent,
+     NonWorkingDaysComponent,
+     NonWorkingDayFormComponent],
 
   exports: [
     UsersComponent,
@@ -31,7 +35,9 @@ import { DashboardComponent } from './dashboard/dashboard.component';
     FunctionsComponent,
     AreasComponent,
     AreaFormComponent,
-    OfficeModalComponent
+    OfficeModalComponent,
+    NonWorkingDaysComponent,
+    NonWorkingDayFormComponent
   ],
   imports: [
     CommonModule,

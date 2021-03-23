@@ -62,4 +62,14 @@ export class UserHttpService {
     .pipe(catchError(this.globalConstantHttpService.handleError));
   }
 
+  public exist(username?: string, id?: string):Observable<boolean>
+  {
+    if(!id){
+      id = '0';
+    }
+    return this.http.get<any>(`${this.globalEnv.env.URL_API}${ApiUri.USERS}/exist/${username}/${id}`,).pipe(
+      catchError(this.globalConstantHttpService.handleError),
+    );
+  }
+
 }

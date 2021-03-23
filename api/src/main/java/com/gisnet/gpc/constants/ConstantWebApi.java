@@ -11,6 +11,7 @@ public class ConstantWebApi {
     public final static String OFFICES_URI = API + "/offices";
     public final static String COOPERATIVES_URI = API + "/cooperatives";
     public final static String COMMON_URI = API + "/commun";
+    public final static String NON_WORKING_DAY_URI = API + "/nonWorkingDay";
     public final static String ID_URI = "/{id}";
     public final static String ALL_URI = "/**";
 

@@ -5,6 +5,6 @@ export interface IUserForm{
     email:string|undefined,
     userName:string|undefined,
     phone:string|undefined,
-    office:string|undefined,
+    office:any|undefined,
     authorities:string[]|undefined
 }

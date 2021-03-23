@@ -29,4 +29,8 @@ public interface IUserRepository extends MongoRepository<User, String> , Queryds
             + " ] }", count = true)
        List<User> findOperators(ObjectId officeId,ObjectId  authoritieId);
 
+       User findOneByIdNotAndUserName(String id, String username);
+
+       List<User> findAllByEnabledTrueAndSendEmailRegisterFalse();
+
 }
