@@ -98,7 +98,7 @@ export class NonWorkingDaysService {
   }
 
   public update(id:string)
-  {
+  { 
     this.selectedDay = this._days.find(x => x.id === id) || new NonWorkingDay();
     this.openDialog();
   }

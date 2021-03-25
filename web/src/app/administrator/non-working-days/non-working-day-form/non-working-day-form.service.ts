@@ -73,22 +73,22 @@ export class NonWorkingDayFormService {
         field!.templateOptions!.options = teamControl!.valueChanges.pipe(
           startWith(teamControl!.value),
           map(month => this.getDaysInMonth(month)),
-          tap(() => field!.formControl!.setValue(null)),
+          //tap(() => field!.formControl!.setValue(null)),
         );
       },
     };
 
   }
 
-  getDaysInMonth(month: any) {
+  getDaysInMonth(month: number) {
     let date = new Date(new Date().getFullYear(), month, 1);
     let days: any[] = [];
-    while (date.getMonth().toString() === month) {
+    while (date.getMonth() == month) {
       days.push({label: date.getDate(), value: date.getDate() });
       date.setDate(date.getDate() + 1);
     }
 
-    if(month === "1" && days.length == 28){
+    if(month == 1 && days.length == 28){
       days.push({label: 29, value: 29 });
     }
 

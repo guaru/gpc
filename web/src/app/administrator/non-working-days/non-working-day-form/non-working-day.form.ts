@@ -1,6 +1,7 @@
 import { FormlyFieldConfig, FormlyFormOptions } from "@ngx-formly/core";
 import { Observable } from "rxjs";
 import { Label } from "src/app/core/enums/Label";
+import { NonWorkingDay } from "src/app/core/models/non-working-day.model";
 
 
 export class NonWorkingDayForm
@@ -46,6 +47,7 @@ export class NonWorkingDayForm
             className: 'col-3',
             key: "enabled",
             type: 'toggle',
+            //defaultValue: nonWorkingDay ? nonWorkingDay.day : null,
             templateOptions: {
               label: Label.ENABLED,
               description: '',

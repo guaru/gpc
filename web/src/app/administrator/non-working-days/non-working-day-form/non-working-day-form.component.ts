@@ -1,4 +1,4 @@
-import { AfterViewChecked, ChangeDetectorRef, Component, EventEmitter, Inject, Input, OnInit, Output } from '@angular/core';
+import { AfterViewChecked, AfterViewInit, ChangeDetectorRef, Component, EventEmitter, Inject, Input, OnInit, Output } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { NonWorkingDay } from 'src/app/core/models/non-working-day.model';
 import { Util } from 'src/app/core/utils/Util';
@@ -12,17 +12,18 @@ import { NonWorkingDayFormService } from './non-working-day-form.service';
 })
 export class NonWorkingDayFormComponent implements OnInit, AfterViewChecked {
 
-  private data!: NonWorkingDay;
+  private dataTemp: NonWorkingDay;
 
   constructor(public nonWorkingDayFormService:NonWorkingDayFormService,
     private dialogRef: MatDialogRef<NonWorkingDayFormComponent>,
     @Inject(MAT_DIALOG_DATA) data:NonWorkingDay, private cdRef:ChangeDetectorRef) {
-    this.data = data;
+      this.dataTemp = data;
+      this.nonWorkingDayFormService._title = (data.id!='' ? 'Crear' : 'Editar') + " Día Inhábil";
   }
+  
   ngOnInit(): void {
+    this.nonWorkingDayFormService._model = this.dataTemp;
     this.nonWorkingDayFormService.buildFields();
-    this.nonWorkingDayFormService._model = this.data;
-    this.nonWorkingDayFormService._title = (this.data?.id!='' ? 'Crear' : 'Editar') + " Día Inhábil";
   }
 
   ngAfterViewChecked()

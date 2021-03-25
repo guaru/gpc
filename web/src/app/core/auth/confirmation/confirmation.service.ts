@@ -52,7 +52,6 @@ export class ConfirmationService {
 
   public validateConfirmation(username: string | null | undefined, password: string | null | undefined) {
     this.authService.validateConfirmation(username,password).subscribe( response =>{
-      debugger;;
       this._invalidUser = false;
       if(response.success){
         this._user = response.user;
