@@ -16,7 +16,9 @@ import java.util.List;
 import java.util.Optional;
 
 import com.gisnet.gpc.domain.security.User;
+import com.gisnet.gpc.dto.ConfirmationDTO;
 import com.gisnet.gpc.dto.FunctionDTO;
+import com.gisnet.gpc.dto.ResponseDTO;
 
 import org.bson.types.ObjectId;
 import org.springframework.data.domain.Page;
@@ -72,4 +74,11 @@ public interface IUserService {
 
      List<User> getOperators(ObjectId officeId);
 
+     User confirmationUser(ConfirmationDTO source);
+
+     ResponseDTO exist(String id, String username);
+
+     void sendEmailsWithoutSend();
+
+     boolean sendConfirmation(String id);
 }

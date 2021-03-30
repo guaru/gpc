@@ -51,6 +51,12 @@ export class UserHttpService {
     );
   }
 
+  public sendConfirmation(id: string): Observable<boolean> {
+    return this.http.put<boolean>(`${this.globalEnv.env.URL_API}${ApiUri.USERS}/sendConfirmation`, id).pipe(
+      catchError(this.globalConstantHttpService.handleError),
+    );
+  }
+
   public delete(id: string): Observable<boolean> {
     return this.http.delete<boolean>(`${this.globalEnv.env.URL_API}${ApiUri.USERS}/${id}`).pipe(
       catchError(this.globalConstantHttpService.handleError),
@@ -60,6 +66,16 @@ export class UserHttpService {
   public getOperators(officeId:string){
     return this.http.get<User[]>(`${this.globalEnv.env.URL_API}${ApiUri.USERS}/operators/${officeId}`)
     .pipe(catchError(this.globalConstantHttpService.handleError));
+  }
+
+  public exist(username?: string, id?: string):Observable<boolean>
+  {
+    if(!id){
+      id = '0';
+    }
+    return this.http.get<any>(`${this.globalEnv.env.URL_API}${ApiUri.USERS}/exist/${username}/${id}`,).pipe(
+      catchError(this.globalConstantHttpService.handleError),
+    );
   }
 
 }

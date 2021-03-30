@@ -20,6 +20,7 @@ public class ConstantDomain {
     public final static String COLL_MUNICIPALITIES = "municipalities";
     public final static String COLL_DAY = "days";
     public final static String COLL_TURNS = "turns";
+    public final static String COLL_NON_WORKING_DAY = "non_working_days";
 
     // COLUMNS
     public final static String FIELD_NAME = "name";
@@ -31,6 +32,8 @@ public class ConstantDomain {
     public final static String FIELD_FUNCTIONS = "functions";
     public final static String FIELD_USERNAME = "userName";
     public final static String FIELD_PASSWORD = "password";
+    public final static String FIELD_EXPIRATION_CONFIRMATION = "expirationConfirmation";
+    public final static String FIELD_CONFIRMED = "confirmed";
     public final static String FIELD_EMAIL = "email";
     public final static String FIELD_NUMBER_ESTATE = "numberState";
     public final static String FIELD_NUMBER = "number";
@@ -49,6 +52,8 @@ public class ConstantDomain {
     public final static String FIELD_OFFICE = "office";
     public final static String FIELD_ATTENDED = "attended";
     public final static String FIELD_IN_ATTENTION = "inAttention";
+    public final static String FIELD_DAY = "day";
+    public final static String FIELD_MONTH = "month";
 
     // COLUMNS ID
     public final static String FIELD_ID = "id";

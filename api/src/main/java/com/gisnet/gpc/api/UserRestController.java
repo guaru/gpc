@@ -7,6 +7,7 @@ import com.gisnet.gpc.constants.ConstantEnum;
 import com.gisnet.gpc.constants.ConstantWebApi;
 import com.gisnet.gpc.domain.security.User;
 import com.gisnet.gpc.dto.EnabledDTO;
+import com.gisnet.gpc.dto.ResponseDTO;
 import com.gisnet.gpc.service.IUserService;
 
 import org.bson.types.ObjectId;
@@ -62,6 +63,11 @@ public class UserRestController  {
         return new ResponseEntity<>(userService.enabled(enabled.getId(),enabled.isEnabled()), HttpStatus.OK);
     }
 
+    @PutMapping("/sendConfirmation")
+    public ResponseEntity<?> sendConfirmation(@Valid @RequestBody String id) {
+        return new ResponseEntity<>(userService.sendConfirmation(id), HttpStatus.OK);
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@PathVariable String id){
      return  new ResponseEntity<>(userService.delete(id), HttpStatus.OK);
@@ -70,6 +76,11 @@ public class UserRestController  {
     @GetMapping("/operators/{officeId}")
     public ResponseEntity<List<User>> getOperators(@PathVariable ObjectId officeId){
         return new ResponseEntity<>(userService.getOperators(officeId),HttpStatus.OK);
+    }
+
+    @GetMapping("/exist/{username}/{id}")
+    public ResponseEntity<ResponseDTO> getOperators(@PathVariable String username,@PathVariable String id){
+        return new ResponseEntity<>(userService.exist(id, username),HttpStatus.OK);
     }
 
 }

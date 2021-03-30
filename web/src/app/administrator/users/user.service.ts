@@ -92,6 +92,20 @@ export class UserService {
     );
   }
 
+  async sendConfirmation(id: string) {
+    this.loadingService.initLoading();
+    this.userHttpService.sendConfirmation(id).subscribe(response => {
+      if (response) {
+        this.loadingService.endLoading();
+        this.alertService.success();
+      }
+    }, error => {
+      this.loadingService.endLoading()
+      this.alertService.error();
+    }
+    );
+  }
+
   async enabled(ienabled: IEnabled) {
     this.loadingService.initLoading();
     this.userHttpService.enabled(ienabled).subscribe(response => {

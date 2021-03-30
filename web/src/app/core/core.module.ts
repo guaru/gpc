@@ -9,6 +9,7 @@ import { UiFormModule } from '../shared/ui-form/ui-form.module';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { TokenInterceptor } from '../shared/interceptors/token.interceptor';
 import { AuthInterceptor } from '../shared/interceptors/auth.interceptor';
+import { ConfirmationComponent } from './auth/confirmation/confirmation.component';
 
 
 
@@ -17,6 +18,7 @@ import { AuthInterceptor } from '../shared/interceptors/auth.interceptor';
     LoginComponent,
     RegisterComponent,
     RecoverComponent,
+    ConfirmationComponent,
     Component404
 
   ],

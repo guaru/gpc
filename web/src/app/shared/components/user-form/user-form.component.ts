@@ -15,11 +15,13 @@ export class UserFormComponent implements OnInit {
   constructor(public userFormService:UserFormService,
     private dialogRef: MatDialogRef<UserFormComponent>,
     @Inject(MAT_DIALOG_DATA) data:IUserFormData) {
-        this.userFormService.setModel(data.user);
+        
         this.userFormService.buildFields(data.operator ?  data.operator :  false,
                                             data.officeId ?  data.officeId : '');
-         if(data.title)
-           this.userFormService._title = data.title;
+        this.userFormService.setModel(data.user);
+        if(data.title)
+          this.userFormService._title = data.title;
+        
      }
 
   ngOnInit(): void {
@@ -27,9 +29,14 @@ export class UserFormComponent implements OnInit {
   }
 
   async onSave(){
-     let user:User | null = await this.userFormService.save();
+    let exist = await this.userFormService.exist();
+
+    if(exist){
+      let user:User | null = await this.userFormService.save();
      if(user!=null)
        this.dialogRef.close(user);
+    }
+     
   }
 
   onCancel(){

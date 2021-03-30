@@ -12,6 +12,13 @@ import { SlideEnabledComponent } from '../components/slide-enabled/slide-enabled
 import { ButtonCreateComponent } from '../components/button-create/button-create.component';
 import { ButtonCancelComponent } from '../components/button-cancel/button-cancel.component';
 import { SharedMaterialModule } from '../shared-material.module';
+import { FormlyPrimeNGModule } from '@ngx-formly/primeng';
+import { FormlyAutocomplete } from '../components/autocomplete/formly-autocomplete.component';
+import { AutoCompleteModule } from 'primeng/autocomplete';
+//import { MatInputModule, MatNativeDateModule } from '@angular/material';
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import { MatInputModule } from '@angular/material/input';
+import { MatNativeDateModule } from '@angular/material/core';
 
 
 
@@ -20,7 +27,8 @@ import { SharedMaterialModule } from '../shared-material.module';
     ButtonDeleteComponent,
     SlideEnabledComponent,
     ButtonCreateComponent,
-    ButtonCancelComponent],
+    ButtonCancelComponent,
+    FormlyAutocomplete],
   exports:[
     CommonModule,
     FormsModule,
@@ -38,7 +46,12 @@ import { SharedMaterialModule } from '../shared-material.module';
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
+    AutoCompleteModule,
+    MatAutocompleteModule,
+    MatInputModule,
+    MatNativeDateModule,
     FormlyModule.forRoot(config),
+    FormlyPrimeNGModule,
     FormlyMaterialModule,
     FormlyMatToggleModule,
     SharedMaterialModule

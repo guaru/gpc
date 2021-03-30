@@ -5,20 +5,22 @@
     xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd
     http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
    <changeSet id="db.changelog.avm.28012021_2" author="Alejandro Ventura">
-    <sql endDelimiter="\nGO"
-               splitStatements="true"
-               stripComments="true">
-        
-         INSERT INTO "security".users
-        (enabled, "password", user_name, email, last_name, "name")
-        VALUES(true, '$2a$10$0Ro9CLqKCi2RaccgLIg8vewwiaNNSCXF.8AXD3RVHNWBu2SW/ed6O', 
-        'administrador', 'aventura@e-gisnet.com', 'Ventura Martinez', 'Alejandro');
-
-        insert into "security".users_authorities (user_id,authoritie_id)
-        values((select id from "security".users where user_name = 'administrador'),
-        (select id from "security".authorities where "name"  = 'ROLE_ADMIN'));
-
-           <comment>INSERT USER ADMINISTRATOR</comment>
-       </sql>
+        <ext:insertMany collectionName="person">
+				<ext:documents>
+					<!-- @formatter:off -->
+					[
+						{
+							"name": "Joe",
+							"address": "China"
+						},
+						{
+							"name": "Ben",
+							"address": "Brazil"
+						}
+					]
+					<!-- @formatter:on -->
+				</ext:documents>
+	
+			</ext:insertMany>
    </changeSet>
 </databaseChangeLog>

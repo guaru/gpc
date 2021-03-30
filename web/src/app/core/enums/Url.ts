@@ -10,6 +10,7 @@ export enum Url
     SUCURSAL = 'sucursal',
     FUNCIONES = 'funciones',
     AREAS =   'areas',
+    NON_WORKING_DAYS = 'non-working-days',
     AREA = '/area',
     ID = "/:id",
     CONFIGURACION  = "configuracion",

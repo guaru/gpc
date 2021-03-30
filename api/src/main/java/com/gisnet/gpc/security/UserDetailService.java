@@ -2,6 +2,7 @@ package com.gisnet.gpc.security;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,8 +12,10 @@ import javax.mail.MessagingException;
 import com.gisnet.gpc.domain.security.Authoritie;
 import com.gisnet.gpc.domain.security.Function;
 import com.gisnet.gpc.domain.security.User;
+import com.gisnet.gpc.dto.ConfirmationDTO;
 import com.gisnet.gpc.dto.FunctionDTO;
 import com.gisnet.gpc.dto.MailDTO;
+import com.gisnet.gpc.dto.ResponseDTO;
 import com.gisnet.gpc.repository.repository.IUserRepository;
 import com.gisnet.gpc.service.IAuthoritieService;
 import com.gisnet.gpc.service.IMailService;
@@ -30,6 +33,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
@@ -113,10 +117,52 @@ public class UserDetailService implements IUserService, UserDetailsService {
 
     @Override
     public User create(User user) {
+        //BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        String uuid = java.util.UUID.randomUUID().toString();
+        //String credentials = "password"
+        //uuid = encoder.encode(uuid);
+        Calendar now = Calendar.getInstance();
+        now.add(Calendar.HOUR, 24);
         user.setFunctions(this.parseFunctions(user.getAuthorities()));
+        user.setPassword(uuid);
+        user.setSendEmailRegister(false);
+        user.setExpirationConfirmation(now.getTime());
+        user.setConfirmed(false);
         iUserRepository.save(user);
-       // this.sendMailRegister(user);
+
+        Runnable runnable = 
+        new Runnable() {
+            @Override
+            public void run() { UserDetailService.this.sendMailRegister(user); }
+        };
+
+        Thread thread = new Thread(runnable);
+        thread.start();
+
         return user;
+    }
+
+    @Override
+    public void sendEmailsWithoutSend(){
+        List<User> users = this.iUserRepository.findAllByEnabledTrueAndSendEmailRegisterFalse();
+        Calendar now = Calendar.getInstance();
+        for(User u : users){
+            Calendar expiration = Calendar.getInstance();
+                expiration.setTime(u.getExpirationConfirmation());
+
+                if(now.compareTo(expiration) > 0){
+                    /*Calendar new = Calendar.getInstance();
+                    now.add(Calendar.HOUR, 24);
+                    user.setFunctions(this.parseFunctions(user.getAuthorities()));
+                    user.setPassword(uuid);
+                    user.setSendEmailRegister(false);
+                    user.setExpirationConfirmation(now.getTime());
+                    iUserRepository.save(user);*/
+                }else{
+                    this.sendMailRegister(u);
+                }
+        }
+
     }
 
     @Override
@@ -125,6 +171,21 @@ public class UserDetailService implements IUserService, UserDetailsService {
         if(user!=null){
             source.setFunctions(this.parseFunctions(source.getAuthorities()));
             user.update(source);
+            iUserRepository.save(user);
+        }else{
+           throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        }
+        return user;
+    }
+
+    @Override
+    public User confirmationUser(ConfirmationDTO source) {
+        User user = iUserRepository.findById(source.getId()).orElse(null);
+        if(user!=null){
+            BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+            user.setPassword(encoder.encode(source.getPassword()));
+            user.setEnabled(true);
+            user.setConfirmed(true);
             iUserRepository.save(user);
         }else{
            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
@@ -172,7 +233,37 @@ public class UserDetailService implements IUserService, UserDetailsService {
     }
 
     @Override
+    public boolean sendConfirmation(String id){
+
+        
+        User user = iUserRepository.findById(id).orElse(null);
+
+        String uuid = java.util.UUID.randomUUID().toString();
+        //String credentials = "password"
+        //uuid = encoder.encode(uuid);
+        Calendar now = Calendar.getInstance();
+        now.add(Calendar.HOUR, 24);
+        user.setPassword(uuid);
+        user.setExpirationConfirmation(now.getTime());
+        iUserRepository.save(user);
+
+
+
+        Runnable runnable = 
+        new Runnable() {
+            @Override
+            public void run() { UserDetailService.this.sendMailRegister(user); }
+        };
+
+        Thread thread = new Thread(runnable);
+        thread.start();
+
+        return true;
+    }
+
+    @Override
     public void sendMailRegister(User user) {
+
         MailDTO mail = new MailDTO();
         mail.setFrom("aventura@e-gisnet.com");// replace with your desired email
         mail.setMailTo(user.getEmail());// replace with your desired email
@@ -185,7 +276,9 @@ public class UserDetailService implements IUserService, UserDetailsService {
         mail.setProps(model);
 
         try {
-            iMailService.sendMail(mail);
+            iMailService.sendMail(mail,user);
+            user.setSendEmailRegister(true);
+            this.iUserRepository.save(user);
         } catch (MessagingException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -199,6 +292,28 @@ public class UserDetailService implements IUserService, UserDetailsService {
     @Override
     public List<User> getOperators(ObjectId officeId) {
        return this.iUserRepository.findOperators(officeId,new ObjectId("6032fff88eb6c936593425f8"));
+    }
+
+    @Override
+    public ResponseDTO exist(String id, String username) {
+       
+
+       ResponseDTO response = new ResponseDTO();
+
+        User result =this.iUserRepository.findOneByIdNotAndUserName(id, username);
+        
+        if(result != null){
+            response.setError(true);
+            if(result.getEnabled() != null && result.getEnabled().booleanValue() == true){
+                response.setMessage("El usario ya se encuentra registrado y activo");
+            }else{
+                response.setMessage("El usuario ya se encuentra registrado, pero se encuentra inactivado");
+            }
+        }else{
+            response.setError(false);
+        }
+        
+        return response;
     }
 
 }

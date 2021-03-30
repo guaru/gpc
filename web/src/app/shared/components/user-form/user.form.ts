@@ -87,12 +87,12 @@ export class UserForm
           {
             className: 'col-6',
             key: 'office',
-            type: 'select',
+            type: 'autocomplete',
             defaultValue : this._officeId,
             templateOptions: {
               label: Label.OFFICE,
               required: true,
-              options: this._offices,
+              //options: this._offices,
               readonly  : this._operator,
               disabled: this._operator
             },

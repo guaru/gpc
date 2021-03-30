@@ -141,7 +141,6 @@ export class OfficeService {
 
   public search(filter:string)
   {
-      debugger;
       this._pageRequest.filters![0].value = filter;
       this.searchSubject.next(filter);
   }

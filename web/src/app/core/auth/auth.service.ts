@@ -2,6 +2,8 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
+import { ApiUri } from '../enums/ApiUri';
+import { IConfirmation } from '../interface/IConfirmation';
 import { IJwtResponse } from '../interface/IJwtResponse';
 import { INav } from '../interface/INav';
 import { ITokenInfo } from '../interface/ITokenInfo';
@@ -45,6 +47,20 @@ export class AuthService {
         catchError(this.globalConstantHttp.handleError)
       );
 
+  }
+
+  public validateConfirmation(username: string | null | undefined, password: string | null | undefined): Observable<any>{
+    let confirmation:IConfirmation = { password, username: username, id :''};
+    return this.http.put<any>(`${this.globalEnv.env.URL_API}account/validateConfirmation`,confirmation).pipe(
+      catchError(this.globalConstantHttp.handleError)
+    );
+  }
+
+  public confirmation(username: string | null | undefined, password: string | null | undefined, id: string | null | undefined): Observable<any>{
+    let confirmation:IConfirmation = { password, username, id };
+    return this.http.put<any>(`${this.globalEnv.env.URL_API}account/confirmation`,confirmation).pipe(
+      catchError(this.globalConstantHttp.handleError)
+    );
   }
 
   public getAccount(username: string): Observable<INav[]>{

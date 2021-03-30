@@ -6,13 +6,7 @@
     http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
 
    <changeSet id="db.changelog.avm.28012021_1" author="Alejandro Ventura">
-        <sql endDelimiter="\nGO" splitStatements="true" stripComments="true">
-
-                insert into "security".authorities (enabled,name)
-                values (true,'ROLE_ADMIN'), (true,'ROLE_GESTOR') ,(true,'ROLE_AFILIADO');
-
-                <comment>INSERT AUTHORITIES INIT</comment>
-        </sql>
+        <ext:createCollection collectionName="person"/>
 
    </changeSet>
 
