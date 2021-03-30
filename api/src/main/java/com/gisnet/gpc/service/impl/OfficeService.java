@@ -26,5 +26,10 @@ public class OfficeService implements IOfficeService {
            where.and(office.name.containsIgnoreCase(filter)).or(office.key.containsIgnoreCase(filter));
         return where.getValue()!=null ?  officeRepository.findAll(where.getValue(), pageable) :  officeRepository.findAll(pageable);
     }
+
+    @Override
+    public Office get(String id) {
+        return this.officeRepository.findById(id).orElse(null);
+    }
     
 }

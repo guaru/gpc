@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { Office } from 'src/app/core/models/office.model';
 import { Turn } from 'src/app/core/models/turn.model';
 import { TurnHtppService } from '../turn-htpp.service';
@@ -9,7 +9,7 @@ import { TurnFormService } from './turn-form.service';
   templateUrl: './turn-form.component.html',
   providers: [TurnFormService,TurnHtppService]
 })
-export class TurnFormComponent implements OnInit {
+export class TurnFormComponent implements OnInit,OnDestroy {
 
   @Input() office!: Office;
   @Input() turn: Turn =  new Turn();
@@ -23,9 +23,14 @@ export class TurnFormComponent implements OnInit {
 
   ngOnInit(): void
   {
+    //this.turnFormService.initSocket(); SOCKET INIT
     this.turnFormService.setModel(this.turn);
     this.turnFormService.setOffice(this.office);
     this.turnFormService.buildFileds();
+  }
+
+  ngOnDestroy(): void {
+  // this.turnFormService.endSocket();
   }
 
   onCancel(){

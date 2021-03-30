@@ -5,5 +5,6 @@ export enum ApiUri{
    AUTHORITIES='authorities',
    OFFICES = 'offices',
    TURN = 'turn',
-   USERS = 'users'
+   USERS = 'users',
+   SOCKET_TURNADOR = "socket-turnador"
 }

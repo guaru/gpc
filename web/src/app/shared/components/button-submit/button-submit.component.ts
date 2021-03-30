@@ -7,7 +7,9 @@ import { GlobalFormConstantsService } from 'src/app/core/services/global-form-co
   templateUrl: './button-submit.component.html'
 })
 export class ButtonSubmitComponent {
+
   @Input() disabled:boolean =  true;
+  @Input() label: String = 'Guardar';
   @Output() eventClick = new EventEmitter<boolean>();
 
   constructor(public globalFormConstants:GlobalFormConstantsService){}
@@ -15,4 +17,5 @@ export class ButtonSubmitComponent {
   onClick() {
     this.eventClick.emit(true);
   }
+
 }

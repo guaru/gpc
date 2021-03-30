@@ -7,4 +7,5 @@ import org.springframework.data.domain.Pageable;
 
 public interface IOfficeService {
     Page<Office> findAll(Pageable pageable, String filter);
+    Office get(String id);
 }

@@ -9,6 +9,10 @@ import { Util } from 'src/app/core/utils/Util';
 import { SpinnerService } from 'src/app/shared/components/spinner/spinner.service';
 import { TurnHtppService } from '../turn-htpp.service';
 import { TurnFurm } from './turn.form';
+import {Client, IStompSocket} from '@stomp/stompjs';
+import * as SocketJs from 'sockjs-client';
+import { GlobalEnviromentService } from 'src/app/core/services/global-enviroment.service';
+import { ApiUri } from 'src/app/core/enums/ApiUri';
 
 @Injectable()
 export class TurnFormService {
@@ -19,14 +23,37 @@ export class TurnFormService {
   public fields!: FormlyFieldConfig[];
   public form: FormGroup;
   public options: FormlyFormOptions;
+  private client!: Client;
 
   constructor(private catalogService:CatalogHttpService,
     private loadingService:SpinnerService,
     private turnHttpService:TurnHtppService,
-    private alertService:AlertService) {
+    private alertService:AlertService,
+    private globalEnv:GlobalEnviromentService) {
       this.form =  new FormGroup({});
       this.options  = {};
     }
+
+
+   public initSocket(){
+       this.client =  new Client();
+       this.client.webSocketFactory = () => {
+         return new SocketJs(`${this.globalEnv.env.URL_API}${ApiUri.SOCKET_TURNADOR}`) as IStompSocket;
+       };
+       this.client.onConnect = (frame) => {
+            console.log(frame);
+       }
+
+       this.client.activate();
+  }
+
+  public endSocket(){
+    this.client.onDisconnect = (frame)=>{
+       console.log("FINISH SOCKET");
+    }
+    this.client.deactivate();
+  }
+
 
 
   public async buildFileds()
@@ -40,7 +67,8 @@ export class TurnFormService {
 
   save(): Promise<Turn | null> {
     return new Promise((resolve) => {
-      if (this.form.valid) {
+        resolve(this.model);
+      /*if (this.form.valid) {
         this.loadingService.initLoading();
         this.turnHttpService.save(this.getModel()).subscribe(async (data: Turn) => {
           this.loadingService.endLoading();
@@ -51,7 +79,7 @@ export class TurnFormService {
           await this.alertService.error();
           resolve(null);
         });
-      }
+      }*/
     })
 
   }

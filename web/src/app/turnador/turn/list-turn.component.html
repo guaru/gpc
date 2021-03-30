@@ -1,23 +1,38 @@
-<div class="row">
+<div class="row" *ngIf="!(turnService.error$ | async)">
   <div class="col-6 col-sm-4 col-md-4 col-lg-4 col-md-offset-8">
-      <gpc-button-create (eventClick)="onCreate()"></gpc-button-create>
+    <gpc-button-create (eventClick)="onCreate()"></gpc-button-create>
   </div>
 </div>
-<div class="row mt-2">
+<div class="row mt-2" *ngIf="!(turnService.error$ | async)">
   <div class="col-12">
     <mat-tab-group>
       <mat-tab label="En Atención">
         <div class="row clear-mr">
-          <div class="col-6 col-sm-6 col-md-4 col-lg-3 mt-2" *ngFor="let item of (turnService.turnsInAttention$ | async); trackBy: turnService.itemTrackBy">
-              <gpc-turn [turn]="item" (eventAttented)="onAttented($event)" (eventToAttention)="onToAttention($event)"></gpc-turn>
+          <div class="col-6 col-sm-6 col-md-4 col-lg-3 mt-2"
+            *ngFor="let item of (turnService.turnsInAttention$ | async); trackBy: turnService.itemTrackBy">
+            <gpc-turn [turn]="item" (eventAttented)="onAttented($event)" (eventToAttention)="onToAttention($event)">
+            </gpc-turn>
           </div>
         </div>
       </mat-tab>
       <mat-tab label="Siguientes">
-
+        <div class="row clear-mr">
+          <div class="col-6 col-sm-6 col-md-4 col-lg-3 mt-2"
+            *ngFor="let item of (turnService.turnsPending$ | async); trackBy: turnService.itemTrackBy">
+            <gpc-turn [turn]="item" (eventAttented)="onAttented($event)" (eventToAttention)="onToAttention($event)">
+            </gpc-turn>
+          </div>
+        </div>
       </mat-tab>
     </mat-tab-group>
   </div>
 </div>
 
-
+<div class="row mt-2" *ngIf="turnService.error$ | async">
+  <div class="col-12">
+    <div class="alert alert-warning">
+      <h3 class="text-warning"><i class="fa fa-exclamation-triangle"></i> Warning</h3>
+      {{turnService.msgError}}
+    </div>
+  </div>
+</div>

@@ -17,7 +17,7 @@ export class TurnFurm
         fieldGroupClassName: 'row',
         fieldGroup: [
           {
-            className: 'col-6',
+            className: 'col-12',
             key: 'areas',
             type: 'select',
             templateOptions: {
@@ -28,7 +28,7 @@ export class TurnFurm
             },
           },
           {
-            className: 'col-6',
+            className: 'col-12',
             type: 'input',
             key: 'phone',
             templateOptions: {

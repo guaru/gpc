@@ -1,5 +1,6 @@
 package com.gisnet.gpc.domain.operation;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Id;
@@ -19,6 +20,11 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class Turn  {
      
+     /**
+      *
+      */
+     private static final long serialVersionUID = 1L;
+
      @Id
      private String id;   
 
@@ -38,7 +44,7 @@ public class Turn  {
      private Integer number;
 
      @Field(value = ConstantDomain.FIELD_CREATE)
-     private Date create;
+     private Long create;
 
      @Field(value = ConstantDomain.FIELD_USER_CREATE)
      private User userCreate;

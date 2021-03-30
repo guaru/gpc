@@ -59,11 +59,8 @@ export class CatalogHttpService {
   }
 
 
-  public getOffice(officeId:string): Observable<any[]> {
-    return this.http.get<Area[]>(`${this.globalEnv.env.URL_API}${ApiUri.COMMUN}/getOffice/${officeId}`).pipe(
-      map(_ => {
-        return _.map(x => { return { label: x.key + ' - ' + x.name, value: x.id } })
-      }),
+  public getOffice(officeId:string): Observable<Office> {
+    return this.http.get<Office>(`${this.globalEnv.env.URL_API}${ApiUri.COMMUN}/getOffice/${officeId}`).pipe(
       catchError(this.globalConstHttp.handleError)
     );
   }

@@ -8,9 +8,7 @@ import { GlobalConstantHttpService } from 'src/app/core/services/global-constant
 import { GlobalEnviromentService } from 'src/app/core/services/global-enviroment.service';
 import { Util } from 'src/app/core/utils/Util';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class TurnHtppService {
 
   turnsInAttention: Turn[] = [];

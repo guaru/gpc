@@ -10,9 +10,11 @@ import com.gisnet.gpc.constants.ConstantEnum;
 import com.gisnet.gpc.constants.ConstantWebApi;
 import com.gisnet.gpc.service.IDayService;
 import com.gisnet.gpc.service.IMunicipalityService;
+import com.gisnet.gpc.service.IOfficeService;
 import com.gisnet.gpc.service.IStateService;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 
 @RestController
@@ -23,6 +25,7 @@ public class CommonRestController {
     @Autowired IStateService stateService;
     @Autowired IMunicipalityService municipalityService;
     @Autowired IDayService dayService;
+    @Autowired IOfficeService officeService;
 
 
     @GetMapping(value = "/getStates")
@@ -38,6 +41,11 @@ public class CommonRestController {
     @GetMapping(value = "/getDays")
     public ResponseEntity<?> getDays() {
         return new ResponseEntity<>(dayService.getAll(), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/getOffice/{id}")
+    public ResponseEntity<?> getOffice(@PathVariable("id") String id) {
+        return new ResponseEntity<>(officeService.get(id), HttpStatus.OK);
     }
     
 }
