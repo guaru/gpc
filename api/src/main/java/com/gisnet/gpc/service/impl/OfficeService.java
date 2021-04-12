@@ -3,6 +3,7 @@ package com.gisnet.gpc.service.impl;
 import com.gisnet.gpc.constants.ConstantDomain;
 import com.gisnet.gpc.domain.catalogs.Office;
 import com.gisnet.gpc.domain.catalogs.QOffice;
+import com.gisnet.gpc.exception.NotExistException;
 import com.gisnet.gpc.repository.repository.IOfficeRepository;
 import com.gisnet.gpc.service.IOfficeService;
 import com.gisnet.gpc.util.Utils;
@@ -28,8 +29,8 @@ public class OfficeService implements IOfficeService {
     }
 
     @Override
-    public Office get(String id) {
-        return this.officeRepository.findById(id).orElse(null);
+    public Office get(String id) throws NotExistException {
+        return this.officeRepository.findById(id).orElseThrow(NotExistException::new);
     }
     
 }

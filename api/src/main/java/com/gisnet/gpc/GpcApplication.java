@@ -1,7 +1,5 @@
 package com.gisnet.gpc;
 
-
-import com.gisnet.gpc.api.liquibase.MongoLiquibaseRunner;
 import com.gisnet.gpc.repository.repository.IUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;

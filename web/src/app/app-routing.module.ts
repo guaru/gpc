@@ -9,6 +9,7 @@ import { AdministratorRoutingModule } from './administrator/administrator.routin
 import { Component404 } from './core/404/404.component';
 import { OfficeRoutingModule } from './office/office.routing';
 import { TurnadorRoutingModule } from './turnador/turnador.routing';
+import { PublicRoutingModule } from './public/public.routing';
 
 
 const routes: Routes = [
@@ -23,7 +24,8 @@ const routes: Routes = [
     CoreRoutingModule,
     AdministratorRoutingModule,
     OfficeRoutingModule,
-    TurnadorRoutingModule
+    TurnadorRoutingModule,
+    PublicRoutingModule
 
   ],
   exports: [RouterModule]

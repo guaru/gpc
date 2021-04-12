@@ -18,7 +18,7 @@ export class TurnFurm
         fieldGroup: [
           {
             className: 'col-12',
-            key: 'areas',
+            key: 'areaId',
             type: 'select',
             templateOptions: {
               label: Label.AREA,

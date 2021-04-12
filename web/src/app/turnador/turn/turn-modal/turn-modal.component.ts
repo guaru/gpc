@@ -13,6 +13,7 @@ export class TurnModalComponent implements AfterViewChecked {
   _title: string = '';
   turn: Turn;
   office: Office;
+
   constructor(
     private dialogRef: MatDialogRef<TurnModalComponent>,
     @Inject(MAT_DIALOG_DATA) data: ITurnDataModal, private cdRef: ChangeDetectorRef) {

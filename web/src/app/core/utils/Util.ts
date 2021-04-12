@@ -1,4 +1,5 @@
 import { HttpParams } from "@angular/common/http";
+import { ActivatedRoute } from "@angular/router";
 import { PageRequest } from "../models/page-request.model";
 
 export class Util
@@ -40,6 +41,17 @@ export class Util
 
   public static arrayToOption(array:any[]){
     return array.map(_=> { return { label:_.name, value:_.id} });
+  }
+
+  public static getParam(activeRoute: ActivatedRoute, param:string):Promise<string|boolean>{
+    return new Promise( resolve => {
+      activeRoute.paramMap.subscribe(async params => {
+        if (params.get(param))
+          resolve(params.get(param) || '');
+        else
+          resolve(false);
+      });
+    });
   }
 
 }

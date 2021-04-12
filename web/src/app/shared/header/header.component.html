@@ -18,9 +18,9 @@
                 <!--End Logo icon -->
                 <!-- Logo text --><span>
           <!-- dark Logo text -->
-          <img src="{{globalConstants.LOGO_TEXT}}" alt="{{globalConstants.APP_NAME}}" class="dark-logo" />
+         <!--  <img src="{{globalConstants.LOGO_TEXT}}" alt="{{globalConstants.APP_NAME}}" class="dark-logo" /> -->
           <!-- Light Logo text -->
-          <img src="{{globalConstants.LOGO_LIGHT_TEXT}}" class="light-logo" alt="{{globalConstants.APP_NAME}}" />
+          <!-- <img src="{{globalConstants.LOGO_LIGHT_TEXT}}" class="light-logo" alt="{{globalConstants.APP_NAME}}" /> -->
         </span>
             </a>
         </div>
@@ -46,8 +46,10 @@
                 <!-- Profile -->
                 <!-- ============================================================== -->
                 <li class="nav-item dropdown" *ngIf="isAuthenticated">
+
                     <a class="nav-link dropdown-toggle waves-effect waves-dark" href="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                      <img src="..." alt="AV" class="profile-pic" />
+                      <!-- <img src="..." alt="AV" class="profile-pic" /> -->
+                      {{user?.name|slice:0:1}} {{user?.lastName|slice:0:1}}
                     </a>
                     <div class="dropdown-menu dropdown-menu-right animated flipInY">
                         <ul class="dropdown-user">

@@ -1,0 +1,8 @@
+<div class="card">
+  <div class="card-body" >
+    <h3 class="text-center">Generar Turno</h3>
+
+    <gpc-turn-form *ngIf="publicTurnService.load$ | async" [office]="publicTurnService.office"></gpc-turn-form>
+  </div>
+
+</div>

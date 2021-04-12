@@ -62,13 +62,10 @@ export class TurnService {
     const dialogRef = this.dialog.open(TurnModalComponent, dialogConfig);
     dialogRef.afterClosed().subscribe(
       (data: Turn) => {
-        //if (data) {
-           // this.turnsPending$.value.push(data);
+        if (data)
            this.sendTurn(data);
-       // }
 
-      }
-    );
+      });
   }
 
   private loadOffice(officeId:string):Promise<Office | null>{
@@ -99,20 +96,62 @@ export class TurnService {
       return new SocketJs(`${this.globalEnv.env.URL_API}${ApiUri.SOCKET_TURNADOR}`) as IStompSocket;
     };
     this.client.onConnect = (frame) => {
-      console.log(frame);
-       this.client.subscribe(`/api/turnador/${this.office?.id}`, e =>{
+
+      //SUBSCRIBE TURNS PENDING ATTENTION
+      this.client.subscribe(`/api/turnador/pending/${this.office?.id}`, e =>{
              let turn : Turn =  JSON.parse(e.body) as Turn;
-             console.log(turn);
              this.turnsPending$.value.push(turn);
+             this.turnsPending$.value.sort((a: Turn, b: Turn) => a.number! > b.number! ? 1 : -1)
        });
+
+      //SUBSCRIBE TURN IN ATTENTION
+      this.client.subscribe(`/api/turnador/in-attention/${this.office?.id}`, e => {
+        let turn: Turn = JSON.parse(e.body) as Turn;
+        this.turnsPending$.next(this.turnsPending$.value.filter(_ => _.id != turn.id).sort((a:Turn,b:Turn)=> a.number! > b.number! ? 1 : -1));
+        this.turnsInAttention$.value.push(turn);
+        this.turnsInAttention$.value.sort((a: Turn, b: Turn) => a.number! > b.number! ? 1 : -1)
+      });
+
+      //SUBSCRIBE TURN ATTENDED (FINISH PROCESES)
+      this.client.subscribe(`/api/turnador/attended/${this.office?.id}`, e => {
+        let turn: Turn = JSON.parse(e.body) as Turn;
+        this.turnsInAttention$.next(this.turnsInAttention$.value.filter(_ => _.id != turn.id).sort((a: Turn, b: Turn) => a.number! > b.number! ? 1 : -1));
+      });
+
+
+
+      this.client.subscribe(`/api/turnador/in-attention/${this.office?.id}/1`, e => {
+        let turn: Turn[] = JSON.parse(e.body) as Turn[];
+        this.turnsInAttention$.next(turn);
+      });
+
+      this.client.subscribe(`/api/turnador/in-pending/${this.office?.id}/1`, e => {
+        let turn: Turn[] = JSON.parse(e.body) as Turn[];
+        this.turnsPending$.next(turn);
+      });
+
+      this.client.publish({ destination: `/api/socket/turn/get-inattention/${this.office?.id}/1` });
+      this.client.publish({ destination: `/api/socket/turn/get-pending/${this.office?.id}/1`});
+
+
+
     }
 
     this.client.activate();
   }
 
   public sendTurn(turn:Turn){
-    console.log("SEND TURN");
-    this.client.publish({destination: `/api/socket/turn/${this.office?.id}`,body: JSON.stringify(turn)});
+    this.client.publish({destination: `/api/socket/turn/new/${this.office?.id}`,body: JSON.stringify(turn)});
+  }
+
+  public toAttention(turn:Turn){
+    this.client.publish({ destination: `/api/socket/turn/to-attention/${this.office?.id}`, body: JSON.stringify(turn) });
+  }
+
+
+  public attended(turn: Turn) {
+    console.log(turn);
+    this.client.publish({ destination: `/api/socket/turn/attended/${this.office?.id}`, body: JSON.stringify(turn) });
   }
 
   public endSocket() {

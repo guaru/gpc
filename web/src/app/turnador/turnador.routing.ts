@@ -11,8 +11,8 @@ const routes: Routes =
     {
       path: Url.TURNADOR,
       component: TurnadorComponent,
-     //canActivate: [AuthGuard, RoleGuard],
-     // canLoad: [AuthGuard],
+      canActivate: [AuthGuard, RoleGuard],
+      canLoad: [AuthGuard],
       loadChildren: () => import('./child-routes.module').then(md => md.ChildRoutingModule),
       data: {
         rol: [Role.ROLE_OPERATOR,Role.ROLE_ADMIN_OFFICE]

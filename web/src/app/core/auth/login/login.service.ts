@@ -6,6 +6,7 @@ import { Login } from '../../models/login.model';
 import { AuthService } from '../auth.service';
 import { Router } from '@angular/router';
 import { Url } from '../../enums/Url';
+import { Role } from '../../enums/Role';
 
 @Injectable()
 export class LoginService {
@@ -42,12 +43,22 @@ export class LoginService {
         this._invalidUser = false;
         const isSave =  await this.authService.saveUser(response);
         if(isSave)
-          this.router.navigate([Url.ADMINISTRADOR]);
+           this.redirect();
 
       },error =>{
               this._invalidUser = true;
       });
   }
+
+  private redirect():void {
+      if(this.authService.hasRole(Role.ROLE_ADMIN))
+         this.router.navigate([Url.ADMINISTRADOR]);
+      else if (this.authService.hasRole(Role.ROLE_ADMIN_OFFICE))
+         this.router.navigate([`${Url.SUCURSAL}/${Url.CONFIGURACION}`]);
+      else if (this.authService.hasRole(Role.ROLE_OPERATOR))
+         this.router.navigate([Url.TURNADOR]);
+  }
+
   public get invalidUser(): boolean {
     return this._invalidUser;
   }

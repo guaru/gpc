@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.gisnet.gpc.constants.ConstantEnum;
 import com.gisnet.gpc.constants.ConstantWebApi;
+import com.gisnet.gpc.exception.NotExistException;
 import com.gisnet.gpc.service.IDayService;
 import com.gisnet.gpc.service.IMunicipalityService;
 import com.gisnet.gpc.service.IOfficeService;
@@ -19,8 +20,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 @RestController
 @RequestMapping(value = ConstantWebApi.COMMON_URI)
-@Secured({ConstantEnum.Authoritie.Code.ROLE_ADMIN,ConstantEnum.Authoritie.Code.ROLE_ADMIN_OFFICE})
-public class CommonRestController {
+@Secured({ConstantEnum.Authoritie.Code.ROLE_ADMIN,
+    ConstantEnum.Authoritie.Code.ROLE_ADMIN_OFFICE,
+    ConstantEnum.Authoritie.Code.ROL_OPERATOR})
+public class CommonRestController extends ExceptionRestController {
 
     @Autowired IStateService stateService;
     @Autowired IMunicipalityService municipalityService;
@@ -44,7 +47,7 @@ public class CommonRestController {
     }
 
     @GetMapping(value = "/getOffice/{id}")
-    public ResponseEntity<?> getOffice(@PathVariable("id") String id) {
+    public ResponseEntity<?> getOffice(@PathVariable("id") String id) throws NotExistException  {
         return new ResponseEntity<>(officeService.get(id), HttpStatus.OK);
     }
     

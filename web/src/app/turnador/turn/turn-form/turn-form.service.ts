@@ -17,7 +17,6 @@ import { ApiUri } from 'src/app/core/enums/ApiUri';
 @Injectable()
 export class TurnFormService {
 
-  private _areas!: any[];
   private _office!:Office;
   public model!: Turn;
   public fields!: FormlyFieldConfig[];
@@ -67,19 +66,18 @@ export class TurnFormService {
 
   save(): Promise<Turn | null> {
     return new Promise((resolve) => {
-        resolve(this.model);
-      /*if (this.form.valid) {
+      if (this.form.valid) {
         this.loadingService.initLoading();
         this.turnHttpService.save(this.getModel()).subscribe(async (data: Turn) => {
           this.loadingService.endLoading();
-          await this.alertService.success();
+          this.alertService.success(`Turno generado  ${data.key}-${data.number}`);
           resolve(data);
         }, async error => {
           this.loadingService.endLoading();
           await this.alertService.error();
           resolve(null);
         });
-      }*/
+      }
     })
 
   }
@@ -97,8 +95,9 @@ export class TurnFormService {
       this.model =  model;
   }
 
-
   public getModel(){
+    this.model.area =  this._office?.areas?.find(_=>_.id===this.model.areaId);
+    this.model.office =  this._office;
     return this.model;
   }
 

@@ -23,6 +23,8 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
     public void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
         .antMatchers("/api/socket-turnador/**",
+        "/api/turn/**",
+        "/api/commun-public/**",
         "/api/account/validateConfirmation", 
         "/api/account/confirmation",
         "/index.html", 

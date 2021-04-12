@@ -1,10 +1,7 @@
 package com.gisnet.gpc.task;
 
 import java.text.SimpleDateFormat;
-import java.util.Date;
-
 import com.gisnet.gpc.service.IUserService;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

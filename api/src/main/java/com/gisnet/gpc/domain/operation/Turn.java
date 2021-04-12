@@ -4,13 +4,18 @@ import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Id;
+import javax.validation.constraints.NotNull;
+
 import com.gisnet.gpc.constants.ConstantDomain;
+import com.gisnet.gpc.domain.catalogs.Area;
 import com.gisnet.gpc.domain.catalogs.Office;
 import com.gisnet.gpc.domain.security.User;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.index.TextIndexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.format.annotation.DateTimeFormat.ISO;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -18,7 +23,7 @@ import lombok.NoArgsConstructor;
 @Document(collection =  ConstantDomain.COLL_TURNS)
 @Data
 @NoArgsConstructor
-public class Turn  {
+public class Turn implements Serializable {
      
      /**
       *
@@ -38,13 +43,26 @@ public class Turn  {
 
      @Field(value = ConstantDomain.FIELD_OFFICE)
      @Indexed(background = true)
+     @NotNull
      private Office office;
+
+     @Field(value = ConstantDomain.FIELD_AREA)
+     @Indexed(background = true)
+     @NotNull
+     private Area area;
 
      @Field(value = ConstantDomain.FIELD_NUMBER)
      private Integer number;
 
      @Field(value = ConstantDomain.FIELD_CREATE)
-     private Long create;
+     @DateTimeFormat(iso = ISO.DATE_TIME)
+     private Date   createInstant;
+
+     @Field(value = ConstantDomain.FIELD_ATTENDED_TIME)
+     @DateTimeFormat(iso = ISO.DATE_TIME)
+     private Date   attendedInstant;
+
+     private String dateCreate;
 
      @Field(value = ConstantDomain.FIELD_USER_CREATE)
      private User userCreate;
@@ -52,6 +70,7 @@ public class Turn  {
      @Field(value = ConstantDomain.FIELD_IS_CLIENT)
      private Boolean isClient;
      
+ 
      @Field(value = ConstantDomain.FIELD_ATTENDED)
      private Boolean attended;
 
@@ -64,6 +83,8 @@ public class Turn  {
 
      @Field(value=ConstantDomain.FIELD_PHONE)
      private String phone;
+
+     private Boolean inUse;
 
 
 }

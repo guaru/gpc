@@ -1,6 +1,6 @@
 <div class="row" *ngIf="!(turnService.error$ | async)">
   <div class="col-6 col-sm-4 col-md-4 col-lg-4 col-md-offset-8">
-    <gpc-button-create (eventClick)="onCreate()"></gpc-button-create>
+    <gpc-button-create (eventClick)="onCreate()" [label]="'Nuevo Turno'"></gpc-button-create>
   </div>
 </div>
 <div class="row mt-2" *ngIf="!(turnService.error$ | async)">
@@ -10,7 +10,7 @@
         <div class="row clear-mr">
           <div class="col-6 col-sm-6 col-md-4 col-lg-3 mt-2"
             *ngFor="let item of (turnService.turnsInAttention$ | async); trackBy: turnService.itemTrackBy">
-            <gpc-turn [turn]="item" (eventAttented)="onAttented($event)" (eventToAttention)="onToAttention($event)">
+            <gpc-turn [turn]="item" (eventAttented)="onAttented($event)" >
             </gpc-turn>
           </div>
         </div>
@@ -19,7 +19,7 @@
         <div class="row clear-mr">
           <div class="col-6 col-sm-6 col-md-4 col-lg-3 mt-2"
             *ngFor="let item of (turnService.turnsPending$ | async); trackBy: turnService.itemTrackBy">
-            <gpc-turn [turn]="item" (eventAttented)="onAttented($event)" (eventToAttention)="onToAttention($event)">
+            <gpc-turn [turn]="item"  (eventToAttention)="onToAttention($event)">
             </gpc-turn>
           </div>
         </div>

@@ -12,6 +12,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AdministratorModule } from './administrator/administrator.module';
 import { OfficeModule } from './office/office.module';
 import { TurnadorModule } from './turnador/turnador.module';
+import { PublicComponent } from './public/public.component';
+import { PublicModule } from './public/public.module';
 
 
 
@@ -20,6 +22,7 @@ import { TurnadorModule } from './turnador/turnador.module';
 @NgModule({
   declarations: [
     AppComponent,
+    PublicComponent,
 
   ],
   imports: [
@@ -29,7 +32,9 @@ import { TurnadorModule } from './turnador/turnador.module';
     OfficeModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    TurnadorModule
+    TurnadorModule,
+    PublicModule
+
 
 
   ],

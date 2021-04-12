@@ -69,3 +69,8 @@ table {
 .mat-column-created {
   max-width: 124px;
 }
+
+
+.fix-header .page-wrapper-single {
+  padding-top: 70px;
+}

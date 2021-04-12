@@ -1,3 +1,4 @@
+import { Input } from '@angular/core';
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 
 
@@ -6,7 +7,7 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
   templateUrl: './button-create.component.html'
 })
 export class ButtonCreateComponent{
-
+  @Input('label') label : string = "Crear";
   @Output() eventClick = new EventEmitter<boolean>();
 
   constructor() { }

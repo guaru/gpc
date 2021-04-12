@@ -38,8 +38,11 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/api/socket-turnador/**", "/index.html", "/webjars/**",
-                        "/js/**").permitAll()
+                .antMatchers("/api/socket-turnador/**", 
+                  "/api/turn/**",
+                  "/api/commun-public/**",
+                  "/index.html", "/webjars/**",
+                  "/js/**").permitAll()
                 .anyRequest().authenticated().and().csrf().disable().sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
     }

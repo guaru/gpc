@@ -13,8 +13,8 @@ export class ListTurnComponent implements OnInit, OnDestroy {
 
    constructor(public turnService:TurnService,private authService:AuthService) {}
 
-    ngOnInit(): void {
-      this.turnService.init(this.authService.user?.office?.id || '');
+    async ngOnInit() {
+      await  this.turnService.init(this.authService.user?.office?.id || '');
       this.turnService.initSocket();
     }
 
@@ -26,12 +26,14 @@ export class ListTurnComponent implements OnInit, OnDestroy {
         this.turnService.create();
     }
 
-    onAttented($turn:Turn |null){
-      console.log($turn?.id);
+    onAttented($turn:Turn|null){
+      if ($turn != null)
+        this.turnService.attended($turn);
     }
 
     onToAttention($turn:Turn|null){
-      console.log($turn?.id);
+      if ($turn != null)
+        this.turnService.toAttention($turn);
     }
 
 }

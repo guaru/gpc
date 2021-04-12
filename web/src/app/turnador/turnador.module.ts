@@ -9,18 +9,20 @@ import { ListTurnComponent } from './turn/list-turn.component';
 import { TurnComponent } from './turn/turn.component';
 import { TurnFormComponent } from './turn/turn-form/turn-form.component';
 import { TurnModalComponent } from './turn/turn-modal/turn-modal.component';
+import { TurnFormModule } from './turn/turn-form/turn-form.module';
 
 
 
 
 @NgModule({
-  declarations: [TurnadorComponent, ListTurnComponent, TurnComponent, TurnFormComponent, TurnModalComponent],
+  declarations: [TurnadorComponent, ListTurnComponent, TurnComponent, TurnModalComponent],
   imports: [
     CommonModule,
     RouterModule,
     SharedMaterialModule,
     SharedModule,
-    UiFormModule
+    UiFormModule,
+    TurnFormModule
   ]
 })
 export class TurnadorModule { }
