@@ -7,6 +7,7 @@ export const environment = {
   URL_API : "http://localhost:8080/api/",
   URL_API_AUTH: "http://localhost:8080/oauth/token",
   CLIENT_API_ID: "client_web",
+  HOST_PUBLIC: "http://localhost:4200/public/sucursal/",
   CLIENT_API_KEY: "26JDsduwTkGmSyN9fqNvmX4CZbEjT7xK37Yk"
 };
 

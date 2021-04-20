@@ -1,11 +1,13 @@
 package com.gisnet.gpc.service.impl;
 
 import java.util.Date;
-import java.util.List;
 import com.gisnet.gpc.constants.ConstantDomain;
 import com.gisnet.gpc.domain.catalogs.Office;
 import com.gisnet.gpc.domain.operation.Sequence;
 import com.gisnet.gpc.domain.operation.Turn;
+import com.gisnet.gpc.dto.DetailDTO;
+import com.gisnet.gpc.dto.DetailListTurnDTO;
+import com.gisnet.gpc.exception.NotExistException;
 import com.gisnet.gpc.exception.TurnException;
 import com.gisnet.gpc.repository.repository.ITurnRepository;
 import com.gisnet.gpc.service.IOfficeService;
@@ -16,11 +18,19 @@ import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.FindAndModifyOptions;
 import org.springframework.data.mongodb.core.MongoOperations;
+import org.springframework.data.mongodb.core.aggregation.Aggregation;
+import org.springframework.data.mongodb.core.aggregation.AggregationResults;
+import org.springframework.data.mongodb.core.aggregation.GroupOperation;
+import org.springframework.data.mongodb.core.aggregation.MatchOperation;
+import org.springframework.data.mongodb.core.aggregation.ProjectionOperation;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
-
+import static org.springframework.data.mongodb.core.aggregation.Aggregation.group;
+import static org.springframework.data.mongodb.core.aggregation.Aggregation.match;
+import static org.springframework.data.mongodb.core.aggregation.Aggregation.newAggregation;
+import static org.springframework.data.mongodb.core.aggregation.Aggregation.project;
 
 /**
  * BUSSNESS LOGIC TURN
@@ -40,7 +50,9 @@ public class TurnService implements ITurnService {
         Office office  = new Office();
         office.setId(turn.getOffice().getId());
         office.setName(turn.getOffice().getName());
+        office.setKey(turn.getOffice().getKey());
         turn.setOffice(office);
+  
         turn.setKey(turn.getArea().getKey());
         turn.setDateCreate(UtilDate.getDate());
         turn.setCreateInstant(new Date());
@@ -68,9 +80,13 @@ public class TurnService implements ITurnService {
     }
 
     @Override
-    public List<Turn> getInAttention(String officeId) {
-       //return this.turnRepository.findInAttention(new ObjectId(officeId),true);
-       return this.turnRepository.findByInAttentionAndOfficeIdAndDateCreateOrderByNumberAsc(true, new ObjectId(officeId),UtilDate.getDate());
+    public DetailListTurnDTO getInAttention(String officeId) {
+        DetailListTurnDTO result =  new DetailListTurnDTO();
+        result.setTurns(this.turnRepository.findByInAttentionAndOfficeIdAndDateCreateOrderByNumberAsc(true,
+                new ObjectId(officeId), UtilDate.getDate()));
+        AggregationResults<DetailDTO> detail = this.getDetailInAttention(new ObjectId(officeId));;
+        result.setDetail(detail!=null ?  detail.getMappedResults() : null);
+       return result;
     }
 
     @Override
@@ -86,9 +102,14 @@ public class TurnService implements ITurnService {
     }
 
     @Override
-    public List<Turn> getPending(String officeId) {
-        return this.turnRepository.findByInAttentionAndAttendedAndOfficeIdAndDateCreateOrderByNumberAsc(false, false,new ObjectId(officeId),UtilDate.getDate());
+    public DetailListTurnDTO getPending(String officeId) {
+        DetailListTurnDTO result = new DetailListTurnDTO();
+        result.setTurns(this.turnRepository.findByInAttentionAndAttendedAndOfficeIdAndDateCreateOrderByNumberAsc(false, false,new ObjectId(officeId),UtilDate.getDate()));
+        AggregationResults<DetailDTO> detail = this.getDetailPending(new ObjectId(officeId));
+        result.setDetail(detail != null ? detail.getMappedResults() : null);
+        return result;
     }
+
 
     @Override
     public Turn attended(Turn turn) throws TurnException {
@@ -103,6 +124,38 @@ public class TurnService implements ITurnService {
         }
         return _turn;
     }
+
+    @Override
+    public Turn get(ObjectId id) throws NotExistException {
+        return this.turnRepository.findById(id.toString()).orElseThrow(NotExistException::new);
+    }
+
+    @Override
+    public AggregationResults<DetailDTO> getDetailInAttention(ObjectId officeId) {
+        return this.findGroupArea(officeId, true);
+    }
+
+    @Override
+    public AggregationResults<DetailDTO> getDetailPending(ObjectId officeId) {
+        return this.findGroupArea(officeId, false);
+    }
+
+    private  AggregationResults<DetailDTO>  findGroupArea(ObjectId officeId,boolean inAttention){
+        GroupOperation groupByStateAndSumPop = group("area.name").count().as("total");
+        MatchOperation filterStates = match(
+                Criteria.where("office._id").is(officeId)
+                        .and(ConstantDomain.FIELD_DATE_CREATE).is(UtilDate.getDate())
+                        .and(ConstantDomain.FIELD_IN_ATTENTION).is(inAttention)
+                        .and(ConstantDomain.FIELD_ATTENDED).is(false));
+        ProjectionOperation projectToMatchModel = project().andExpression("_id").as("area").andExpression("total")
+                .as("total");
+        Aggregation aggregation = newAggregation(filterStates, groupByStateAndSumPop, projectToMatchModel);
+        AggregationResults<DetailDTO> result = mongo.aggregate(aggregation, ConstantDomain.COLL_TURNS, DetailDTO.class);
+        return result;
+    }
+
+
+
 
 
 }

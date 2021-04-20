@@ -14,6 +14,7 @@ export class TurnFormComponent implements OnInit,OnDestroy {
   @Input() office!: Office;
   @Input() turn: Turn =  new Turn();
   @Input() modal!: Office;
+  @Input() public: boolean =  false;
   @Output() eventSave = new EventEmitter<Turn | null>();
   @Output() eventCancel = new EventEmitter<boolean>();
   @Output() eventDelete = new EventEmitter<Turn | null>();

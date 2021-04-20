@@ -136,6 +136,20 @@ export class OfficeForm {
           },
           {
             className: 'col-3',
+            key: "notificationNext",
+            type: 'input',
+            templateOptions: {
+              type:"number",
+              label: 'Notificación turnos proximos',
+              required: true,
+              min:1,
+              max:20,
+              description: '',
+
+            },
+          },
+          {
+            className: 'col-3',
             key: "enabled",
             type: 'toggle',
             hide: this._modConfiguration,
@@ -146,7 +160,8 @@ export class OfficeForm {
             },
           },
         ]
-      }];
+      },
+    ];
 
   }
 

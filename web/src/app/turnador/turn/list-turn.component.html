@@ -1,12 +1,39 @@
 <div class="row" *ngIf="!(turnService.error$ | async)">
-  <div class="col-6 col-sm-4 col-md-4 col-lg-4 col-md-offset-8">
+  <!-- SI APRUEBAN EL BOTON CIRCULAR ESTE SE BORRA -->
+ <!-- <div class="col-6 col-sm-4 col-md-4 col-lg-4 col-md-offset-8">
     <gpc-button-create (eventClick)="onCreate()" [label]="'Nuevo Turno'"></gpc-button-create>
+  </div> -->
+  <!--<div class="col-6 col-sm-4 col-md-4 col-lg-4">
+    <button type="button" class="btn btn-outline-danger w-100" (click)="onScanner()">
+      <i class="mdi mdi-qrcode-scan"></i> Escanear QR
+    </button>
+  </div> -->
+  <div class="col-12">
+
   </div>
+
 </div>
+
+
 <div class="row mt-2" *ngIf="!(turnService.error$ | async)">
   <div class="col-12">
     <mat-tab-group>
+
+      <!-- EN ATENCIÓN -->
       <mat-tab label="En Atención">
+        <ng-template mat-tab-label>
+          En Atención
+          <span class="badge badge-secondary ml-1">{{turnService.totalInAttention$| async}}</span>
+        </ng-template>
+        <div class="row clear-mr mt-1">
+          <div class="col-12">
+              <label class="label label-danger label-circle ml-1"
+                *ngFor="let i of (turnService.detailInAttention$ | async); trackBy: turnService.itemDetailTrackBy">
+                {{i.area}} <b> <span class="badge badge-light">{{i.total}}</span></b>
+              </label>
+          </div>
+        </div>
+
         <div class="row clear-mr">
           <div class="col-6 col-sm-6 col-md-4 col-lg-3 mt-2"
             *ngFor="let item of (turnService.turnsInAttention$ | async); trackBy: turnService.itemTrackBy">
@@ -15,7 +42,24 @@
           </div>
         </div>
       </mat-tab>
+    <!-- / EN ATENCIÓN -->
+
+    <!-- SIGUIENTES -->
       <mat-tab label="Siguientes">
+        <ng-template mat-tab-label>
+          Siguientes
+          <span class="badge badge-secondary ml-1">{{turnService.totalPending$ | async}}</span>
+        </ng-template>
+
+        <div class="row clear-mr mt-1">
+            <div class="col-12">
+              <label class="label label-danger label-circle ml-1"
+                *ngFor="let i of (turnService.detailPending$ | async); trackBy: turnService.itemDetailTrackBy">
+                {{i.area}} <b> <span class="badge badge-light">{{i.total}}</span></b>
+              </label>
+            </div>
+        </div>
+
         <div class="row clear-mr">
           <div class="col-6 col-sm-6 col-md-4 col-lg-3 mt-2"
             *ngFor="let item of (turnService.turnsPending$ | async); trackBy: turnService.itemTrackBy">
@@ -24,7 +68,10 @@
           </div>
         </div>
       </mat-tab>
+    <!-- / SIGUIENTES -->
+
     </mat-tab-group>
+
   </div>
 </div>
 
@@ -36,3 +83,15 @@
     </div>
   </div>
 </div>
+
+<button *ngIf="!(turnService.error$ | async)" (click)="onScanner()"
+  data-toggle="tooltip" data-placement="left" data-original-title="Escanear QR"
+  class="right-side-toggle  waves-light btn-inverse btn btn-circle btn-sm pull-right m-l-10 btn-scanner">
+  <i class="mdi mdi-qrcode-scan  text-white"></i>
+</button>
+<button   *ngIf="!(turnService.error$ | async)"
+data-toggle="tooltip" data-placement="left" data-original-title="Generar nuevo turno"
+(click)="onCreate()" class="right-side-toggle  waves-light btn-inverse btn btn-circle btn-sm pull-right m-l-10">
+  <i class="ti-plus  text-white"></i>
+</button>
+

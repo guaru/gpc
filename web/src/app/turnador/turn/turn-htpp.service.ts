@@ -14,7 +14,10 @@ export class TurnHtppService {
   turnsInAttention: Turn[] = [];
   turn!:Turn;
 
-  constructor(private http: HttpClient, private globalEnv: GlobalEnviromentService, private globalConstantHttpService:GlobalConstantHttpService) {
+  constructor(private http: HttpClient,
+     private globalEnv: GlobalEnviromentService,
+     private globalConstantHttpService:GlobalConstantHttpService
+     ) {
 
   }
 
@@ -28,6 +31,11 @@ export class TurnHtppService {
         catchError(this.globalConstantHttpService.handleError),
       );
     }
+  }
+
+  public get(id:string):Observable<Turn>{
+    return this.http.get<Turn>(`${this.globalEnv.env.URL_API}${ApiUri.TURN}/${id}`)
+      .pipe(catchError(this.globalConstantHttpService.handleError));
   }
 
   public getInAttention(officeId:string){

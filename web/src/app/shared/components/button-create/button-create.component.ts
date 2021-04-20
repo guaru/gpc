@@ -8,6 +8,7 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 })
 export class ButtonCreateComponent{
   @Input('label') label : string = "Crear";
+  @Input('icon') icon: string = "fa fa-plus";
   @Output() eventClick = new EventEmitter<boolean>();
 
   constructor() { }

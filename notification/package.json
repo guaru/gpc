@@ -4,15 +4,24 @@
   "description": "SERVICE NOTIFIICATION SMS",
   "main": "index.js",
   "scripts": {
+    "start": "node ./bin/www",
+    "develop": "node ./node_modules/nodemon/bin/nodemon.js ./bin/www",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Alejandro Ventura Martinez",
   "license": "ISC",
   "dependencies": {
+    "async-each": "^1.0.3",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "mongoose": "^5.12.3",
     "node-cron": "^2.0.3",
+    "socket.io-client": "^4.0.1",
+    "sockjs-client": "^1.5.1",
+    "stompjs": "^2.3.3",
     "twilio": "^3.59.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.7"
   }
 }

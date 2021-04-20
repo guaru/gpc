@@ -13,7 +13,9 @@ export class Office {
     public daysOperation?:String[],
     public initTimeAttention?:string,
     public endTimeAttention?:string,
+    public notificationNext?:number,
     public enabled?: boolean
+
 
   ){
 

@@ -62,6 +62,7 @@ public class Turn implements Serializable {
      @DateTimeFormat(iso = ISO.DATE_TIME)
      private Date   attendedInstant;
 
+     @Field(value = ConstantDomain.FIELD_DATE_CREATE)
      private String dateCreate;
 
      @Field(value = ConstantDomain.FIELD_USER_CREATE)
@@ -85,6 +86,10 @@ public class Turn implements Serializable {
      private String phone;
 
      private Boolean inUse;
+     
+  
+
+
 
 
 }

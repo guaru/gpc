@@ -53,6 +53,7 @@ public class ConstantDomain {
     public final static String FIELD_OFFICE = "office";
     public final static String FIELD_ATTENDED = "attended";
     public final static String FIELD_ATTENDED_TIME = "attendedTime";
+    public final static String FIELD_DATE_CREATE = "dateCreate";
     public final static String FIELD_IN_ATTENTION = "inAttention";
     public final static String FIELD_DAY = "day";
     public final static String FIELD_MONTH = "month";
@@ -61,6 +62,10 @@ public class ConstantDomain {
     public final static String FIELD_OFFICE_ID = "officeId";
     public final static String FIELD_AREA_ID = "areaId";
     public final static String FIELD_DATE = "date";
+
+    //public final static String FIELD_LIMIT_ABILITY = "limitGeneral";
+    //public final static String FIELD_LIMIT_ABILITY = "limitAbility";
+    public final static String FIELD_NOTIFICATION_NEXT = "notificationNext";
     // COLUMNS ID
     public final static String FIELD_ID = "id";
     

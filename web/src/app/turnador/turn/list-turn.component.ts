@@ -36,4 +36,8 @@ export class ListTurnComponent implements OnInit, OnDestroy {
         this.turnService.toAttention($turn);
     }
 
+
+    onScanner(){
+      this.turnService.scannerModal();
+    }
 }

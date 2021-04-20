@@ -12,17 +12,14 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AdministratorModule } from './administrator/administrator.module';
 import { OfficeModule } from './office/office.module';
 import { TurnadorModule } from './turnador/turnador.module';
-import { PublicComponent } from './public/public.component';
 import { PublicModule } from './public/public.module';
-
 
 
 
 
 @NgModule({
   declarations: [
-    AppComponent,
-    PublicComponent,
+    AppComponent
 
   ],
   imports: [

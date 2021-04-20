@@ -10,6 +10,8 @@ export class ButtonSubmitComponent {
 
   @Input() disabled:boolean =  true;
   @Input() label: String = 'Guardar';
+  @Input() icon: String = 'mdi mdi-content-save';
+
   @Output() eventClick = new EventEmitter<boolean>();
 
   constructor(public globalFormConstants:GlobalFormConstantsService){}

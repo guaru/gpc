@@ -16,4 +16,6 @@ export class ConfigurationComponent implements OnInit {
     this.configurationService.setOffice();
   }
 
+
+
 }

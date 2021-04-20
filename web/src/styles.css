@@ -74,3 +74,29 @@ table {
 .fix-header .page-wrapper-single {
   padding-top: 70px;
 }
+
+
+:host zxing-scanner::ng-deep video {
+    max-height: 30vh;
+    object-fit: contain;
+}
+:host zxing-scanner::ng-deep {
+    border-style: solid;
+    border-color: #5d78ff;
+}
+
+
+.btn-scanner{
+  bottom: 100px !important;
+}
+
+.btn-scanner i{
+  font-size: 23px !important;
+  top:9px !important;
+  left:14px !important;
+}
+
+.badge{
+  font-size: 100% !important;
+}
+

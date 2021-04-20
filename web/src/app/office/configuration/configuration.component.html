@@ -1,23 +1,36 @@
 <div class="row" *ngIf="configurationService.office">
-    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+   <div class="col-12 col-md-4 col-lg-4 text-center">
+        <button class="btn btn-rounded btn-success">Descargar</button>
+        <qrcode [qrdata]="configurationService.qrdata" [width]="256" [errorCorrectionLevel]="'M'"></qrcode>
+   </div>
+
+  <div class="col-12 col-md-8 col-lg-8 row">
+
+    <div class="col-12 col-sm-6 col-md-4 col-lg-4">
        <label>Sucursal</label>
        <h3>{{configurationService.office?.name}}</h3>
     </div>
-    <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
-      <label>Clave</label>
-      <h3>{{configurationService.office?.key}}</h3>
-    </div>
-    <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
-         <label>Estatus</label>
-          <h3>{{configurationService.office?.enabled ? 'En operación' : 'Inactiva' }}</h3>
-    </div>
-    <div class="col-6">
-      <label>Estado</label>
-      <h3>{{configurationService.office?.state?.name}}</h3>
-    </div>
-    <div class="col-6">
-      <label>Dirección</label>
-      <h3>{{configurationService.office?.address}}</h3>
-    </div>
+
+
+      <div class="col-12 col-sm-6 col-md-4 col-lg-4">
+        <label>Clave</label>
+        <h3>{{configurationService.office?.key}}</h3>
+      </div>
+
+      <div class="col-12 col-sm-3 col-md-4 col-lg-4">
+          <label>Estatus</label>
+            <h3>{{configurationService.office?.enabled ? 'En operación' : 'Inactiva' }}</h3>
+      </div>
+
+      <div class="col-4 col-md-4 col-lg-4">
+        <label>Estado</label>
+        <h3>{{configurationService.office?.state?.name}}</h3>
+      </div>
+
+      <div class="col-4 col-md-4 col-lg-4">
+        <label>Dirección</label>
+        <h3>{{configurationService.office?.address}}</h3>
+      </div>
+   </div>
 </div>
 <gpc-office-form  *ngIf="configurationService.office" [data]="configurationService.office" [modConfig]="true"></gpc-office-form>

@@ -26,26 +26,26 @@ import { UserFormComponent } from './components/user-form/user-form.component';
     BreadcrumbsComponent,
     SidebarComponent,
     HeaderComponent,
-    SpinnerComponent,
     SearchTextComponent,
     OfficeFormComponent,
-    UserFormComponent
+    UserFormComponent,
+    SpinnerComponent
   ],
   exports:[
     BreadcrumbsComponent,
     SidebarComponent,
     HeaderComponent,
-    SpinnerComponent,
     SearchTextComponent,
     OfficeFormComponent,
-    UserFormComponent
+    UserFormComponent,
+    SpinnerComponent
   ],
   imports: [
     CommonModule,
     SharedMaterialModule,
     FormsModule,
     UiFormModule,
-    RouterModule,
+    RouterModule
   ]
 })
 export class SharedModule { }

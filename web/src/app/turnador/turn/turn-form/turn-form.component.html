@@ -4,13 +4,20 @@
 </div>
 
 <div class="row mt-3" *ngIf="turnFormService.fields">
-  <div class="col-6 co-sm-6 col-md-4 col-lg-4" >
+  <div class="col-6 co-sm-6 col-md-4 col-lg-4" *ngIf="!public" >
     <gpc-button-cancel (clickEvent)="onCancel()"></gpc-button-cancel>
   </div>
 
-  <div class="col-6 col-sm-6 col-md-4 col-lg-4">
+  <div class="col-6 col-sm-6 col-md-4 col-lg-4" *ngIf="!public">
     <gpc-button-submit [disabled]="!turnFormService.form.valid"
     (eventClick)="onSave()" [label]="'Crear'">
     </gpc-button-submit>
   </div>
+
+  <div class="col-12 col-md-6" *ngIf="public">
+  <gpc-button-submit [disabled]="!turnFormService.form.valid" (eventClick)="onSave()"
+   [label]="'Generar Turno'" [icon]="'mdi mdi-ticket'">
+  </gpc-button-submit>
+  </div>
+
 </div>

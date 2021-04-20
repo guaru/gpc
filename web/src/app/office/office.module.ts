@@ -7,6 +7,7 @@ import { SharedMaterialModule } from '../shared/shared-material.module';
 import { OfficeComponent } from './office.component';
 import { ConfigurationComponent } from './configuration/configuration.component';
 import { OperadorComponent } from './operador/operador.component';
+import { QRCodeModule } from 'angularx-qrcode';
 
 
 
@@ -18,7 +19,8 @@ import { OperadorComponent } from './operador/operador.component';
     SharedModule,
     RouterModule,
     UiFormModule,
-    SharedMaterialModule
+    SharedMaterialModule,
+    QRCodeModule
   ]
 })
 export class OfficeModule { }

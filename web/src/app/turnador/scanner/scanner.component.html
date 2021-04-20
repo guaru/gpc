@@ -1,0 +1,11 @@
+<h2 mat-dialog-title>
+  <i class="mdi mdi-ticket-confirmation"></i>
+   Escanear QR
+  <hr />
+</h2>
+
+<mat-dialog-content>
+  <zxing-scanner *ngIf="scannerService.enabled$ |  async"
+  #scanner (scanSuccess)="scanSuccessHandler($event)">
+  </zxing-scanner>
+</mat-dialog-content>

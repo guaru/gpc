@@ -10,6 +10,9 @@ export class TurnComponent implements OnInit {
   @Input() turn!: Turn;
   @Output() eventAttented = new EventEmitter<Turn | null>();
   @Output() eventToAttention = new EventEmitter<Turn | null>();
+  disabled:boolean =  false;
+  labelAtendido = "Atendido";
+  labelIngresar  = "Ingresar";
 
   constructor() { }
 
@@ -18,10 +21,14 @@ export class TurnComponent implements OnInit {
   }
 
   onAttented(){
+    this.labelAtendido = "Loading..."
+    this.disabled= true;
     this.eventAttented.emit(this.turn);
   }
 
   onToAttention(){
+    this.labelIngresar = "Loading..."
+    this.disabled = true;
     this.eventToAttention.emit(this.turn);
   }
 

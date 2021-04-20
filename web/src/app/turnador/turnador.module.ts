@@ -10,19 +10,21 @@ import { TurnComponent } from './turn/turn.component';
 import { TurnFormComponent } from './turn/turn-form/turn-form.component';
 import { TurnModalComponent } from './turn/turn-modal/turn-modal.component';
 import { TurnFormModule } from './turn/turn-form/turn-form.module';
-
+import { ScannerComponent } from './scanner/scanner.component';
+import { ZXingScannerModule } from '@zxing/ngx-scanner';
 
 
 
 @NgModule({
-  declarations: [TurnadorComponent, ListTurnComponent, TurnComponent, TurnModalComponent],
+  declarations: [TurnadorComponent, ListTurnComponent, TurnComponent, TurnModalComponent, ScannerComponent],
   imports: [
     CommonModule,
     RouterModule,
     SharedMaterialModule,
     SharedModule,
     UiFormModule,
-    TurnFormModule
+    TurnFormModule,
+    ZXingScannerModule
   ]
 })
 export class TurnadorModule { }

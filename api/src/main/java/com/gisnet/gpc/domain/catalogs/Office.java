@@ -51,6 +51,9 @@ public class Office implements Serializable, GenericEntity<Office> {
     @DBRef
     private List<Area> areas;
 
+    @Field(value = ConstantDomain.FIELD_NOTIFICATION_NEXT)
+    private Integer notificationNext;
+
     /**
      *
      */
@@ -67,6 +70,7 @@ public class Office implements Serializable, GenericEntity<Office> {
         this.daysOperation =  source.getDaysOperation();
         this.initTimeAttention =  source.getInitTimeAttention();
         this.endTimeAttention  = source.getEndTimeAttention();
+        this.notificationNext =  source.getNotificationNext();
     }
 
     @Override

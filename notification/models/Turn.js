@@ -7,9 +7,12 @@ const schema = mongoose.Schema({
     inAttention:Boolean,
     attended:Boolean,
     sendSmsCreate:Boolean,
+    sendSmsNext:Boolean,
     inUse:Boolean,
     phone:String,
-    office:Object
+    office: { _id: mongoose.Types.ObjectId, name:String },
+    area: { _id: mongoose.Types.ObjectId , name:String},
+    cronUUID:String
     
 });
 

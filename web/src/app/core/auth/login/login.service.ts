@@ -52,7 +52,7 @@ export class LoginService {
 
   private redirect():void {
       if(this.authService.hasRole(Role.ROLE_ADMIN))
-         this.router.navigate([Url.ADMINISTRADOR]);
+         this.router.navigate([`${Url.ADMINISTRADOR }/${Url.SUCURSALES}`]);
       else if (this.authService.hasRole(Role.ROLE_ADMIN_OFFICE))
          this.router.navigate([`${Url.SUCURSAL}/${Url.CONFIGURACION}`]);
       else if (this.authService.hasRole(Role.ROLE_OPERATOR))

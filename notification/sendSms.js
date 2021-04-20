@@ -1,8 +1,8 @@
 const querystring = require('querystring');
 const http = require('http');
-const {updateSmsCreateSend} = require('./models/TurnRepository');
+const {updateSmsCreateSend,updateSmsNext} = require('./models/TurnRepository');
 
- function sendSMS( tel, text, idTurn) {
+ function sendSMS( tel, text, idTurn, create) {
     // Se contruye la cadena del post desde un objeto
     var post_data = querystring.stringify({
         'cmd': 'sendsms',
@@ -30,12 +30,17 @@ const {updateSmsCreateSend} = require('./models/TurnRepository');
         res.setEncoding('utf8');
         res.on('data', function (chunk) {
             //Es necesario procesar la respuesta y los posibles errores
-            console.log('Response: ' + chunk);
-            updateSmsCreateSend(idTurn);
+            console.log('Response: ' + chunk + ' FOR:' + idTurn);
+            if(chunk.indexOf("ERROR") === -1){
+                if (create)
+                    updateSmsCreateSend(idTurn);
+                else
+                    updateSmsNext(idTurn);
+            }
+       
         });
     });
 
-     mongodb://administrador:qwertyui@192.168.200.89:27017/?authSource=admin&readPreference=primary&ssl=false
 
     // post the data
     post_req.write(post_data);
