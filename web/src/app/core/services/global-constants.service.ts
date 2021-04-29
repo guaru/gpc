@@ -6,9 +6,9 @@ import { Injectable } from '@angular/core';
 export class GlobalConstantsService {
 
   public  APP_NAME:string = 'GPC';
-  public  LOGO_ICON:string = '../assets/images/logo-icon.png';
+  public  LOGO_ICON:string = './assets/images/logo-icon.png';
   public  LOGO_TEXT: string = '...';
-  public  LOGO_LIGTH_ICON:string = '../assets/images/logo-light-icon.png';
+  public  LOGO_LIGTH_ICON:string = './assets/images/logo-light-icon.png';
   public  LOGO_LIGHT_TEXT: string = '...';
   public  MSG_SUCCES_DEFAULT:string = 'Acción finalizada con exito';
   public  MSG_ERROR_DEFAULT: string = 'Algo  salio mal, intente  de nuevo por favor';
