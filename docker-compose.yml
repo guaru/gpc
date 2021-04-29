@@ -7,7 +7,7 @@ services:
              dockerfile: Dockerfile
          image: gpc_app
          ports:
-            - 8081:80
+            - 8082:80
          volumes:
             - "/etc/timezone:/etc/timezone:ro"
             - "/etc/localtime:/etc/localtime:ro"
