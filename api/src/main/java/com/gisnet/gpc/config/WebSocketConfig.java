@@ -14,8 +14,8 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
        registry.addEndpoint("/api/socket-turnador")
-       .setAllowedOrigins("http://localhost:4200")
-       //.setAllowedOriginPatterns((Arrays.asList("*"));)
+       .setAllowedOrigins("*")
+       //.setAllowedOriginPatterns((Arrays.asList("*")))
        .withSockJS();
     }
 
