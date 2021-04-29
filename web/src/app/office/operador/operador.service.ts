@@ -48,6 +48,7 @@ export class OperadorService {
 
   create(){
     this._selectOperador = new User();
+    this._selectOperador.office = this.authService.user?.office;
     this.openDialog();
   }
 

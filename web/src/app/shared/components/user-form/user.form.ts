@@ -7,14 +7,12 @@ export class UserForm
 {
   private _fields: FormlyFieldConfig[];
   private _authorities: Observable<any[]>;
-  private _offices:     Observable<any[]>;
   private _operator :boolean =  false;
   private _officeId :string;
 
-  constructor(authorities:Observable<any[]>,offices:Observable<any[]>,operator?:boolean,officeId?:string){
+  constructor(authorities:Observable<any[]>,operator?:boolean,officeId?:string){
     this._fields = [];
     this._authorities =  authorities;
-    this._offices =  offices;
     this._operator = operator || false;
     this._officeId =  officeId || '';
   }
@@ -92,7 +90,6 @@ export class UserForm
             templateOptions: {
               label: Label.OFFICE,
               required: true,
-              //options: this._offices,
               readonly  : this._operator,
               disabled: this._operator
             },

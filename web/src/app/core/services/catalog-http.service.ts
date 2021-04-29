@@ -43,7 +43,7 @@ export class CatalogHttpService {
       {label:'SEPTIEMBRE',value:8},
       {label:'OCTUBRE',value:9},
       {label:'NOVIEMBRE',value:10},
-      {label:'DICIEMBRE',value:11} 
+      {label:'DICIEMBRE',value:11}
     ];
   }
 
@@ -90,5 +90,15 @@ export class CatalogHttpService {
       catchError(this.globalConstHttp.handleError)
     );
   }
+
+
+  public getOfficePromise(officeId:string):Promise<Office|null>{
+    return this.getOffice(officeId).toPromise();
+  }
+
+  public getOfficesPromise():Promise<Office[]|null>{
+      return this.getOffices().toPromise();
+  }
+
 
 }

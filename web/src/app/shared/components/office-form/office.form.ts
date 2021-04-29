@@ -144,8 +144,7 @@ export class OfficeForm {
               required: true,
               min:1,
               max:20,
-              description: '',
-
+              description: ''
             },
           },
           {

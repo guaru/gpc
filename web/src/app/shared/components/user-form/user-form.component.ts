@@ -15,13 +15,12 @@ export class UserFormComponent implements OnInit {
   constructor(public userFormService:UserFormService,
     private dialogRef: MatDialogRef<UserFormComponent>,
     @Inject(MAT_DIALOG_DATA) data:IUserFormData) {
-        
+        this.userFormService.setModel(data.user);
         this.userFormService.buildFields(data.operator ?  data.operator :  false,
                                             data.officeId ?  data.officeId : '');
-        this.userFormService.setModel(data.user);
         if(data.title)
           this.userFormService._title = data.title;
-        
+
      }
 
   ngOnInit(): void {
@@ -36,7 +35,7 @@ export class UserFormComponent implements OnInit {
      if(user!=null)
        this.dialogRef.close(user);
     }
-     
+
   }
 
   onCancel(){

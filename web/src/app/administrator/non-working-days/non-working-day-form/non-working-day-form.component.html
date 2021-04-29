@@ -6,14 +6,14 @@
   </mat-dialog-content>
 
   <mat-dialog-actions>
-        <div class="col-2">
+        <div class="col-3">
           <gpc-button-cancel (clickEvent)="onCancel()"></gpc-button-cancel>
         </div>
-        <div class="col-2"></div>
-        <div class="col-2">
+        <div class="col-3"></div>
+        <div class="col-3">
           <gpc-button-delete [disabled]="nonWorkingDayFormService._model?.id!=''"></gpc-button-delete>
         </div>
-        <div class="col-2">
+        <div class="col-3">
           <gpc-button-submit [disabled]="!nonWorkingDayFormService._form.valid" (eventClick)="onSave()"></gpc-button-submit>
         </div>
   </mat-dialog-actions>

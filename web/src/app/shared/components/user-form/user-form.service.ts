@@ -10,6 +10,7 @@ import { Office } from 'src/app/core/models/office.model';
 import { User } from 'src/app/core/models/user.model';
 import { AlertService } from 'src/app/core/services/alert.service';
 import { CatalogHttpService } from 'src/app/core/services/catalog-http.service';
+import { Util } from 'src/app/core/utils/Util';
 import { SpinnerService } from 'src/app/shared/components/spinner/spinner.service';
 import { UserHttpService } from '../../../administrator/users/user-http.service';
 import { UserForm} from './user.form';
@@ -28,23 +29,16 @@ export class UserFormService {
   public _title:string = "Usuario";
   private offices: any[] = [];
 
-  constructor(
+   constructor(
     private alertService:AlertService,
     private loadingService:SpinnerService,
     private catalogService:CatalogHttpService,
     private userHttpService:UserHttpService
 
-  ) {
+  )
+  {
      this._form =  new FormGroup({});
      this._options  = {};
-     this.loadingService.initLoading();
-    this.catalogService.getOffices().subscribe(data=>{
-        this.offices =  data;
-        this.loadingService.endLoading();
-    },error=>{
-         this.loadingService.endLoading();
-         this.alertService.error();
-    });
    }
 
    public save():Promise<User|null>{
@@ -75,8 +69,8 @@ export class UserFormService {
             this.alertService.error(data.message);
           }
           resolve(!data.error);
-          
-          
+
+
         }, error => {
           this.loadingService.endLoading();
           this.alertService.error();
@@ -109,15 +103,30 @@ export class UserFormService {
    }
 
 
-  public buildFields(operator:boolean,officeId:string) {
-    let userForm =  new UserForm(this.catalogService.getAutorithies()
-                        ,this.catalogService.getOffices(),operator,officeId);
-    this._fields =  userForm.buildFields();
-    this._fields[0].fieldGroup!.find(_ => _.key === 'office')!.templateOptions!.filter = (term: any) => of(term ? this.filterStates(term) : this.offices.slice());
+ public async  buildFields(operator:boolean,officeId:string) {
+   try
+   {
+     this.loadingService.initLoading();
+     this.offices = await this.catalogService.getOffices().toPromise();
+     this.setDefaultOffice(officeId); // SET VALUE IF OFFICE IS NOT EMPTY
+     let userForm = new UserForm(this.catalogService.getAutorithies(), operator, officeId);
+     this._fields = userForm.buildFields();
+     this._fields[0].fieldGroup!.find(_ => _.key === 'office')!.templateOptions!.filter = (term: any) => of(term ? this.filterStates(term) : this.offices.slice());
+     this.loadingService.endLoading();
+   }catch(e){
+     this.loadingService.endLoading();
+     this.alertService.error();
+   }
+}
 
+private setDefaultOffice(officeId:string){
+  if(!Util.isEmpty(officeId)){
+    const office = this.offices.find(x => x.value === officeId);
+    this._model.office = office;
   }
+}
 
-  filterStates(name: any) {
+filterStates(name: any) {
     return this.offices.filter(state =>
       state.label.toLowerCase().indexOf(name instanceof Object ? name.label : name.toLowerCase()) === 0);
   }

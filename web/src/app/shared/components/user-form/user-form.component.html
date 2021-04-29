@@ -9,8 +9,7 @@
     [form]="userFormService._form"></formly-form>
 </mat-dialog-content>
 
-<mat-dialog-actions>
-
+<mat-dialog-actions  *ngIf="userFormService._fields">
   <div class="col-2">
     <gpc-button-cancel (clickEvent)="onCancel()"></gpc-button-cancel>
   </div>
