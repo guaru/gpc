@@ -13,6 +13,7 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<name>gpc</name>
 	<description>GESTION DE AFILIADOS</description>
+	<packaging>war</packaging>
 	<properties>
 		<java.version>11</java.version>
 		<apt.version>4.4.0</apt.version>
@@ -195,6 +196,11 @@
 			</exclusions>
 		</dependency>
 
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-tomcat</artifactId>
+			<scope>provided</scope>
+		</dependency>
 		<!--dependency>
 			<groupId>org.liquibase</groupId>
 			<artifactId>liquibase-core</artifactId>
@@ -221,6 +227,7 @@
 
 	
 	<build>
+		<finalName>gpc</finalName>
 		<resources>
 			<resource>
 				<directory>src/main/resources</directory>
@@ -296,6 +303,7 @@
 			<properties>
 				<spring.profiles.active>prod</spring.profiles.active>
 			</properties>
+			
 		</profile>
 	</profiles>
 
