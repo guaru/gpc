@@ -16,3 +16,5 @@ RUN npm run build --prod
 #stage 2
 FROM nginx:1.17.1-alpine
 
+COPY --from=build-step /app/dist/gpc /usr/share/nginx/html
+
