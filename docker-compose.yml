@@ -18,7 +18,7 @@ services:
          volumes:
             - "/etc/timezone:/etc/timezone:ro"
             - "/etc/localtime:/etc/localtime:ro"
-    notification:
+     notification:
           build:
             context: notification
             dockerfile: Dockerfile
