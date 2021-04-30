@@ -28,8 +28,6 @@ const initSocket = ()=> {
         stompClient.subscribe('/api/turnador/next', callback);
     },function (error){
         console.log("ERROR SOCKET: ",error );
-        setTimeout(initSocket(), 10000);
-        console.log('STOMP: Reconecting in 10 seconds');
     });
 };
 
