@@ -7,6 +7,8 @@ const stompClient = Stomp.over(sock);
 
 const initSocket = ()=> {
 
+    console.log("URL SOCKET:"+url);
+
     const callback = function (obj) {
        const msg = JSON.parse(obj.body); 
         console.log(msg);
