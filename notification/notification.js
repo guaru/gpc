@@ -11,7 +11,7 @@ async function startNotificationCreate() {
         console.log("START NOTIFICATION ");
         const turns = await getTurnsCreatePendingNotification();
        turns.forEach( _turn=>{
-           if (_turn.phone != '' && _turn.phone!=null){
+           if (_turn.phone != '' && _turn.phone != null && _turn.phone != undefined){
                updateInUse(_turn._id);
                const message = 'Turno ' + _turn.key + '-' + _turn.number + ' valido en sucursal ' + _turn.office.name;
                console.log("SMS CREATE ENVIADO " + _turn.key + '-' + _turn.number);
@@ -35,12 +35,11 @@ async function notificationNext(officeId,areaId) {
         console.log(turns.length);
             turns.forEach(async _turn=>{
                 if (!_turn.sendSmsNext ) {
-                   // if (_turn.phone != '' && _turn.phone != null) {
+                 if (_turn.phone != '' && _turn.phone != null && _turn.phone != undefined) {
                         console.log("SMS  SIGUIENTE ENVIADO " + _turn.key + '-' + _turn.number);
                         const message = 'Su turno ' + _turn.key + '-' + _turn.number + ', está proximo para ingresar a la sucursal  ' + _turn.office.name;
                         sms.sendSMS('+52' + _turn.phone, message, _turn._id, false);
-                       
-                    //}
+                    }
                     updateSmsNext(_turn._id);
                 }
             });
