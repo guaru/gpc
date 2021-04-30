@@ -20,7 +20,7 @@ export class ConfigurationService {
      const officeId:string =  this.authService.user?.office?.id || '';
      if(officeId.length > 0){
        this.office = await this.officeService.get(officeId);
-       this._qrdata = `${this.globalEnv.env.HOST_PUBLIC} ${this.office.id}`;
+       this._qrdata = `${this.globalEnv.env.HOST_PUBLIC}${this.office.id}`;
      }
   }
 
