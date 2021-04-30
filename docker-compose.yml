@@ -34,6 +34,6 @@ services:
             - SMS_PATH=/api/http
             - SOCKET_HOST=http://192.168.200.89:8083/gpc/api/
           ports:
-            - 8084:3000
+            - 8084:3005
 
 
