@@ -15,7 +15,7 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     public void registerStompEndpoints(StompEndpointRegistry registry) {
        registry.addEndpoint("/api/socket-turnador")
        .setAllowedOrigins("http://localhost:4200","https://gisnet-security-qtpbvzhgtn.dynamic-m.com:9093","http://192.168.200.89:8082",
-                       "http://192.168.200.89:8083")
+                       "http://192.168.200.89:8084")
        //.setAllowedOriginPatterns((Arrays.asList("*"));)
        .withSockJS();
     }
