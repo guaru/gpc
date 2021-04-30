@@ -15,5 +15,25 @@ services:
          image: gpc_api
          ports:
             - 8083:8080
+         volumes:
+            - "/etc/timezone:/etc/timezone:ro"
+            - "/etc/localtime:/etc/localtime:ro"
+    notification:
+          build:
+            context: notification
+            dockerfile: Dockerfile
+          image: gpc_notification
+          environment:
+            - PORT=3005
+            - DBCONNECTION=mongodb://administrador:qwertyui@192.168.200.89:27017/gpc?authSource=admin&readPreference=primary&ssl=false
+            - SMS_DOMAIN=CLI_3275
+            - SMS_LOGIN=isc.ventura@gmail.com
+            - SMS_PASSWD=uy5988af
+            - SMS_HOST=www.altiria.net
+            - SMS_PORT=80
+            - SMS_PATH=/api/http
+            - SOCKET_HOST=http://92.168.200.89:8083:8083/gpc/api/
+          ports:
+            - 8084:3000
 
 
