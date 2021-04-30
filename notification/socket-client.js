@@ -23,13 +23,26 @@ const initSocket = ()=> {
         console.log('close');
     };
 
-    stompClient.connect({}, function (frame) {
-        console.log("SCOKET CONNECTED");
-        stompClient.subscribe('/api/turnador/next', callback);
-    },function (error){
-        console.log("ERROR SOCKET: ",error );
-    });
+    const callbackFaild = function (error) {
+        console.log("SOCKET FAILD", error);
+        setTimeout(connect, 10000);
+        console.log('STOMP: Reconecting in 10 seconds');
+    }
+
+    function connect(){
+        stompClient.connect({}, function (frame) {
+            console.log("SCOKET CONNECTED");
+            stompClient.subscribe('/api/turnador/next', callback);
+        }, callbackFaild);
+    }
+   
+    connect();
+
+   
+
 };
+
+
 
 
 module.exports = {
