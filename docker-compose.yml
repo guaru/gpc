@@ -46,7 +46,7 @@ services:
               - gpc
      rabbitmq:
            build:
-             context: .
+             context: rabbitmq
              dockerfile: Dockerfile
            image: gpc_rabbitmq
            container_name: 'gpc_rabbitmq'
