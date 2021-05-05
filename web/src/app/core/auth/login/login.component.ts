@@ -21,12 +21,12 @@ export class LoginComponent implements OnInit  {
   }
   ngOnInit(): void {
      if(this.loginService.authService.isAuthenticated()){
-       this.router.navigate([Url.HOME]);
+       this.router.navigate([Url.RECOVER]);
      }
   }
 
   onClickRecover(){
-   this.loginService.recover= true;
+    this.router.navigate([Url.RECOVER]);
   }
 
  async onClickLogin(){

@@ -9,12 +9,16 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import javax.mail.MessagingException;
+
+import com.gisnet.gpc.constants.TypeEmailEnum;
 import com.gisnet.gpc.domain.security.Authoritie;
 import com.gisnet.gpc.domain.security.Function;
 import com.gisnet.gpc.domain.security.User;
 import com.gisnet.gpc.dto.ConfirmationDTO;
 import com.gisnet.gpc.dto.FunctionDTO;
 import com.gisnet.gpc.dto.MailDTO;
+import com.gisnet.gpc.dto.RecoverDTO;
+import com.gisnet.gpc.dto.ResponseConfirmationDTO;
 import com.gisnet.gpc.dto.ResponseDTO;
 import com.gisnet.gpc.repository.repository.IUserRepository;
 import com.gisnet.gpc.service.IAuthoritieService;
@@ -126,14 +130,16 @@ public class UserDetailService implements IUserService, UserDetailsService {
         user.setFunctions(this.parseFunctions(user.getAuthorities()));
         user.setPassword(uuid);
         user.setSendEmailRegister(false);
-        user.setExpirationConfirmation(now.getTime());
+        user.setExpirationLink(now.getTime());
         user.setConfirmed(false);
+        user.setRecovered(true);
+        user.setSendEmailRecover(true);
         iUserRepository.save(user);
 
         Runnable runnable = 
         new Runnable() {
             @Override
-            public void run() { UserDetailService.this.sendMailRegister(user); }
+            public void run() { UserDetailService.this.sendMail(user, TypeEmailEnum.CONFIRMATION); }
         };
 
         Thread thread = new Thread(runnable);
@@ -148,7 +154,7 @@ public class UserDetailService implements IUserService, UserDetailsService {
         Calendar now = Calendar.getInstance();
         for(User u : users){
             Calendar expiration = Calendar.getInstance();
-                expiration.setTime(u.getExpirationConfirmation());
+                expiration.setTime(u.getExpirationLink());
 
                 if(now.compareTo(expiration) > 0){
                     /*Calendar new = Calendar.getInstance();
@@ -159,7 +165,17 @@ public class UserDetailService implements IUserService, UserDetailsService {
                     user.setExpirationConfirmation(now.getTime());
                     iUserRepository.save(user);*/
                 }else{
-                    this.sendMailRegister(u);
+                    this.sendMail(u, TypeEmailEnum.CONFIRMATION);
+                }
+        }
+
+        users = this.iUserRepository.findAllByEnabledTrueAndSendEmailRecoverFalse();
+        for(User u : users){
+            Calendar expiration = Calendar.getInstance();
+                expiration.setTime(u.getExpirationLink());
+                if(now.compareTo(expiration) > 0){
+                }else{
+                    this.sendMail(u, TypeEmailEnum.RECOVER);
                 }
         }
 
@@ -191,6 +207,85 @@ public class UserDetailService implements IUserService, UserDetailsService {
            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
         return user;
+    }
+
+    @Override
+    public User restorePassword(ConfirmationDTO source) {
+        User user = iUserRepository.findById(source.getId()).orElse(null);
+        if(user!=null){
+            BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+            user.setPassword(encoder.encode(source.getPassword()));
+            //user.setEnabled(true);
+            user.setRecovered(true);
+            iUserRepository.save(user);
+        }else{
+           throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        }
+        return user;
+    }
+
+    @Override
+    public User changePassword(ConfirmationDTO source) {
+        User user = iUserRepository.findById(source.getId()).orElse(null);
+        if(user!=null){
+            BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+            user.setPassword(encoder.encode(source.getPassword()));
+            iUserRepository.save(user);
+        }else{
+           throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        }
+        return user;
+    }
+
+    @Override
+    public ResponseConfirmationDTO recover(RecoverDTO recover) {
+        ResponseConfirmationDTO response = new ResponseConfirmationDTO();
+        
+        try{
+        User user = iUserRepository.findOneByEmail(recover.getEamil());
+        if(user != null && user.getEnabled() != null && user.getEnabled()){
+            String uuid = java.util.UUID.randomUUID().toString();
+            Calendar now = Calendar.getInstance();
+            now.add(Calendar.HOUR, 24);
+            user.setFunctions(this.parseFunctions(user.getAuthorities()));
+            user.setPassword(uuid);
+            user.setSendEmailRegister(true);
+            user.setExpirationLink(now.getTime());
+            user.setConfirmed(true);
+            user.setRecovered(false);
+            user.setSendEmailRecover(false);
+            iUserRepository.save(user);
+
+            this.sendMail(user, TypeEmailEnum.RECOVER);
+            response.setMessage("Se ha enviado la liga de recuperación de contraseña al correo ingresado");
+            response.setSuccess(true);
+
+            /*Runnable runnable = 
+            new Runnable() {
+                @Override
+                public void run() { UserDetailService.this.sendMail(user, TypeEmailEnum.RECOVER); }
+            };
+
+            Thread thread = new Thread(runnable);
+            thread.start();
+            */
+
+        }else{
+            if(user != null){
+                response.setMessage("El correo ingresado no cuenta con ningún registro de usuario");
+                response.setSuccess(false);
+            }else{
+                response.setMessage("El usuario relacionado al correo ingresado se encuentra inactivo");
+                response.setSuccess(false);
+            }
+            
+        }
+        }catch(Exception e){
+            response.setMessage("Ha ocurrido un error al realizar la sucursal");
+            response.setSuccess(false);
+        }
+
+        return response;
     }
 
     @Override
@@ -244,7 +339,7 @@ public class UserDetailService implements IUserService, UserDetailsService {
         Calendar now = Calendar.getInstance();
         now.add(Calendar.HOUR, 24);
         user.setPassword(uuid);
-        user.setExpirationConfirmation(now.getTime());
+        user.setExpirationLink(now.getTime());
         iUserRepository.save(user);
 
 
@@ -252,7 +347,7 @@ public class UserDetailService implements IUserService, UserDetailsService {
         Runnable runnable = 
         new Runnable() {
             @Override
-            public void run() { UserDetailService.this.sendMailRegister(user); }
+            public void run() { UserDetailService.this.sendMail(user, TypeEmailEnum.CONFIRMATION); }
         };
 
         Thread thread = new Thread(runnable);
@@ -262,21 +357,28 @@ public class UserDetailService implements IUserService, UserDetailsService {
     }
 
     @Override
-    public void sendMailRegister(User user) {
+    public void sendMail(User user,TypeEmailEnum type) {
 
         MailDTO mail = new MailDTO();
         mail.setFrom("aventura@e-gisnet.com");// replace with your desired email
         mail.setMailTo(user.getEmail());// replace with your desired email
-        mail.setSubject("Completar registro");
 
         Map<String, Object> model = new HashMap<String, Object>();
-        model.put("name", "Developer!");
-        model.put("location", "United States");
-        model.put("sign", "Java Developer");
+        model.put("user", user.getName());
+        
+        if(type == TypeEmailEnum.CONFIRMATION) {
+            mail.setSubject("Registro de Usuario");
+            model.put("link", "http://localhost:4200/confirmation/"+user.getUserName()+"/"+user.getPassword());
+        }else{
+            mail.setSubject("Restablecer contraseña");
+            model.put("link", "http://localhost:4200/recover/"+user.getUserName()+"/"+user.getPassword());
+        }
+        
         mail.setProps(model);
 
         try {
-            iMailService.sendMail(mail,user);
+
+            iMailService.sendMail(mail);
             user.setSendEmailRegister(true);
             this.iUserRepository.save(user);
         } catch (MessagingException e) {

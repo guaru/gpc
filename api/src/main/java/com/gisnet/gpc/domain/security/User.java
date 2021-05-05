@@ -45,6 +45,9 @@ public class User extends Person implements Serializable, GenericEntity<User> {
     @Field(name = ConstantDomain.FIELD_SEND_EMAIL_REGISTER)
     private Boolean sendEmailRegister;
 
+    @Field(name = ConstantDomain.FIELD_SEND_EMAIL_RECOVER)
+    private Boolean sendEmailRecover;
+
     @DBRef
     private List<Authoritie> authorities;
 
@@ -57,10 +60,13 @@ public class User extends Person implements Serializable, GenericEntity<User> {
     private Office office;
 
     @Field(name   = ConstantDomain.FIELD_EXPIRATION_CONFIRMATION)
-    private Date expirationConfirmation;
+    private Date expirationLink;
 
     @Field(name   = ConstantDomain.FIELD_CONFIRMED)
     private Boolean confirmed;
+
+    @Field(name   = ConstantDomain.FIELD_RECOVERED)
+    private Boolean recovered;
 
     /**
      *
@@ -79,7 +85,8 @@ public class User extends Person implements Serializable, GenericEntity<User> {
         this.setPhone(source.getPhone());
         this.setOffice(source.getOffice());
         this.setConfirmed(source.getConfirmed());
-        this.setExpirationConfirmation(source.getExpirationConfirmation());
+        this.setRecovered(source.getRecovered());
+        this.setExpirationLink(source.getExpirationLink());
     }
 
     @Override

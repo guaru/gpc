@@ -15,4 +15,5 @@ public class MailDTO {
     private String subject;
     private List<Object> attachments;
     private Map<String, Object> props;
+    private String template;
 }

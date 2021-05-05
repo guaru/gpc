@@ -83,4 +83,6 @@ public class UserRestController  {
         return new ResponseEntity<>(userService.exist(id, username),HttpStatus.OK);
     }
 
+    
+
 }

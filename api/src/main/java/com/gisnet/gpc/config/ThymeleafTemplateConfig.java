@@ -7,7 +7,7 @@ import org.thymeleaf.spring5.templateresolver.SpringResourceTemplateResolver;
 import org.thymeleaf.templatemode.TemplateMode;
 import java.nio.charset.StandardCharsets;
 
-@Configuration
+//@Configuration
 public class ThymeleafTemplateConfig {
 
     @Bean

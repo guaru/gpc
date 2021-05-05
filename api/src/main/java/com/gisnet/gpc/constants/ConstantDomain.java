@@ -35,6 +35,7 @@ public class ConstantDomain {
     public final static String FIELD_PASSWORD = "password";
     public final static String FIELD_EXPIRATION_CONFIRMATION = "expirationConfirmation";
     public final static String FIELD_CONFIRMED = "confirmed";
+    public final static String FIELD_RECOVERED = "recovered";
     public final static String FIELD_EMAIL = "email";
     public final static String FIELD_NUMBER_ESTATE = "numberState";
     public final static String FIELD_NUMBER = "number";
@@ -42,6 +43,7 @@ public class ConstantDomain {
     public final static String FIELD_ADDRESS = "address";
     public final static String FIELD_KEY = "key";
     public final static String FIELD_SEND_EMAIL_REGISTER = "sendEmailRegister";
+    public final static String FIELD_SEND_EMAIL_RECOVER = "sendEmailRecover";
     public final static String FIELD_VALUE = "value";
     public final static String FIELD_DAYS_ATTENTION = "daysAttention";
     public final static String FIELD_INIT_TIME_ATTENTION = "initTimeAttention";
