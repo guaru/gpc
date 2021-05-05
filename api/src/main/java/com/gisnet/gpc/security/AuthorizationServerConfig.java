@@ -4,6 +4,9 @@ import java.util.Arrays;
 
 import com.gisnet.gpc.constants.ConstantJwt;
 import com.gisnet.gpc.util.Utils;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
@@ -15,14 +18,19 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.A
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
+import org.springframework.security.oauth2.provider.ClientDetailsService;
 import org.springframework.security.oauth2.provider.token.TokenEnhancerChain;
+import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
-import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
+
 
 @Configuration
 @EnableAuthorizationServer
 public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
 
+
+    private static final Logger log = LoggerFactory.getLogger(AuthorizationServerConfig.class);
+    
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
 
@@ -32,6 +40,12 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 
     @Autowired
     InfoAdditionalToken infoAdditionalToken;
+
+    @Autowired
+    ClientDetailsService mongoClientDetailsService;
+
+    @Autowired
+    TokenStore mongoTokenStore;
 
     @Override
     public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {
@@ -43,13 +57,15 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
         TokenEnhancerChain tokenEnhancerChain = new TokenEnhancerChain();
         tokenEnhancerChain.setTokenEnhancers(Arrays.asList(infoAdditionalToken, accessTokenConverter()));
 
-        endpoints.authenticationManager(authenticationManager).tokenStore(tokenStore())
+        endpoints.authenticationManager(authenticationManager).tokenStore(
+                mongoTokenStore)
                 .accessTokenConverter(accessTokenConverter()).tokenEnhancer(tokenEnhancerChain);
     }
 
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
-        clients.inMemory().withClient(ConstantJwt.CLIENT_WEB).secret(passwordEncoder.encode(ConstantJwt.CLIENT_WEB_KEY))
+        
+        /*clients.inMemory().withClient(ConstantJwt.CLIENT_WEB).secret(passwordEncoder.encode(ConstantJwt.CLIENT_WEB_KEY))
                 .scopes("read", "write").authorizedGrantTypes("password", "refresh_token")
                 .accessTokenValiditySeconds(ConstantJwt.TOKEN_VALIDATION_SECCONDS)
                 .refreshTokenValiditySeconds(ConstantJwt.REFRESH_TOKEN_VALIDATION).and()
@@ -57,12 +73,15 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
                 .scopes("read", "write").authorizedGrantTypes("password", "refresh_token")
                 .accessTokenValiditySeconds(ConstantJwt.TOKEN_VALIDATION_SECCONDS)
                 .refreshTokenValiditySeconds(ConstantJwt.REFRESH_TOKEN_VALIDATION);
+                log.debug("SECRET"+passwordEncoder.encode(ConstantJwt.CLIENT_WEB_KEY));*/
+                log.debug("SECRET" + passwordEncoder.encode(ConstantJwt.CLIENT_WEB_KEY));
+            clients.withClientDetails(mongoClientDetailsService);
     }
 
-    @Bean
+    /*@Bean
     public JwtTokenStore tokenStore() {
         return new JwtTokenStore(accessTokenConverter());
-    }
+    }*/
 
     @Bean
     public JwtAccessTokenConverter accessTokenConverter() {

@@ -140,7 +140,7 @@ export class TurnService {
     this.client.onConnect = (frame) => {
 
       //SUBSCRIBE TURNS PENDING ATTENTION
-      this.client.subscribe(`/api/turnador/pending/${this.office?.id}`, e =>{
+      this.client.subscribe(`/topic/pending.${this.office?.id}`, e =>{
         let turn : Turn =  JSON.parse(e.body) as Turn;
         this.turnsPending$.value.push(turn);
         this.turnsPending$.value.sort((a: Turn, b: Turn) => a.number! > b.number! ? 1 : -1);
@@ -148,7 +148,7 @@ export class TurnService {
        });
 
       //SUBSCRIBE TURN IN ATTENTION
-      this.client.subscribe(`/api/turnador/in-attention/${this.office?.id}`, e => {
+      this.client.subscribe(`/topic/in-attention.${this.office?.id}`, e => {
         let turn: Turn = JSON.parse(e.body) as Turn;
         this.turnsPending$.next(this.turnsPending$.value.filter(_ => _.id != turn.id).sort((a:Turn,b:Turn)=> a.number! > b.number! ? 1 : -1));
         this.turnsInAttention$.value.push(turn);
@@ -158,7 +158,7 @@ export class TurnService {
       });
 
       //SUBSCRIBE TURN ATTENDED (FINISH PROCESES)
-      this.client.subscribe(`/api/turnador/attended/${this.office?.id}`, e => {
+      this.client.subscribe(`/topic/attended.${this.office?.id}`, e => {
         let turn: Turn = JSON.parse(e.body) as Turn;
         this.turnsInAttention$.next(this.turnsInAttention$.value.filter(_ => _.id != turn.id).sort((a: Turn, b: Turn) => a.number! > b.number! ? 1 : -1));
         this.removeInAttention(turn);
@@ -166,7 +166,7 @@ export class TurnService {
 
 
 
-      this.client.subscribe(`/api/turnador/in-attention/${this.office?.id}/${this.authService.user?.email }`, e => {
+      this.client.subscribe(`/topic/in-attention.${this.office?.id}.${this.authService.user?.email }`, e => {
         let detail: IDetailListTurn = JSON.parse(e.body) as IDetailListTurn;
         console.log(detail);
         this.turnsInAttention$.next(detail.turns);
@@ -174,7 +174,7 @@ export class TurnService {
         this.updateTotalInAttention();
       });
 
-      this.client.subscribe(`/api/turnador/in-pending/${this.office?.id}/${this.authService.user?.email }`, e => {
+      this.client.subscribe(`/topic/in-pending.${this.office?.id}.${this.authService.user?.email }`, e => {
         let detail: IDetailListTurn = JSON.parse(e.body) as IDetailListTurn;
         this.turnsPending$.next(detail.turns);
         this.detailPending$.next(detail.detail);

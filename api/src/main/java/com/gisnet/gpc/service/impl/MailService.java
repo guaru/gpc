@@ -6,7 +6,6 @@ import java.nio.charset.StandardCharsets;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 
-import com.gisnet.gpc.domain.security.User;
 import com.gisnet.gpc.dto.MailDTO;
 import com.gisnet.gpc.service.IMailService;
 
@@ -16,7 +15,6 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
-import org.thymeleaf.spring5.SpringTemplateEngine;
 
 @Service
 public class MailService implements IMailService {

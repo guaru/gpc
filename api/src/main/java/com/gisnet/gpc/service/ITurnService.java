@@ -15,11 +15,11 @@ public interface ITurnService {
 
     Sequence getSeq(Turn turn);
 
-    DetailListTurnDTO getInAttention(String officeId);
+    DetailListTurnDTO getInAttention(String officeId) throws TurnException;
 
     Turn toAttention(Turn turn) throws TurnException;
 
-    DetailListTurnDTO getPending(String officeId);
+    DetailListTurnDTO getPending(String officeId) throws TurnException;
 
     Turn attended(Turn turn) throws TurnException;
 

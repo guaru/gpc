@@ -21,22 +21,22 @@ public class TurnadorController {
     private SimpMessagingTemplate webSocket;
     
     @MessageMapping("/turn/new/{officeId}")
-    @SendTo("/api/turnador/pending/{officeId}")
+    @SendTo("/topic/pending.{officeId}")
     public Turn newTurn(@DestinationVariable("officeId") String officeId,@Payload Turn turn){
         return turn;
     }
 
     @MessageMapping("/turn/to-attention/{officeId}")
     
-    @SendTo("/api/turnador/in-attention/{officeId}")
+    @SendTo("/topic/in-attention.{officeId}")
     public Turn toAttentionTurn(@DestinationVariable("officeId") String officeId, @Payload Turn turn) throws TurnException {
         String obj = "{" + "\"officeId\":\"" + officeId + "\"," + "\"areaId\": \"" + turn.getArea().getId()+ "\"}";
-        webSocket.convertAndSend("/api/turnador/next", obj);
+        webSocket.convertAndSend("/topic/next", obj);
         return  this.turnService.toAttention(turn);
     }
 
     @MessageMapping("/turn/attended/{officeId}")
-    @SendTo("/api/turnador/attended/{officeId}")
+    @SendTo("/topic/attended.{officeId}")
     public Turn attended(@DestinationVariable("officeId") String officeId, @Payload Turn turn)
             throws TurnException {
         return this.turnService.attended(turn);
@@ -44,7 +44,7 @@ public class TurnadorController {
 
 
     @MessageMapping("/turn/get-inattention/{officeId}/{userId}")
-    @SendTo("/api/turnador/in-attention/{officeId}/{userId}")
+    @SendTo("/topic/in-attention.{officeId}.{userId}")
     public DetailListTurnDTO getInAttention(@DestinationVariable("officeId") String officeId, @DestinationVariable("userId") String userId)
             throws TurnException {
         return turnService.getInAttention(officeId);
@@ -52,7 +52,7 @@ public class TurnadorController {
 
 
     @MessageMapping("/turn/get-pending/{officeId}/{userId}")
-    @SendTo("/api/turnador/in-pending/{officeId}/{userId}")
+    @SendTo("/topic/in-pending.{officeId}.{userId}")
     public DetailListTurnDTO getPending(@DestinationVariable("officeId") String officeId,
             @DestinationVariable("userId") String userId) throws TurnException {
         return turnService.getPending(officeId);

@@ -6,23 +6,30 @@ services:
              context: web
              dockerfile: Dockerfile
          image: gpc_app
+         container_name: 'gpc_app'
          ports:
             - 8082:80   
+         networks:
+            - gpc
      api:
          build:
              context: api
              dockerfile: Dockerfile
          image: gpc_api
+         container_name: 'gpc_api'
          ports:
             - 8083:8080
          volumes:
             - "/etc/timezone:/etc/timezone:ro"
             - "/etc/localtime:/etc/localtime:ro"
+          networks:
+            - gpc
      notification:
           build:
             context: notification
             dockerfile: Dockerfile
           image: gpc_notification
+          container_name: 'gpc_notification'
           environment:
             - PORT=3005
             - DBCONNECTION=mongodb://administrador:qwertyui@192.168.200.89:27017/gpc?authSource=admin&readPreference=primary&ssl=false
@@ -35,5 +42,27 @@ services:
             - SOCKET_HOST=http://192.168.200.89:8083/gpc/api/
           ports:
             - 3005:3005
+          networks:
+              - gpc
+     rabbitmq:
+           build:
+             context: .
+             dockerfile: Dockerfile
+           image: gpc_rabbitmq
+           container_name: 'gpc_rabbitmq'
+           ports:
+              - 5672:5672
+              - 15672:15672
+              - 61613:61613
+           volumes:
+              - ~/.docker-conf/rabbitmq/data/:/var/lib/rabbitmq/
+              - ~/.docker-conf/rabbitmq/log/:/var/log/rabbitmq
+           networks:
+              - gpc
+            
+networks:
+  gpc:
+    driver: bridge
+
 
 

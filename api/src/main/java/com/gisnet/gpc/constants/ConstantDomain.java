@@ -22,6 +22,9 @@ public class ConstantDomain {
     public final static String COLL_TURNS = "turns";
     public final static String COLL_NON_WORKING_DAY = "non_working_days";
     public final static String COLL_SEQUENCES = "sequences";
+    public final static String COLL_CLIENT_DETAIILS = "oauth_client_details";
+    public final static String COLL_ACCESS_TOKEN = "oauth_access_token";
+    public final static String COLL_REFRESH_TOKEN = "oauth_refresh_token";
 
     // COLUMNS
     public final static String FIELD_NAME = "name";
@@ -64,6 +67,13 @@ public class ConstantDomain {
     public final static String FIELD_OFFICE_ID = "officeId";
     public final static String FIELD_AREA_ID = "areaId";
     public final static String FIELD_DATE = "date";
+    public final static String FIELD_TOKEN_ID ="tokenId";
+    public final static String FIELD_TOKEN = "token";
+    public final static String FIELD_AUTHENTICATION_ID = "authenticationId";
+    public final static String FIELD_CLIENT_ID = "clientId";
+    public final static String FIELD_AUTHENTICATION = "authentication";
+    public final static String FIELD_REFRESH_TOKEN = "refreshToken";
+    
 
     //public final static String FIELD_LIMIT_ABILITY = "limitGeneral";
     //public final static String FIELD_LIMIT_ABILITY = "limitAbility";

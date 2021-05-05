@@ -382,10 +382,8 @@ public class UserDetailService implements IUserService, UserDetailsService {
             user.setSendEmailRegister(true);
             this.iUserRepository.save(user);
         } catch (MessagingException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }

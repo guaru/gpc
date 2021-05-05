@@ -80,7 +80,9 @@ public class TurnService implements ITurnService {
     }
 
     @Override
-    public DetailListTurnDTO getInAttention(String officeId) {
+    public DetailListTurnDTO getInAttention(String officeId) throws TurnException {
+        if(officeId.isEmpty() || officeId == null)
+           throw new TurnException("Oficina no valida");
         DetailListTurnDTO result =  new DetailListTurnDTO();
         result.setTurns(this.turnRepository.findByInAttentionAndOfficeIdAndDateCreateOrderByNumberAsc(true,
                 new ObjectId(officeId), UtilDate.getDate()));
@@ -102,7 +104,9 @@ public class TurnService implements ITurnService {
     }
 
     @Override
-    public DetailListTurnDTO getPending(String officeId) {
+    public DetailListTurnDTO getPending(String officeId) throws TurnException {
+        if (officeId.isEmpty() || officeId == null)
+            throw new TurnException("Oficina no valida");
         DetailListTurnDTO result = new DetailListTurnDTO();
         result.setTurns(this.turnRepository.findByInAttentionAndAttendedAndOfficeIdAndDateCreateOrderByNumberAsc(false, false,new ObjectId(officeId),UtilDate.getDate()));
         AggregationResults<DetailDTO> detail = this.getDetailPending(new ObjectId(officeId));

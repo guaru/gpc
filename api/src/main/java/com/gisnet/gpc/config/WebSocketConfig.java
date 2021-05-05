@@ -1,5 +1,6 @@
 package com.gisnet.gpc.config;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;
 import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker;
@@ -10,6 +11,17 @@ import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerCo
 @EnableWebSocketMessageBroker
 public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
+   @Value("${rabbitmq.host}")
+    private String rabbitHost;
+
+    @Value("${rabbitmq.port}")
+    private Integer rabbitPort;
+
+    @Value("${rabbitmq.client-login}")
+    private String rabbitClient;
+
+    @Value("${rabbitmq.client-passwd}")
+    private String rabbitPasswd;
 
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
@@ -23,8 +35,18 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
     @Override
     public void configureMessageBroker(MessageBrokerRegistry registry) {
-        registry.enableSimpleBroker("/api/turnador/");
+        //registry.enableSimpleBroker("/api/turnador/");
         registry.setApplicationDestinationPrefixes("/api/socket");
+        registry.enableStompBrokerRelay("/topic/","/queue/","/amq/queue")
+        //.setUserDestinationBroadcast("/api/turnador/")
+       // .setUserRegistryBroadcast("/api/turnador/")
+        .setRelayHost(rabbitHost)
+        .setRelayPort(rabbitPort)
+        .setClientLogin(rabbitClient)
+        .setClientPasscode(rabbitPasswd);
+        //.setSystemLogin("guest")
+        //.setSystemPasscode("guest");
+        
     }
     
 }

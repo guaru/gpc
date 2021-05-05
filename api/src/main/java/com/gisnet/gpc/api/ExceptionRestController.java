@@ -3,7 +3,6 @@ package com.gisnet.gpc.api;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.gisnet.gpc.constants.ConstantDomain;
 import com.gisnet.gpc.constants.ConstantsMsg;
 import com.gisnet.gpc.exception.NotExistException;
 import com.gisnet.gpc.exception.TurnException;
