@@ -39,7 +39,7 @@ services:
             - SMS_HOST=www.altiria.net
             - SMS_PORT=80
             - SMS_PATH=/api/http
-            - SOCKET_HOST=http://192.168.200.89:8083/gpc/api/
+            - SOCKET_HOST=http://localhost:9093/gpc/api/
           ports:
             - 3005:3005
           networks:
