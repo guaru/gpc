@@ -7,6 +7,8 @@ const stompClient = Stomp.over(sock);
 
 const initSocket = ()=> {
 
+    console.log("URL SOCKET:"+url);
+
     const callback = function (obj) {
        const msg = JSON.parse(obj.body); 
         console.log(msg);
@@ -21,11 +23,26 @@ const initSocket = ()=> {
         console.log('close');
     };
 
-    stompClient.connect({}, function (frame) {
-        console.log("SCOKET CONNECTED");
-        stompClient.subscribe('/api/turnador/next', callback);
-    });
+    const callbackFaild = function (error) {
+        console.log("SOCKET FAILD", error);
+        setTimeout(connect, 10000);
+        console.log('STOMP: Reconecting in 10 seconds');
+    }
+
+    function connect(){
+        stompClient.connect({}, function (frame) {
+            console.log("SCOKET CONNECTED");
+            stompClient.subscribe('/api/turnador/next', callback);
+        }, callbackFaild);
+    }
+   
+    connect();
+
+   
+
 };
+
+
 
 
 module.exports = {
