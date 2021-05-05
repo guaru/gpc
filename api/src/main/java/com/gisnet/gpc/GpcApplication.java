@@ -1,12 +1,20 @@
 package com.gisnet.gpc;
 
+import java.util.Collections;
+
 import com.gisnet.gpc.repository.repository.IUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
+import org.springframework.context.annotation.Bean;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
+import org.thymeleaf.TemplateEngine;
+import org.thymeleaf.spring5.SpringTemplateEngine;
+import org.thymeleaf.templatemode.TemplateMode;
+import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
+import org.thymeleaf.templateresolver.ITemplateResolver;
 
 //import liquibase.database.DatabaseFactory;
 //import liquibase.exception.DatabaseException;
@@ -33,15 +41,8 @@ public class GpcApplication extends SpringBootServletInitializer
 	   return (MongoLiquibaseDatabase) DatabaseFactory.getInstance().openDatabase(url, null, null, null, null);
    }*/
 
-
 	public static void main(String[] args) {
 		SpringApplication.run(GpcApplication.class, args);
-
-		
-
-	
-
-
 	}
 
 	@Override
@@ -52,6 +53,24 @@ public class GpcApplication extends SpringBootServletInitializer
 
 	private static Class<GpcApplication> applicationClass = GpcApplication.class;
 
+@Bean
+public TemplateEngine htmlTemplateEngine() {
+	final SpringTemplateEngine templateEngine = new SpringTemplateEngine();
+	templateEngine.addTemplateResolver(htmlTemplateResolver());
 
+	return templateEngine;
+}
+
+private ITemplateResolver htmlTemplateResolver() {
+	final ClassLoaderTemplateResolver templateResolver = new ClassLoaderTemplateResolver();
+	templateResolver.setResolvablePatterns(Collections.singleton("html/*"));
+	templateResolver.setPrefix("/templates/");
+	templateResolver.setSuffix(".html");
+	templateResolver.setTemplateMode(TemplateMode.HTML);
+	templateResolver.setCharacterEncoding("utf-8");
+	templateResolver.setCacheable(false);
+
+	return templateResolver;
+}
 
 }

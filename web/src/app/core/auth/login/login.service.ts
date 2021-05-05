@@ -40,6 +40,7 @@ export class LoginService {
 
   async  login(){
     this.authService.loginAuth(this._model.userName || '',this._model.password || '').subscribe( async(response)=>{
+        debugger;
         this._invalidUser = false;
         const isSave =  await this.authService.saveUser(response);
         if(isSave)

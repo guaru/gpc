@@ -14,7 +14,7 @@ export class HeaderComponent implements OnInit{
 
   user: User;
   isAuthenticated: boolean;
-  urlProfile = Url.USUARIOS;
+  urlProfile = Url.CUENTA;
 
     constructor(public globalConstants:GlobalConstantsService,
               private authService:AuthService,

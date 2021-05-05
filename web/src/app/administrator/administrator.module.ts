@@ -15,6 +15,7 @@ import { OfficeModalComponent } from './offices/office-modal/office-modal.compon
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { NonWorkingDaysComponent } from './non-working-days/non-working-days.component';
 import { NonWorkingDayFormComponent } from './non-working-days/non-working-day-form/non-working-day-form.component';
+import { AccountComponent } from './users/account/account.component';
 
 
 @NgModule({
@@ -27,7 +28,8 @@ import { NonWorkingDayFormComponent } from './non-working-days/non-working-day-f
      DashboardComponent,
      OfficeModalComponent,
      NonWorkingDaysComponent,
-     NonWorkingDayFormComponent],
+     NonWorkingDayFormComponent,
+     AccountComponent],
 
   exports: [
     UsersComponent,
@@ -38,7 +40,8 @@ import { NonWorkingDayFormComponent } from './non-working-days/non-working-day-f
     AreaFormComponent,
     OfficeModalComponent,
     NonWorkingDaysComponent,
-    NonWorkingDayFormComponent
+    NonWorkingDayFormComponent,
+    AccountComponent
   ],
   imports: [
     CommonModule,

@@ -6,6 +6,7 @@ import { ApiUri } from '../enums/ApiUri';
 import { IConfirmation } from '../interface/IConfirmation';
 import { IJwtResponse } from '../interface/IJwtResponse';
 import { INav } from '../interface/INav';
+import { IRecover } from '../interface/IRecover';
 import { ITokenInfo } from '../interface/ITokenInfo';
 import { Office } from '../models/office.model';
 import { User } from '../models/user.model';
@@ -56,9 +57,37 @@ export class AuthService {
     );
   }
 
+  public validateRecover(username: string | null | undefined, password: string | null | undefined): Observable<any>{
+    let confirmation:IConfirmation = { password, username: username, id :''};
+    return this.http.put<any>(`${this.globalEnv.env.URL_API}account/validateRecover`,confirmation).pipe(
+      catchError(this.globalConstantHttp.handleError)
+    );
+  }
+
   public confirmation(username: string | null | undefined, password: string | null | undefined, id: string | null | undefined): Observable<any>{
     let confirmation:IConfirmation = { password, username, id };
     return this.http.put<any>(`${this.globalEnv.env.URL_API}account/confirmation`,confirmation).pipe(
+      catchError(this.globalConstantHttp.handleError)
+    );
+  }
+
+  public changePassword(username: string | null | undefined, password: string | null | undefined, id: string | null | undefined): Observable<any>{
+    let confirmation:IConfirmation = { password, username, id };
+    return this.http.put<any>(`${this.globalEnv.env.URL_API}account/changePassword`,confirmation).pipe(
+      catchError(this.globalConstantHttp.handleError)
+    );
+  }
+
+  public restorePassword(username: string | null | undefined, password: string | null | undefined, id: string | null | undefined): Observable<any>{
+    let confirmation:IConfirmation = { password, username, id };
+    return this.http.put<any>(`${this.globalEnv.env.URL_API}account/restorePassword`,confirmation).pipe(
+      catchError(this.globalConstantHttp.handleError)
+    );
+  }
+
+  public recover(email: string | null | undefined): Observable<any>{
+    let recover:IRecover = { email };
+    return this.http.put<any>(`${this.globalEnv.env.URL_API}account/recover`,recover).pipe(
       catchError(this.globalConstantHttp.handleError)
     );
   }
@@ -68,12 +97,18 @@ export class AuthService {
         .pipe(catchError(this.globalConstantHttp.handleError));
   }
 
+  public getUser(): Observable<any>{
+    return this.http.get<any>(`${this.globalEnv.env.URL_API}users/${this.user ? this.user.id : ''}`)
+    .pipe(catchError(this.globalConstantHttp.handleError));
+  }
+
 
   public  saveUser(accessToken: IJwtResponse): Promise<boolean> {
     return new Promise(   ( resolve)=> {
       let payload = this.getInfoToken(accessToken.access_token);
       this._user = new User();
       this._user.userName = accessToken.username;
+      this._user.id = accessToken.id
       this._user.name = payload.firtName;
       this._user.lastName = payload.lastName;
       this._user.email = payload.email;
@@ -99,7 +134,7 @@ export class AuthService {
   }
 
 
- public get user():User | null{
+  public get user():User | null{
    return this._user != null && this._user.userName ? this._user :
      localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')||'') as User
            : null;

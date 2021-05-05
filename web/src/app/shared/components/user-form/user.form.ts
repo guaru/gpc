@@ -111,5 +111,99 @@ export class UserForm
     ];
   }
 
+  public buildFieldsAccount(): FormlyFieldConfig[]
+  {
+    return [
+      {
+        fieldGroupClassName: 'row',
+        fieldGroup: [
+          {
+            className: 'col-6',
+            type: 'input',
+            key: 'name',
+            templateOptions: {
+              label: Label.NAME,
+              required: true,
+            },
+          },
+          {
+            className: 'col-6',
+            type: 'input',
+            key: 'lastName',
+            templateOptions: {
+              label: Label.LAST_NAME,
+              required: true,
+            },
+            expressionProperties: {
+              'templateOptions.disabled': '!model.name',
+            },
+          },
+          {
+            className: 'col-6',
+            type: 'input',
+            key: 'email',
+            templateOptions: {
+              label: Label.EMAIL,
+              required: true,
+              type: "email"
+            },
+            validators: {
+              validation: ['email'],
+            },
+          },
+          {
+            className: 'col-6',
+            type: 'input',
+            key: 'phone',
+            templateOptions: {
+              label: Label.PHONE,
+              maxLength: 10,
+              minLength: 10,
+              type: 'tel'
+            }
+          },
+          {
+            className: 'col-6',
+            key: 'authorities',
+            type: 'select',
+            defaultValue: this._operator ? ["6032fff88eb6c936593425f8"] : [''],
+            templateOptions: {
+              label: Label.ROLES,
+              required: true,
+              multiple: true,
+               options: this._authorities,
+               readonly : this._operator,
+                disabled: this._operator
+            },
+          },
+          {
+            className: 'col-6',
+            key: 'office',
+            type: 'autocomplete',
+            defaultValue : this._officeId,
+            templateOptions: {
+              label: Label.OFFICE,
+              required: true,
+              readonly  : this._operator,
+              disabled: this._operator
+            },
+          }
+          , {
+            className: 'col-3',
+            key: "enabled",
+            type: 'toggle',
+            templateOptions: {
+              label: Label.ENABLED,
+              description: '',
+
+            },
+          }
+
+        ],
+
+      }
+    ];
+  }
+
 }
 

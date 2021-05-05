@@ -24,6 +24,7 @@ public class InfoAdditionalToken implements TokenEnhancer {
         User user = iUsuarioService.findByUserName(authentication.getName());
         Map<String, Object> info = new HashMap<>();
         info.put("firtName", user.getName());
+        info.put("id",user.getId());
         info.put("lastName", user.getLastName());
         info.put("email", user.getEmail());
         if(user.getOffice()!=null){

@@ -10,6 +10,7 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { TokenInterceptor } from '../shared/interceptors/token.interceptor';
 import { AuthInterceptor } from '../shared/interceptors/auth.interceptor';
 import { ConfirmationComponent } from './auth/confirmation/confirmation.component';
+import { RestorePasswordComponent } from './auth/restore-password/restore-password.component';
 
 
 
@@ -19,7 +20,8 @@ import { ConfirmationComponent } from './auth/confirmation/confirmation.componen
     RegisterComponent,
     RecoverComponent,
     ConfirmationComponent,
-    Component404
+    Component404,
+    RestorePasswordComponent
 
   ],
   exports: [

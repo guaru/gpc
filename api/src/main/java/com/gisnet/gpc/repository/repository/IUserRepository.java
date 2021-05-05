@@ -31,6 +31,10 @@ public interface IUserRepository extends MongoRepository<User, String> , Queryds
 
        User findOneByIdNotAndUserName(String id, String username);
 
+       User findOneByEmail(String email);
+
        List<User> findAllByEnabledTrueAndSendEmailRegisterFalse();
+
+       List<User> findAllByEnabledTrueAndSendEmailRecoverFalse();
 
 }

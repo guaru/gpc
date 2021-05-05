@@ -27,6 +27,9 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
         "/api/commun-public/**",
         "/api/account/validateConfirmation", 
         "/api/account/confirmation",
+        "/api/account/recover",
+        "/api/account/restorePassword",
+        "/api/account/validateRecover",
         "/index.html", 
         "/webjars/**",
         "/js/**").permitAll()

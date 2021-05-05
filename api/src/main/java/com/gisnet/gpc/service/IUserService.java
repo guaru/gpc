@@ -15,9 +15,14 @@ package com.gisnet.gpc.service;
 import java.util.List;
 import java.util.Optional;
 
+import javax.validation.Valid;
+
+import com.gisnet.gpc.constants.TypeEmailEnum;
 import com.gisnet.gpc.domain.security.User;
 import com.gisnet.gpc.dto.ConfirmationDTO;
 import com.gisnet.gpc.dto.FunctionDTO;
+import com.gisnet.gpc.dto.RecoverDTO;
+import com.gisnet.gpc.dto.ResponseConfirmationDTO;
 import com.gisnet.gpc.dto.ResponseDTO;
 
 import org.bson.types.ObjectId;
@@ -70,7 +75,7 @@ public interface IUserService {
 
      boolean enabled(String id, boolean enabled);
 
-     void sendMailRegister(User user);
+     void sendMail(User user, TypeEmailEnum type);
 
      List<User> getOperators(ObjectId officeId);
 
@@ -81,4 +86,10 @@ public interface IUserService {
      void sendEmailsWithoutSend();
 
      boolean sendConfirmation(String id);
+
+	ResponseConfirmationDTO recover(@Valid RecoverDTO recover);
+
+     User restorePassword(ConfirmationDTO source);
+
+     User changePassword(ConfirmationDTO source);
 }

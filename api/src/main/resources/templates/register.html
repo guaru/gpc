@@ -15,7 +15,13 @@
         }
     </style>
 </head>
-    <h1>EJEMPLO</h1>
+    <h1>Confirmación de registro de usuario</h1>
+
+    <p th:text="'Estimado usuario '+${user}+', para continuar con su registro es requerido confirmar en la liga adjunta en el presente correo y establecer su contraseña de ingreso." />
+    <br>
+    <br>
+    <a href="${link}">Click aqui para restablecer</a>
+
 <body> 
 
 </body>
