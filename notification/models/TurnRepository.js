@@ -71,6 +71,7 @@ function getDate() {
     const date = date_ob.getDate().toString().padStart(2, '00');
     const month = (date_ob.getMonth() + 1).toString().padStart(2, '00');
     const year = date_ob.getFullYear();
+    console.log(`${year}-${month}-${date}`);
     return `${year}-${month}-${date}`;
 }
 
