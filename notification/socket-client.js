@@ -32,7 +32,7 @@ const initSocket = ()=> {
     function connect(){
         stompClient.connect({}, function (frame) {
             console.log("SCOKET CONNECTED");
-            stompClient.subscribe('/api/turnador/next', callback);
+            stompClient.subscribe('/topic/next', callback);
         }, callbackFaild);
     }
    
