@@ -1,6 +1,6 @@
 const mongoose =  require('mongoose');
 const { getTurnsCreatePendingNotification,
-    updateInUse, getGroupPending, getTurnsPendingByOfficeAnArea, updateSmsNext} =  require('./models/TurnRepository');
+    updateInUse, getGroupPending, getTurnsPendingByOfficeAnArea, updateSmsNext, updateSmsCreateSend} =  require('./models/TurnRepository');
 const {getOffice}  = require('./models/CommonRepository');
 const sms =  require('./sendSms');
 const asyncEach = require('async-each');
@@ -10,12 +10,15 @@ async function startNotificationCreate() {
     {
         console.log("START NOTIFICATION ");
         const turns = await getTurnsCreatePendingNotification();
+        console.log("TURNOS A NOTIFICAR",turns.length);
        turns.forEach( _turn=>{
            if (_turn.phone != '' && _turn.phone != null && _turn.phone != undefined){
-               updateInUse(_turn._id);
+               //updateInUse(_turn._id);
                const message = 'Turno ' + _turn.key + '-' + _turn.number + ' valido en sucursal ' + _turn.office.name;
                console.log("SMS CREATE ENVIADO " + _turn.key + '-' + _turn.number);
                sms.sendSMS('+52' + _turn.phone, message, _turn._id, true);
+           }else{
+               updateSmsCreateSend(_turn._id);
            }
          
        });
