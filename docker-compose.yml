@@ -42,6 +42,9 @@ services:
             - SOCKET_HOST=http://192.168.200.89:8083/gpc/api/
           ports:
             - 3005:3005
+          volumes:
+            - "/etc/timezone:/etc/timezone:ro"
+            - "/etc/localtime:/etc/localtime:ro"
           networks:
               - gpc
      rabbitmq:
