@@ -1,4 +1,4 @@
-# gpc
+# gpc (GESTION DE PASES A CAJA)
 * ANGULAR 
 * ngx-formly
 * SPRING BOOT 
