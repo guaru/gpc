@@ -1,4 +1,5 @@
-# gpc (GESTION DE PASES A CAJA)
+# GPC (GESTION DE PASES A CAJA)
+Tecnologías implementadas
 * ANGULAR 
 * ngx-formly
 * SPRING BOOT 
